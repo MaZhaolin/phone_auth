@@ -1,0 +1,436 @@
+<link rel="stylesheet" type="text/css" href="{$static_path}/css/message.css" />
+<link rel="stylesheet" href="{$static_path}/css/colpick.css" type="text/css" />
+<script src="{$static_path}/js/jquery.min.js"></script>
+<script src="{$static_path}/js/colpick.min.js"></script>
+<script src="{$static_path}/js/echarts.simple.min.js"></script>
+<style>
+    .pagination {
+        display: inline-block;
+        padding-left: 0;
+        margin: 20px 0;
+        border-radius: 4px
+    }
+    .pagination>li {
+        display: inline
+    }
+    .pagination>li>a,
+    .pagination>li>span {
+        position: relative;
+        float: left;
+        padding: 6px 12px;
+        margin-left: -1px;
+        line-height: 1.428571429;
+        text-decoration: none;
+        background-color: #fff;
+        border: 1px solid #ddd
+    }
+    .pagination>li:first-child>a,
+    .pagination>li:first-child>span {
+        margin-left: 0;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px
+    }
+    .pagination>li:last-child>a,
+    .pagination>li:last-child>span {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px
+    }
+    .pagination>li>a:hover,
+    .pagination>li>span:hover,
+    .pagination>li>a:focus,
+    .pagination>li>span:focus {
+        background-color: #eee
+    }
+    .pagination>.active>a,
+    .pagination>.active>span,
+    .pagination>.active>a:hover,
+    .pagination>.active>span:hover,
+    .pagination>.active>a:focus,
+    .pagination>.active>span:focus {
+        z-index: 2;
+        color: #fff;
+        cursor: default;
+        background-color: #12C0FA;
+        border-color: #12C0FA
+    }
+    .pagination>.disabled>span,
+    .pagination>.disabled>a,
+    .pagination>.disabled>a:hover,
+    .pagination>.disabled>a:focus {
+        color: #999;
+        cursor: not-allowed;
+        background-color: #fff;
+        border-color: #ddd
+    }
+    .pagination-sm>li:last-child>a,
+    .pagination-sm>li:last-child>span {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px
+    }
+    .pagination a {
+        color: #12C0FA;
+        border-color: #fff !important;
+    }
+    .pagination .btn {
+        float: right;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.428571429;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        border: 1px solid transparent;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+        margin: 0;
+        background-color: #12C0FA;
+        color: #fff;
+    }
+
+    .pagination .active a {
+        background-color: #12C0FA;
+        border-color: #12C0FA;
+    }
+
+    .pagination .go-page {
+        float: right;
+        font-size: 0;
+        border: 1px solid #12C0FA;
+        margin-left: 10px;
+    }
+
+    .pagination .go-page input {
+        display: inline-block;
+        width: 60px !important;
+        height: 30px !important;
+        text-align: center;
+        border-radius: 0;
+        margin: 0 !important;
+        border: 1px solid #12C0FA !important;
+    }
+
+    .pagination .go-page input::-webkit-outer-spin-button,
+    .pagination .go-page input::-webkit-inner-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0;
+    }
+
+    .pagination .go-page button {
+        padding: 5px 10px;
+        border-radius: 0
+    }
+</style>
+<div class="sms-anti-brush">
+    <div class="content">
+        <!-- 插件设置 -->
+        <form class="v-settings" method="post">
+            <div class="basics">
+                <p>{lang phone_auth:base_setting}</p>
+                <span>{lang phone_auth:site_name}</span>
+                <span class="right">{lang phone_auth:site_name_desc}</span>
+                <input type="text" class="form-control" value="{$params['site_name']}" placeholder="{lang phone_auth:site_name_rule}" name="site_name">
+                <span>{lang phone_auth:vaptcha_setting}</span>
+                <span class="right">{lang phone_auth:vid_desc}</span>
+                <input type="text" maxlength="24" class="form-control" placeholder="ID" name="id" value="{$params['vid']}">
+                <input type="text" maxlength="32" class="form-control" placeholder="KEY" name="key" value="{$params['key']}">
+            </div>
+            <div class="senior">
+                {lang phone_auth:vip_setting}
+                <div class="btn-color">
+                    <div class="title">{lang phone_auth:color_style}</div>
+                    <div class="example-ex">
+                        <span># </span>
+                        <input type="text" id="picker" name="style_color" class="picker" style="border-right-color:#{$params['style_color']}" value="{$params['style_color']}">
+                    </div>
+                </div>
+                <div class="btn-style">
+                    <div class="title">{lang phone_auth:vaptcha_style}</div>
+                    <select name="btn_style">
+                        <option value="light" {if 'light'==$params[ 'btn_style']} selected {/if}>ios</option>
+                        <option value="dark" {if 'dark'==$params[ 'btn_style']} selected {/if}>windows</option>
+                    </select>
+                </div>
+                <div class="international-sms">
+                    <div class="title">{lang phone_auth:inter_sms}</div>
+                    <select name="enable_inter">
+                        <!-- <option value="1" {if '1' == $params['enable_inter']} selected {/if}>{lang phone_auth:enable}</option> -->
+                        <option value="0" {if '0'==$params[ 'enable_inter']} selected {/if}>{lang phone_auth:disable}</option>
+                    </select>
+                </div>
+                <div class="right">{lang phone_auth:vip_setting_desc}</div>
+                <div class="register">
+                    <div class="title">{lang phone_auth:register_option}</div>
+                    <div class="item">
+                        <input type="checkbox" name="register_email" id="email" value="1" {if '1'==$params[ 'register_email']} checked {/if}>
+                        <label for="email">{lang phone_auth:email}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="v-btn">
+                <button class="submit-btn">{lang phone_auth:save}</button>
+            </div>
+        </form>
+        <div class="tab">
+            <div class="v-btn active">{lang phone_auth:sms_pay}</div>
+            <div class="v-btn">{lang phone_auth:send_record}</div>
+        </div>
+        <div class="recharge tab-panel active">
+            <div class="message-con">
+                <p>{lang phone_auth:sms_pay}</p>
+                <div class="specifications">
+                    <div class="title">{lang phone_auth:package_lv}</div>
+                    <div class="v-num prices" style="font-size:0">
+                        <span class="active">5000{lang phone_auth:unit}</span>
+                        <span>20000{lang phone_auth:unit}</span>
+                        <span>50000{lang phone_auth:unit}</span>
+                        <span>200000{lang phone_auth:unit}</span>
+                        <span>500000{lang phone_auth:unit}</span>
+                    </div>
+                </div>
+                <div class="when-long">
+                    <div class="title">{lang phone_auth:expire_time}</div>
+                    <div class="when">
+                        <span class="active">{lang phone_auth:forever}</span>
+                    </div>
+                </div>
+                <div class="subsidy">
+                    <div class="title">{lang phone_auth:price}</div>
+                    <div class="v-money">
+                        <span class="price-total">{lang phone_auth:rmb}175.00</span>（{lang phone_auth:single_price}
+                        <span class="price">3.5</span>{lang phone_auth:sms_single_price}）
+                    </div>
+                </div>
+                <div class="mode">
+                    <div class="title">{lang phone_auth:pay_way}</div>
+                    <div class="payment">
+                        <span class="check-way">
+                            <input id="alipay" type="radio" name="pay" value="alipay" checked />
+                            <label for="alipay">
+                                <i class="img-alipay"></i>{lang phone_auth:alipay}</label>
+                        </span>
+                        <span class="check-way">
+                            <input id="wechart" type="radio" name="pay" value="wechat" />
+                            <label for="wechart">
+                                <i class="img-wechart"></i>{lang phone_auth:wechat}</label>
+                        </span>
+                    </div>
+                </div>
+                <div class="agree">
+                    <div class="title"></div>
+                    <a target="_blank" class="v-btn btn-success online-pay-btn">{lang phone_auth:online_pay}</a>
+                </div>
+                <div class="surplus-count">
+                    <div class="count">354666</div>
+                    <p>{lang phone_auth:can_use_sms}</p>
+                </div>
+                <div class="surplus-day">
+                    <div class="day">27</div>
+                    <p>{lang phone_auth:can_use_day}</p>
+                </div>
+            </div>
+            <div class="record">
+                <div class="title">{lang phone_auth:pay_record}</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>{lang phone_auth:pay_price}</th>
+                            <th>{lang phone_auth:sms_count}</th>
+                            <th>{lang phone_auth:pay_way}</th>
+                            <th>{lang phone_auth:challenge}</th>
+                            <th>{lang phone_auth:time}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>225.00</td>
+                            <td>5000</td>
+                            <td>支付宝</td>
+                            <td>786934579823842930589230759</td>
+                            <td>2017/11/11 11:00:00 </td>
+                        </tr>
+                        <tr>
+                            <td>225.00</td>
+                            <td>5000</td>
+                            <td>支付宝</td>
+                            <td>786934579823842930589230759</td>
+                            <td>2017/11/11 11:00:00 </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="record tab-panel">
+            <div class="curve">
+                <p>发送曲线</p>
+                <div class="v-line">
+                    <div id="echart" style="width: 1100px;height:260px;"></div>
+                </div>
+            </div>
+            <div class="log">
+                <p>发送日志</p>
+                <table>
+                    <thead>
+                        <tr>
+                            {lang phone_auth:table_title} 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td>1</td>
+                            <td>国内短信</td>
+                            <td>
+                                <i class="fa fa-check-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td>15</td>
+                            <td class="international">国际短信</td>
+                            <td>
+                                <i class="fa fa-check-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <i class="fa fa-times-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td>1</td>
+                            <td>国内短信</td>
+                            <td>
+                                <i class="fa fa-check-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td>15</td>
+                            <td class="international">国际短信</td>
+                            <td>
+                                <i class="fa fa-check-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <i class="fa fa-times-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td>1</td>
+                            <td>国内短信</td>
+                            <td>
+                                <i class="fa fa-check-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td>15</td>
+                            <td class="international">国际短信</td>
+                            <td>
+                                <i class="fa fa-check-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <i class="fa fa-times-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td>1</td>
+                            <td>国内短信</td>
+                            <td>
+                                <i class="fa fa-check-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td>15</td>
+                            <td class="international">国际短信</td>
+                            <td>
+                                <i class="fa fa-check-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                        <tr>
+                            <td>1382222222</td>
+                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <i class="fa fa-times-circle"></i>
+                            </td>
+                            <td>2017/11/11 11:00:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation" class="text-center">
+                    <ul class="pagination">
+                        <li class="prev">
+                            <a aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="next">
+                            <a aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="go-page">
+                            <input type="text" name="page" class="form-control">
+                            <button class="btn btn-success to">{lang phone_auth:go}</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="vaptcha-dz-tip" style="display: none">
+        {lang phone_auth:tip_content}
+    </div>
+</div>
+<script>
+    var config = {
+        site_url: '{$site_url}',
+        params: JSON.parse('{eval echo json_encode($params)}')
+    }
+</script>
+<script src="{$static_path}/js/set.js"></script>

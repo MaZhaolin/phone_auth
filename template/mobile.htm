@@ -1,0 +1,358 @@
+{eval
+    global $_G;
+    $static_path  = get_static_path();
+    $site_url = get_site_url();
+    $params = get_params();
+    $dreferer = dreferer();
+    $bbrulehash = substr(md5(FORMHASH), 0, 8);
+    $setting = $_G['setting'];
+    $time = time();
+    $style = get_theme_style();
+}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="{$static_path}/css/m-dz.css"/>
+    </head>
+    $style
+	<body>
+		<div class="m-dz m-dz-login  none">
+			<div class="m-dz-top">
+				<span class="logo-img redirect-back"><img src="{$static_path}/img/back-48x48.png" /></span>
+				<span class="logo-text">{lang phone_auth:login}</span>
+			</div>
+			<div class="m-dz-main">
+				<div class="dz-item-group">
+					<input class="form-control dz-input dz-input-icon" name="user" type="text" placeholder="{lang phone_auth:account_placeholder}" />
+					<span class="form-icon">
+						<img  src="{$static_path}/img/user-126x126.png"/>
+					</span>
+				</div>
+				<div class="dz-item-group">
+					<input maxlength="20" class="form-control dz-input dz-input-icon" name="password" type="password" placeholder="{lang panel_login_password}" />
+					<span class="form-icon">
+						<img  src="{$static_path}/img/password-126x126.png"/>
+					</span>
+				</div>
+				<div class="dz-item-group">
+					<input type="hidden" name="vaptcha_token">
+                    <input type="hidden" name="vaptcha_challenge">
+                    <div class="vaptcha_container">
+                        <div class="vaptcha-init-main">
+                            <div class="vaptcha-init-loading">
+                                <a><img src="https://cdn.vaptcha.com/vaptcha-loading.gif"/></a>
+                                <span class="vaptcha-text"><a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a> {lang phone_auth:captcha_loading}</span>
+                            </div>
+                        </div>
+                    </div>
+				</div> 
+				
+				<div class="dz-item-group">
+					<button class="btn dz-btn login-btn" disabled>{lang phone_auth:login}</button>
+				</div>
+				<div class="dz-item-group">
+					<a class="dz-link fl redirect-forgetword" href="javascript:;">{lang phone_auth:forgot_password}?</a>
+					<a class="dz-link fr redirect-register" href="javascript:;">{lang phone_auth:register_link}</a>
+				</div>
+				<!-- <div class="dz-quick">
+					<span class="dz-quick-line fl"></span>
+					<span class="dz-quick-text">{lang phone_auth:login_method}</span>
+					<span class="dz-quick-line fr"></span>
+				</div>
+				<div class="dz-qq-wechart">
+					<div class="dz-qq">
+						<img src="{$static_path}/img/login_qq_180x180.png" />
+					</div>
+					<div class="dz-wechart">
+						<img src="{$static_path}/img/login_wechat_180x180.png" />
+					</div>
+				</div> -->
+				<div class="switch-cont">
+					<div class="switch-way">
+						<a class="way-text" href="{$site_url}/forum.php?mobile=2">{lang homepage}</a><span class="way-line"></span>
+						<a class="way-text" href="#login">{lang login}</a><span class="way-line"></span>
+						<a class="way-text" href="#register">{lang phone_auth:register}</a>
+					</div>
+					<div class="switch-way">
+						<a class="way-text" href="{$site_url}/forum.php?mobile=no&mobile=1&simpletype=no">{lang no_simplemobiletype}</a><span class="way-line"></span>
+						<a class="way-text"  href="" disabled>{lang mobile2version}</a><span class="way-line"></span>
+						<a class="way-text" href="{$site_url}/forum.php?mobile=no">{lang nomobiletype}</a><span class="way-line"></span>
+						<a class="way-text" href="http://www.discuz.net/mobile.php?platform=ios">{lang clientversion}</a>
+					</div>
+					<div class="switch-way">
+						<span class="way-text way-copy">© 2017 VAPTCHA All Rights Reserved </span>
+					</div>
+				</div>
+			</div>
+        </div>
+        
+        <div class="m-dz m-dz-bind-phone none">
+                <div class="m-dz-top">
+                    <span class="logo-img fl redirect-back"><img src="{$static_path}/img/back-48x48.png" /></span>
+                    <span class="logo-text">{lang phone_auth:bind_phone}</span>
+                </div>
+                <div class="m-dz-main">
+                        <div class="dz-item-group">
+                            <input maxlength="11" class="form-control dz-input dz-input-icon" type="text" name="phone" placeholder="手机号" />
+                            <span class="form-icon">
+                                <img  src="{$static_path}/img/phone-126x126 .png"/>
+                            </span>
+                        </div>
+                        <div class="dz-item2-group clearfix send-code-group none">
+                            <input class="form-control dz-input dz-input-code dz-input-icon" name="code"  placeholder="{lang phone_auth:captcha}" type="text" name="code" />
+                            <span class="form-icon">
+                                <img  src="{$static_path}/img/Verification-126x126.png"/>
+                            </span>
+                            <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
+                        </div>
+                        <div class="dz-item-group">
+                            <input type="hidden" name="vaptcha_token">
+                            <input type="hidden" name="vaptcha_challenge">
+                            <div class="vaptcha_container">
+                                <div class="vaptcha-init-main">
+                                    <div class="vaptcha-init-loading">
+                                        <a><img src="https://cdn.vaptcha.com/vaptcha-loading.gif"/></a>
+                                        <span class="vaptcha-text"><a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a> {lang phone_auth:captcha_loading}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="dz-item-group">
+                        <button class="btn dz-btn next-step" disabled="disabled">{lang phone_auth:click_bind}</button>
+                    </div>
+                    <div class="switch-cont">
+                        <div class="switch-way">
+                            <a class="way-text" href="{$site_url}/forum.php?mobile=2">{lang homepage}</a><span class="way-line"></span>
+                            <a class="way-text" href="#login">{lang login}</a><span class="way-line"></span>
+                            <a class="way-text" href="#register">{lang phone_auth:register}</a>
+                        </div>
+                        <div class="switch-way">
+                            <a class="way-text" href="{$site_url}/forum.php?mobile=no&mobile=1&simpletype=no">{lang no_simplemobiletype}</a><span class="way-line"></span>
+                            <a class="way-text"  href="" disabled>{lang mobile2version}</a><span class="way-line"></span>
+                            <a class="way-text" href="{$site_url}/forum.php?mobile=no">{lang nomobiletype}</a><span class="way-line"></span>
+                            <a class="way-text" href="http://www.discuz.net/mobile.php?platform=ios">{lang clientversion}</a>
+                        </div>
+                        <div class="switch-way">
+                            <span class="way-text way-copy">© 2017 VAPTCHA All Rights Reserved </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		
+		<div class="m-dz m-dz-register none">
+            <input type="hidden" name="regsubmit" value="yes" />
+            <input type="hidden" name="formhash" value="{FORMHASH}" />
+            <input type="hidden" name="referer" value="$dreferer" />
+            <input type="hidden" name="activationauth" value="{if $_GET[action] == 'activation'}$activationauth{/if}" />
+            <!--{if $setting['sendregisterurl']}-->
+                <input type="hidden" name="hash" value="$_GET[hash]" />
+            <!--{/if}-->
+			<div class="m-dz-top">
+				<span class="logo-text">{lang phone_auth:register}</span>
+				<span class="logo-img redirect-back"><img src="{$static_path}/img/back-48x48.png" /></span>
+			</div>
+			<div class="m-dz-main">
+				<div class="dz-item-group">
+					<input maxlength="15" class="form-control dz-input dz-input-icon" name="{$setting['reginput']['username']}"  type="text" placeholder="{lang phone_auth:username_rule}" />
+					<span class="form-icon">
+						<img  src="{$static_path}/img/user-126x126.png"/>
+                    </span>
+                    
+                </div>
+                <!--{if $params['register_email'] == '1'}-->
+				<div class="dz-item-group">
+					<input class="form-control dz-input dz-input-icon" type="text"  name="{$setting['reginput']['email']}" placeholder="{lang phone_auth:email_rule}" />
+					<span class="form-icon">
+						<img  src="{$static_path}/img/messege-126x126.png"/>
+					</span>
+                </div>
+                <!--{/if}-->
+				<div class="dz-item-group dz-item-password">
+					<input maxlength="20" class="form-control dz-input dz-input-icon" name="{$setting['reginput']['password']}"  type="password" placeholder="{lang phone_auth:password_rule}" />
+					<span class="form-icon">
+						<img  src="{$static_path}/img/password-126x126.png"/>
+					</span>
+				</div>
+				<div class="pw-strength">
+	                <div class="pw-bar"></div>
+	                <div class="pw-bar-on"></div>
+	            </div>
+				<div class="dz-item-group">
+					<input class="form-control dz-input dz-input-icon" maxlength="11" type="text" name="phone" placeholder="{lang phone_auth:phone}" />
+					<span class="form-icon">
+						<img  src="{$static_path}/img/phone-126x126 .png"/>
+					</span>
+				</div>
+				<div class="dz-item2-group clearfix dz-code-group none">
+	                <input class="form-control dz-input dz-input-code dz-input-icon" name="code"  placeholder="{lang phone_auth:code}" type="text" name="code" />
+	                <span class="form-icon">
+						<img  src="{$static_path}/img/Verification-126x126.png"/>
+					</span>
+	                <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
+	            </div>
+				<div class="dz-item-group">
+                    <input type="hidden" name="vaptcha_token">
+                    <input type="hidden" name="vaptcha_challenge">
+                    <div class="vaptcha_container">
+                        <div class="vaptcha-init-main">
+                            <div class="vaptcha-init-loading">
+                                <a><img src="https://cdn.vaptcha.com/vaptcha-loading.gif"/></a>
+                                <span class="vaptcha-text"><a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a> {lang phone_auth:captcha_loading}</span>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+				<div class="dz-item-group">
+					<button class="btn dz-btn" id="register_btn" disabled="disabled">{lang phone_auth:register}</button>
+				</div>
+				<div class="dz-item-group">
+					<a class="dz-link-text dz-link  redirect-login" href="javascript:;">{lang phone_auth:login_member}</a>
+				</div>
+				<div class="switch-cont">
+					<div class="switch-way">
+						<a class="way-text" href="{$site_url}/forum.php?mobile=2">{lang homepage}</a><span class="way-line"></span>
+						<a class="way-text" href="#login">{lang login}</a><span class="way-line"></span>
+						<a class="way-text" href="#register">{lang phone_auth:register}</a>
+					</div>
+					<div class="switch-way">
+						<a class="way-text" href="{$site_url}/forum.php?mobile=no&mobile=1&simpletype=no">{lang no_simplemobiletype}</a><span class="way-line"></span>
+						<a class="way-text"  href="" disabled>{lang mobile2version}</a><span class="way-line"></span>
+						<a class="way-text" href="{$site_url}/forum.php?mobile=no">{lang nomobiletype}</a><span class="way-line"></span>
+						<a class="way-text" href="http://www.discuz.net/mobile.php?platform=ios">{lang clientversion}</a>
+					</div>
+					<div class="switch-way">
+						<span class="way-text way-copy">© 2017 VAPTCHA All Rights Reserved </span>
+					</div>
+				</div>
+			</div> 
+		</div>
+
+		<div class="m-dz m-dz-forgetword none">
+			<div class="m-dz-top">
+				<span class="logo-img fl redirect-back"><img src="{$static_path}/img/back-48x48.png" /></span>
+				<span class="logo-text">{lang phone_auth:forgot_password}</span>
+			</div>
+			<div class="m-dz-main">
+                    <div class="dz-item-group">
+                        <input class="form-control dz-input dz-input-icon" type="text" maxlength="11" name="phone" placeholder="{lang phone_auth:phone}" />
+                        <span class="form-icon">
+                            <img  src="{$static_path}/img/phone-126x126 .png"/>
+                        </span>
+                    </div>
+                    <div class="dz-item2-group clearfix send-code-group none">
+                        <input class="form-control dz-input dz-input-code dz-input-icon" name="code"  placeholder="{lang phone_auth:code}" type="text" name="code" />
+                        <span class="form-icon">
+                            <img  src="{$static_path}/img/Verification-126x126.png"/>
+                        </span>
+                        <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
+                    </div>
+                    <div class="dz-item-group">
+                        <input type="hidden" name="vaptcha_token">
+                        <input type="hidden" name="vaptcha_challenge">
+                        <div class="vaptcha_container">
+                            <div class="vaptcha-init-main">
+                                <div class="vaptcha-init-loading">
+                                    <a><img src="https://cdn.vaptcha.com/vaptcha-loading.gif"/></a>
+                                    <span class="vaptcha-text"><a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a> {lang phone_auth:captcha_loading}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				<div class="dz-item-group">
+					<button class="btn dz-btn next-step" disabled="disabled">{lang phone_auth:next_step}</button>
+				</div>
+				<div class="switch-cont">
+					<div class="switch-way">
+						<a class="way-text" href="{$site_url}/forum.php?mobile=2">{lang homepage}</a><span class="way-line"></span>
+						<a class="way-text" href="#login">{lang login}</a><span class="way-line"></span>
+						<a class="way-text" href="#register">{lang phone_auth:register}</a>
+					</div>
+					<div class="switch-way">
+						<a class="way-text" href="{$site_url}/forum.php?mobile=no&mobile=1&simpletype=no">{lang no_simplemobiletype}</a><span class="way-line"></span>
+						<a class="way-text"  href="" disabled>{lang mobile2version}</a><span class="way-line"></span>
+						<a class="way-text" href="{$site_url}/forum.php?mobile=no">{lang nomobiletype}</a><span class="way-line"></span>
+						<a class="way-text" href="http://www.discuz.net/mobile.php?platform=ios">{lang clientversion}</a>
+					</div>
+					<div class="switch-way">
+						<span class="way-text way-copy">© 2017 VAPTCHA All Rights Reserved </span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <div class="m-dz  m-dz-resetpwd none">
+			<div class="m-dz-top">
+				<span class="logo-img redirect-back"><img src="{$static_path}/img/back-48x48.png" /></span>
+				<span class="logo-text">{lang phone_auth:password_reset}</span>
+			</div>
+			<div class="m-dz-main">
+				<div class="dz-item-group dz-item-password">
+					<input maxlength="20" class="form-control dz-input dz-input-icon" type="password" name="new_password" placeholder="{lang phone_auth:password_rule}" />
+					<span class="form-icon">
+						<img  src="{$static_path}/img/password-126x126.png"/>
+					</span>
+				</div>
+				<div class="pw-strength">
+	                <div class="pw-bar"></div>
+	                <div class="pw-bar-on"></div>
+	            </div>
+	            <div class="dz-item-group ">
+					<input maxlength="20" class="form-control dz-input dz-input-icon" type="password" name="verify_password" placeholder="{lang phone_auth:password_confirm}" />
+					<span class="form-icon">
+						<img  src="{$static_path}/img/password-126x126.png"/>
+					</span>
+				</div>
+				<div class="dz-item-group">
+					<button class="btn dz-btn submit-btn" disabled="disabled">{lang submit}</button>
+				</div>
+				<div class="switch-cont">
+					<div class="switch-way">
+						<a class="way-text" href="{$site_url}/forum.php?mobile=2">{lang homepage}</a><span class="way-line"></span>
+						<a class="way-text" href="#login">{lang login}</a><span class="way-line"></span>
+						<a class="way-text" href="#register">{lang phone_auth:register}</a>
+					</div>
+					<div class="switch-way">
+						<a class="way-text" href="{$site_url}/forum.php?mobile=no&mobile=1&simpletype=no">{lang no_simplemobiletype}</a><span class="way-line"></span>
+						<a class="way-text" href="" disabled>{lang mobile2version}</a><span class="way-line"></span>
+						<a class="way-text" href="{$site_url}/forum.php?mobile=no">{lang nomobiletype}</a><span class="way-line"></span>
+						<a class="way-text" href="http://www.discuz.net/mobile.php?platform=ios">{lang clientversion}</a>
+					</div>
+					<div class="switch-way">
+						<span class="way-text way-copy">© 2017 VAPTCHA All Rights Reserved </span>
+					</div>
+				</div>
+			</div>
+        </div>
+        
+        <div class="dz-m-tip  none">
+            <div class="dz-m-cont">
+                <span class="dz-tip-icon"></span>
+                <span class="dz-tip-text"></span>
+            </div>
+        </div>
+    <script src="http://cdn.vaptcha.com/v.js"></script>
+    <script src="{$static_path}/js/mobile.min.js?v={$time}"></script>
+    <script>
+        window.onload = function() {
+            var v_helper =  new helper({
+                vaptcha_color: '#{$params["style_color"]}',
+                vaptcha_style: '{$params["btn_style"]}',
+                site_url: '{$site_url}',
+                lang: {
+                    send_code: '{lang phone_auth:send_code}'
+                },
+                register: {
+                    has_email: {$params["register_email"]},
+                    username: '{$setting["reginput"]["username"]}',
+                    email: '{$setting["reginput"]["email"]}',
+                    password: '{$setting["reginput"]["password"]}',
+                    agreebbrule: '$bbrulehash'
+                },
+            });
+        }                  
+    </script>
+	</body>
+</html>

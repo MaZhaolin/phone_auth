@@ -1,0 +1,220 @@
+<style>
+    .vphone-setting input.px {
+        width: 250px
+    }
+    .vaptcha-container {
+        height: 36px;
+        width: 260px
+    }
+    .vaptcha-init-main{
+        display: table;
+        width: 100%;
+        height: 100%;
+        background-color: #EEEEEE;
+    }
+    .vaptcha-init-loading {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center
+    }
+
+    .vaptcha-init-loading>a {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+    }
+    .vaptcha-init-loading>a img{
+        vertical-align: middle
+    }
+    .vaptcha-init-loading .vaptcha-text {
+        font-family: sans-serif;
+        font-size: 12px;
+        color: #CCCCCC;
+        vertical-align: middle
+    }
+    .vaptcha-init-loading .vaptcha-text a {
+        font-family: sans-serif;
+        font-size: 12px;
+        color: #CCCCCC;
+        text-decoration: none;
+    }
+    .vphone-setting .send-code-btn{
+        width: 75px;
+    }
+    .vphone-setting input[name=code]{
+        width: 170px
+    }
+    .vphone-setting .none{
+        display: none;
+    }
+    .v-error-msg {
+        color: #ed0000;
+        text-indent: 10px
+    }
+</style>
+<div class="bbda pbm mbm">
+    <p>
+        {lang phone_auth:setting_tips_1}
+    </p>
+    <p>
+        {lang phone_auth:setting_tips_2}        
+    </p>
+</div>
+<h5>{lang phone_auth:bind_phone}</h5>
+    <!--{if !$rebind}-->
+<form action="{$site_url}/home.php?mod=spacecp&ac=plugin&id=phone_auth:vphone_bind" method="POST">
+    <table>
+            <tbody class="tfm vphone-setting">
+                <tr>
+                    <!--{if $vphone}-->
+                    <th>{lang phone_auth:binded_phone}</th>
+                    <!--{else}-->
+                    <th>{lang phone_auth:unbind_phone}</th>
+                    <!--{/if}-->                    
+                    <td>
+                        {$vphone['phone']}
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>
+                        <span class="rq">*</span>{lang phone_auth:enter_password}</th>
+                    <td>
+                        <input type="password" name="password" class="px">
+                    </td>
+                    <td class="v-error-msg">{$error_msg}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th></th>
+                    <td colspan="2">
+                        <button class="pn pnc" id="bindPhone">
+                            <strong>{lang phone_auth:click_rebind_phone}</strong>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <!--{else}-->
+    <table>
+        <tbody class="tfm vphone-setting">
+            <input type="hidden" name="password" value="{$password}">
+            <tr>
+                <th>{lang phone_auth:old_phone}</th>
+                <td>
+                    {$vphone['phone']}
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>
+                    <span class="rq">*</span>{lang phone_auth:new_phone}</th>
+                <td>
+                    <input type="text" name="phone" class="px">
+                </td>
+                <td class="v-error-msg error-phone"></td>                
+            </tr>
+            <tr class="send-code-group none">
+                <th>
+                    <span class="rq">*</span>{lang phone_auth:code}</th>
+                <td>
+                    <input type="text" name="code" class="px">
+                    <button class="pn pnc send-code-btn">
+                        <strong>{lang phone_auth:send_code}</strong>
+                    </button>
+                </td>
+                <td class="v-error-msg error-code"></td>
+            </tr>
+            <tr>
+                <th>
+                    <span class="rq">*</span>{lang phone_auth:vaptcha}</th>
+                <td>
+                    <input type="hidden" name="vaptcha_token">
+                    <input type="hidden" name="vaptcha_challenge">
+                    <div class="vaptcha-container">
+                        <div class="vaptcha-init-main">
+                            <div class="vaptcha-init-loading">
+                                <a>
+                                    <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
+                                </a>
+                                <span class="vaptcha-text">
+                                    <a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a> {lang phone_auth:captcha_loading}</span>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="v-error-msg error-vaptcha"></td>
+            </tr>
+            <tr>
+                <th></th>
+                <td colspan="2">
+                    <button class="pn pnc" id="bindPhone">
+                        <strong>{lang phone_auth:click_rebind_phone}</strong>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <script src="{$static_path}/js/v-helper.min.js"></script>
+    <script>
+        (function(){
+            helper = new v_helper({
+                'vaptcha_color': '#{$params["style_color"]}',
+                'vaptcha_style': '{$params["btn_style"]}',
+                'site_url': '{$site_url}',
+                lang: {
+                    send_code: '{lang phone_auth:send_code}'
+                }
+            });
+            var form = ele('.vphone-setting')[0];
+            var sendCodeBtn = form.ele('.send-code-btn')[0];            
+            var _vaptcha = helper.initVaptcha({
+                element: form.ele('.vaptcha-container')[0],
+                form: form,
+                success: function() {
+                    form.ele('.send-code-group')[0].removeClass('none');
+                    sendCodeBtn.target('click');
+                    form.ele('.error-vaptcha')[0].html('');                    
+                }
+            })
+            form.ele('input').call('addEvent', 'focus', function(){
+                form.ele('.v-error-msg').call('html', '');
+            })
+            sendCodeBtn.addEvent('click', function(e) {
+                helper.ajax({
+                    url: '/plugin.php?id=phone_auth&action=modifyPhoneCode',
+                    type: 'POST',
+                    data: helper.getFormData(form),
+                    success: function(data) {
+                        helper.buttonCountDown(sendCodeBtn);
+                    },
+                    error: function(data) {
+                        if (data.status == 301) {
+                            return helper.buttonCountDown(sendCodeBtn, data.msg);
+                        }
+                        var el = form.ele('.error-' + data.error_pos)[0];
+                        el && el.html(data.msg);
+                        if(data.error_pos == 'vaptcha') _vaptcha.refresh();
+                        if(data.msg == 'Access denied') location.reload();
+                    }
+                })
+            })
+            ele('#bindPhone').addEvent('click', function(e) {
+                helper.ajax({
+                    url: '/plugin.php?id=phone_auth&action=modifyPhone',
+                    type: 'POST',
+                    data: helper.getFormData(form),
+                    success: function(data) {
+                        location.href = '{$site_url}/home.php?mod=spacecp&ac=plugin&id=phone_auth:vphone_bind'
+                    },
+                    error: function(data) {
+                        var el = form.ele('.error-' + data.error_pos)[0];
+                        el && el.html(data.msg); 
+                        if(data.msg == 'Access denied') location.reload();
+                    }
+                })
+            })
+        })()
+    </script>
+    <!--{/if}-->
+</form>
