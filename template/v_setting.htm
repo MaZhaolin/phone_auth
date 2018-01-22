@@ -3,131 +3,8 @@
 <script src="{$static_path}/js/jquery.min.js"></script>
 <script src="{$static_path}/js/colpick.min.js"></script>
 <script src="{$static_path}/js/echarts.simple.min.js"></script>
-<style>
-    .pagination {
-        display: inline-block;
-        padding-left: 0;
-        margin: 20px 0;
-        border-radius: 4px
-    }
-    .pagination>li {
-        display: inline
-    }
-    .pagination>li>a,
-    .pagination>li>span {
-        position: relative;
-        float: left;
-        padding: 6px 12px;
-        margin-left: -1px;
-        line-height: 1.428571429;
-        text-decoration: none;
-        background-color: #fff;
-        border: 1px solid #ddd
-    }
-    .pagination>li:first-child>a,
-    .pagination>li:first-child>span {
-        margin-left: 0;
-        border-bottom-left-radius: 4px;
-        border-top-left-radius: 4px
-    }
-    .pagination>li:last-child>a,
-    .pagination>li:last-child>span {
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px
-    }
-    .pagination>li>a:hover,
-    .pagination>li>span:hover,
-    .pagination>li>a:focus,
-    .pagination>li>span:focus {
-        background-color: #eee
-    }
-    .pagination>.active>a,
-    .pagination>.active>span,
-    .pagination>.active>a:hover,
-    .pagination>.active>span:hover,
-    .pagination>.active>a:focus,
-    .pagination>.active>span:focus {
-        z-index: 2;
-        color: #fff;
-        cursor: default;
-        background-color: #12C0FA;
-        border-color: #12C0FA
-    }
-    .pagination>.disabled>span,
-    .pagination>.disabled>a,
-    .pagination>.disabled>a:hover,
-    .pagination>.disabled>a:focus {
-        color: #999;
-        cursor: not-allowed;
-        background-color: #fff;
-        border-color: #ddd
-    }
-    .pagination-sm>li:last-child>a,
-    .pagination-sm>li:last-child>span {
-        border-top-right-radius: 3px;
-        border-bottom-right-radius: 3px
-    }
-    .pagination a {
-        color: #12C0FA;
-        border-color: #fff !important;
-    }
-    .pagination .btn {
-        float: right;
-        padding: 6px 12px;
-        font-size: 14px;
-        font-weight: normal;
-        line-height: 1.428571429;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: middle;
-        cursor: pointer;
-        border: 1px solid transparent;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        -o-user-select: none;
-        user-select: none;
-        margin: 0;
-        background-color: #12C0FA;
-        color: #fff;
-    }
-
-    .pagination .active a {
-        background-color: #12C0FA;
-        border-color: #12C0FA;
-    }
-
-    .pagination .go-page {
-        float: right;
-        font-size: 0;
-        border: 1px solid #12C0FA;
-        margin-left: 10px;
-    }
-
-    .pagination .go-page input {
-        display: inline-block;
-        width: 60px !important;
-        height: 30px !important;
-        text-align: center;
-        border-radius: 0;
-        margin: 0 !important;
-        border: 1px solid #12C0FA !important;
-    }
-
-    .pagination .go-page input::-webkit-outer-spin-button,
-    .pagination .go-page input::-webkit-inner-spin-button {
-        -webkit-appearance: none !important;
-        margin: 0;
-    }
-
-    .pagination .go-page button {
-        padding: 5px 10px;
-        border-radius: 0
-    }
-</style>
 <div class="sms-anti-brush">
     <div class="content">
-        <!-- 插件设置 -->
         <form class="v-settings" method="post">
             <div class="basics">
                 <p>{lang phone_auth:base_setting}</p>
@@ -171,15 +48,13 @@
                     </div>
                 </div>
             </div>
-            <div class="v-btn">
-                <button class="submit-btn">{lang phone_auth:save}</button>
-            </div>
+            <button class="v-btn btn-default">{lang phone_auth:save}</button>
         </form>
         <div class="tab">
             <div class="v-btn active">{lang phone_auth:sms_pay}</div>
             <div class="v-btn">{lang phone_auth:send_record}</div>
         </div>
-        <div class="recharge tab-panel active">
+        <div class="recharge tab-panel">
             <div class="message-con">
                 <p>{lang phone_auth:sms_pay}</p>
                 <div class="specifications">
@@ -204,6 +79,9 @@
                         <span class="price-total">{lang phone_auth:rmb}175.00</span>（{lang phone_auth:single_price}
                         <span class="price">3.5</span>{lang phone_auth:sms_single_price}）
                     </div>
+                    <div class="market-value">
+                        {lang phone_auth:market_value}
+                    </div>
                 </div>
                 <div class="mode">
                     <div class="title">{lang phone_auth:pay_way}</div>
@@ -225,11 +103,11 @@
                     <a target="_blank" class="v-btn btn-success online-pay-btn">{lang phone_auth:online_pay}</a>
                 </div>
                 <div class="surplus-count">
-                    <div class="count">354666</div>
+                    <div class="count">0</div>
                     <p>{lang phone_auth:can_use_sms}</p>
                 </div>
                 <div class="surplus-day">
-                    <div class="day">27</div>
+                    <div class="day">0</div>
                     <p>{lang phone_auth:can_use_day}</p>
                 </div>
             </div>
@@ -247,32 +125,23 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>225.00</td>
-                            <td>5000</td>
-                            <td>支付宝</td>
-                            <td>786934579823842930589230759</td>
-                            <td>2017/11/11 11:00:00 </td>
-                        </tr>
-                        <tr>
-                            <td>225.00</td>
-                            <td>5000</td>
-                            <td>支付宝</td>
-                            <td>786934579823842930589230759</td>
-                            <td>2017/11/11 11:00:00 </td>
+                            <td>
+                                {lang phone_auth:not_data}
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="record tab-panel">
+        <div class="record tab-panel active">
             <div class="curve">
-                <p>发送曲线</p>
+                <p>{lang phone_auth:send_line}</p>
                 <div class="v-line">
                     <div id="echart" style="width: 1100px;height:260px;"></div>
                 </div>
             </div>
             <div class="log">
-                <p>发送日志</p>
+                <p>{lang phone_auth:send_log}</p>
                 <table>
                     <thead>
                         <tr>
@@ -281,128 +150,11 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td>1</td>
-                            <td>国内短信</td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td>15</td>
-                            <td class="international">国际短信</td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <i class="fa fa-times-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td>1</td>
-                            <td>国内短信</td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td>15</td>
-                            <td class="international">国际短信</td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <i class="fa fa-times-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td>1</td>
-                            <td>国内短信</td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td>15</td>
-                            <td class="international">国际短信</td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <i class="fa fa-times-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td>1</td>
-                            <td>国内短信</td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td>15</td>
-                            <td class="international">国际短信</td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
-                        </tr>
-                        <tr>
-                            <td>1382222222</td>
-                            <td>Vaptcha验证码：809984,十分钟内有效。【WLINNO】 </td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <i class="fa fa-times-circle"></i>
-                            </td>
-                            <td>2017/11/11 11:00:00</td>
+                            <td>{lang phone_auth:not_data}</td>
                         </tr>
                     </tbody>
                 </table>
-                <nav aria-label="Page navigation" class="text-center">
+                <nav aria-label="Page navigation" class="text-center" style="display: none">
                     <ul class="pagination">
                         <li class="prev">
                             <a aria-label="Previous">
@@ -423,14 +175,42 @@
             </div>
         </div>
     </div>
-    <div class="vaptcha-dz-tip" style="display: none">
+    <style>
+        .wechat-pay{
+            height: auto;
+            width: auto;
+            text-align: center;
+            padding-bottom: 25px;
+        }
+    </style>
+    <div class="vaptcha-dz-pop wechat-pay">
+        <h3>{lang phone_auth:pay_qrcode}</h3>
+        <img width="150px" src="" alt="">
+    </div>
+    <div class="vaptcha-dz-pop alipay-pop">
+        {lang phone_auth:pay_pop}        
+    </div>
+    <div class="vaptcha-dz-tip">
         {lang phone_auth:tip_content}
     </div>
+    <div class="vaptcha-dz-tip pay-success">
+        <span class="dz-tip-text"><i class="iconfont success">&#xe625;</i>{lang phone_auth:pay_success}</span>
+    </div>
+    <div class="vaptcha-dz-tip pay-error">
+        <span class="dz-tip-text"><i class="iconfont error">&#xe6b8;</i>{{lang phone_auth:pay_fail}}</span>
+    </div>
 </div>
-<script>
-    var config = {
-        site_url: '{$site_url}',
-        params: JSON.parse('{eval echo json_encode($params)}')
-    }
-</script>
 <script src="{$static_path}/js/set.js"></script>
+<script>
+    $(document).ready(function() {
+        new helper({
+            site_url: '{$site_url}',
+            lang: {
+                alipay: '{lang phone_auth:alipay}',
+                wepay: '{lang phone_auth:wechat}',
+                transfer: '{lang phone_auth:transfer}'
+            },
+            params: JSON.parse('{eval echo json_encode($params)}')
+        }).init();  
+    })  
+</script>

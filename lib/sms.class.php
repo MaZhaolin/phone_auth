@@ -10,7 +10,6 @@ class sms {
     
     public function __construct() {
         $this->config = array(
-            'url' => 'https://api.vaptcha.com/sms/send',
             'vid' => get_params('vid'),
             'key' => get_params('key'),
             'label' => get_params('site_name'),
@@ -19,61 +18,73 @@ class sms {
     }
 
     public function sendCode($data) {
-        return 2001;
+        $url = API_URL.'/sms/send';
         $config = $this->config;
-        $data = array_merge($data, array(
+        $data = array(
             'vid' => $config['vid'],
+            'token' => $data['token'],
             'label' => $config['label'],
+            'code' => $data['code'],
             'minute' => $config['minute'],
-            'prefix' => '86'
-        ));
-        $query = $this->generateQuery($data);
-        $result = $this->post($config['url'], $query);
+            'phoneprefix' => '86',
+            'phone' => $data['phone'],
+        );
+        $query = $this->createQuery($data);
+        $result = $this->post($url, $query);
         return intval($result);
     }
 
-    public function sendList($page) {
+    public function getSendRecord($page) {
         $data = array(
             'vid' => $this->config['vid'],
             'token' => $this->createGuid(),
             'page' => $page
         );
         $url = $this->createSignatureUrl('/sms/sendrecord', $data);
+        return $this->readContentFormGet($url);
     }
 
     public function getOrderState($token) {
-        $url = API_URL.'/smspay/orderstate?token='.$token;
+        $url = $this->createSignatureUrl('/smspay/orderstate', array(
+            'token' => $token
+        ));
         $res = $this->readContentFormGet($url);
         return $res;
     }
 
     public function getPayUrl($type, $amount) {
-        //https://api.vaptcha.com/smspay/orderstate;
         if (!$amount) return 'params error';
-        $wechat_url = '/smspay/wxpagepaytest';
-        $alipay_url = '/smspay/alipagepaytest';
+        $wechat_url = '/smspay/wxpagepay';
+        $alipay_url = '/smspay/alipagepay';
+        $token = $this->createGuid();
         $data = array(
             'vid' => get_params('vid'),
-            'token' =>  $this->createGuid(),
+            'token' =>  $token,
             'amount' => $amount
         );
 
         if ($type == 'wechat') {
             $url = $this->createSignatureUrl($wechat_url, $data);
             $result = $this->readContentFormGet($url);
-            return $result;
+            $result = json_decode($result);
+            $result->token = $token;
+            return json_encode($result);
         } else if ($type == 'alipay') {
-            return $this->createSignatureUrl($alipay_url, $data);
+            return json_encode(array(
+                'code' => 200,
+                'token' => $token,
+                'url' => $this->createSignatureUrl($alipay_url, $data),
+            ));
         } else {
             return 'params error';
         }
     }
 
-    public function getOrders() {
+    public function getOrders($page) {
         $data = array(
             'vid' => $this->config['vid'],
             'token' => $this->createGuid(),
-            'page' => 1
+            'page' => $page
         );
         $url = $this->createSignatureUrl('/sms/orderrecord', $data);
         $res = $this->readContentFormGet($url);
@@ -81,10 +92,19 @@ class sms {
     }
 
     public function createSignatureUrl($baseUrl, $data) {
+        $query = $this->createQuery($data);
+        return API_URL.$baseUrl.'?'.$query;        
+    }
+
+    public function createQuery($data) {
+        $data = array_merge($data, array(
+            'time' => time(),
+            'version' => '1.0.0'
+        ));
         $query = http_build_query($data);
         $signature = $this->HMACSHA1($this->config['key'], $query);
         $query = $query.'&signature='.$signature;
-        return API_URL.$baseUrl.'?'.$query;        
+        return $query;        
     }
 
     public function createSignature($data) {
@@ -107,8 +127,7 @@ class sms {
         return $hash;
      }
 
-    private function post($url, $data)
-    {
+    private function post($url, $data) {
         if (function_exists('curl_exec')) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);  
@@ -139,8 +158,7 @@ class sms {
         }
     }
     
-    private function HMACSHA1($key, $str)
-    {
+    private function HMACSHA1($key, $str) {
         $signature = "";  
         if (function_exists('hash_hmac')) {
             $signature = hash_hmac("sha1", $str, $key, true);
@@ -167,8 +185,7 @@ class sms {
         return $signature;  
     }
 
-    public static function readContentFormGet($url)
-    {
+    public static function readContentFormGet($url) {
         if (function_exists('curl_exec')) {
             $ch = curl_init();  
             curl_setopt($ch, CURLOPT_URL, $url); 
