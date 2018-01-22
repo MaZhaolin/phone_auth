@@ -106,6 +106,7 @@ var helper = function(config) {
     this.alipayToken = '';
     this.wechatToken = '';
     this.checkPayTimer;
+    this.page;
 }
 helper.prototype = {
     constructor: helper,
@@ -180,7 +181,7 @@ helper.prototype = {
             if (self.config.params.vid.length != 24 || self.config.params.key.length != 32){
                 $('.vaptcha-dz-tip').show();
                 timer && clearTimeout(timer);
-                timer = setTimeout(() => {
+                timer = setTimeout(function() {
                     $('.vaptcha-dz-tip').hide();
                 }, 1000);
                 return false;
@@ -224,15 +225,16 @@ helper.prototype = {
             tr && $('.recharge .record tbody').html(tr);
         }, 'json')
     },
-    getSendRecord: function() {
+    getSendRecord: function(page) {
         var self = this;
-        $.get(this.config.site_url + '/plugin.php?id=phone_auth&action=smsdata&type=send&page=0', function(data) {
+        page = page || 1;
+        $.get(this.config.site_url + '/plugin.php?id=phone_auth&action=smsdata&type=send&page=' + (page - 1), function(data) {
             if (data.code !== 200) {
                 console.error('get data error');
                 return ;
             }
             data = data.data;
-            self.initStatistics(data.statistics);
+            page && self.initStatistics(data.statistics);
             var tr = '';
             for(var i in data.records) {
                 var record = data.records[i];
@@ -240,8 +242,11 @@ helper.prototype = {
                 + record.consume + '</td><td>' + record.type + '</td><td>'  + (record.statucode == '100' ? '<i class="iconfont success">&#xe625;</i>' : '<i class="iconfont error">&#xe6b8;</i>') + '</td><td>'  + (new Date(record.createtime)).toLocaleString() + '</td></tr>'
             }
             tr && $('.log tbody').html(tr);
-            var page = new Pagination({
-                pageTotal: 3
+            self.page = self.page || new Pagination({
+                pageTotal: Math.ceil(data.total / 20),
+                changeHandle: function() {
+                    self.getSendRecord(this.currentPage);
+                }
             })
         }, 'json')
     },
