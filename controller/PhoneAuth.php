@@ -45,13 +45,11 @@ class PhoneAuth {
     }
 
     /**
-     * 
-     *
      * @param int $phone
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsg($phone, $token, $type = 'default') {
+    private function sendCodeMsg($phone, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  phone);
         }
@@ -66,16 +64,13 @@ class PhoneAuth {
                 //10min not change code 
                 $res = $this->sms->sendCode(array(
                     'phone' => $phone,
-                    'code' => $code,
-                    'token' => $token
+                    'code' => $code
                 ));
                 if ($res == 2001) {
                     Session::set($type.'_code_send_time', $now);
                     Session::set($type.'_phone', $phone);
                     return $this->response(200, $code);
-                } else if($res = 2010){
-                    return $this->response(401, 'validate_failure', 'vaptcha');            
-                }  else {
+                } else {
                     return $this->response(401, $res);
                 }
             }
@@ -84,29 +79,15 @@ class PhoneAuth {
         }
         $res = $this->sms->sendCode(array(
             'phone' => $phone,
-            'code' => $code,
-            'token' => $token
+            'code' => $code
         ));
         if ($res == 2001) {
             Session::set($type.'_verify_code', $code);
             Session::set($type.'_code_send_time', time());
             Session::set($type.'_phone', $phone);
             return $this->response(200, $code);
-        } else if($res = 2010){
-            return $this->response(401, 'validate_failure', 'vaptcha');            
         } else {
             return $this->response(401, $res);            
-        }
-    }
-
-    public function responseCodeMsg($code) {
-        switch($code) {
-            case 2001: //send success
-                return $this->response();
-            case 2010: // token error
-                return $this->response(401, 'validate_failure', 'vaptcha');
-            case 2012: // 
-                return $this->response(401, 'not_sms');
         }
     }
     
@@ -129,7 +110,10 @@ class PhoneAuth {
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if (!$member) return $this->response(404, 'phone_not_register', 'phone');
-        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token']);
+        if (!$this->validate()) {
+            return $this->response(401, 'validate_failure', 'vaptcha');
+        }
+        return $this->sendCodeMsg($phone);
     }
 
     public function verifyCode() {
@@ -181,7 +165,7 @@ class PhoneAuth {
         if (!$this->validate()) {
             return $this->response(401, 'validate_failure', 'vaptcha');
         }
-        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $phone);
+        return $this->sendCodeMsg($phone, $phone);
     }
 
     public function register() {
@@ -215,7 +199,7 @@ class PhoneAuth {
         if (!$this->validate()) {
             return $this->response(401, 'validate_failure', 'vaptcha');
         }
-        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], 'bind_phone');
+        return $this->sendCodeMsg($phone, 'bind_phone');
     }
 
     public function bindPhone(){
@@ -255,7 +239,7 @@ class PhoneAuth {
         if (!$this->validate()) {
             return $this->response(401, 'validate_failure', 'vaptcha');
         }
-        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], 'modify_phone');
+        return $this->sendCodeMsg($phone, 'modify_phone');
     }
 
     public function modifyPhone() {
@@ -293,17 +277,13 @@ class PhoneAuth {
         if ($_G['adminid'] != '1') {
             exit('Access Denied');
         }
+        $type = $_REQUEST['type']; 
         $page = $_REQUEST['page'];
-        if($_REQUEST['type'] == 'send') {
-            return $this->sms->getSendRecord($page);
-        } else {
+        if ($type == 'order') {
             return $this->sms->getOrders($page);
+        } else {
+            return $this->sms->getSendRecord($page);
         }
-    }
-
-    public function payCheck() {
-        $token = $_REQUEST['token'];
-        return $this->sms->getOrderState($token);
     }
 
     public function smsPay() {

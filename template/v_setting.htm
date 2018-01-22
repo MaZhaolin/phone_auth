@@ -54,7 +54,7 @@
             <div class="v-btn active">{lang phone_auth:sms_pay}</div>
             <div class="v-btn">{lang phone_auth:send_record}</div>
         </div>
-        <div class="recharge tab-panel">
+        <div class="recharge tab-panel active">
             <div class="message-con">
                 <p>{lang phone_auth:sms_pay}</p>
                 <div class="specifications">
@@ -133,7 +133,7 @@
                 </table>
             </div>
         </div>
-        <div class="record tab-panel active">
+        <div class="record tab-panel">
             <div class="curve">
                 <p>{lang phone_auth:send_line}</p>
                 <div class="v-line">
@@ -184,7 +184,7 @@
         }
     </style>
     <div class="vaptcha-dz-pop wechat-pay">
-        <h3>{lang phone_auth:pay_qrcode}</h3>
+        <div class="vaptcha-dz-title">{lang phone_auth:pay_qrcode} <span class="fa fa-close"></span></div>
         <img width="150px" src="" alt="">
     </div>
     <div class="vaptcha-dz-pop alipay-pop">
