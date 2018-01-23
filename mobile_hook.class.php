@@ -19,10 +19,6 @@ class mobileplugin_phone_auth_member extends mobileplugin_phone_auth{
         redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no'.$route));
     }
 
-    public function register_bottom() {
-        // return get_theme_style().register_template();
-    }
-
     public function register_code() {
         redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no#register'));
     }

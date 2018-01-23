@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{$static_path}/css/colpick.css" type="text/css" />
 <script src="{$static_path}/js/jquery.min.js"></script>
 <script src="{$static_path}/js/colpick.min.js"></script>
-<script src="{$static_path}/js/echarts.simple.min.js"></script>
+<script src="{$static_path}/js/echarts.min.js"></script>
 <div class="sms-anti-brush">
     <div class="content">
         <form class="v-settings" method="post">
@@ -28,8 +28,8 @@
                 <div class="btn-style">
                     <div class="title">{lang phone_auth:vaptcha_style}</div>
                     <select name="btn_style">
-                        <option value="light" {if 'light'==$params[ 'btn_style']} selected {/if}>ios</option>
-                        <option value="dark" {if 'dark'==$params[ 'btn_style']} selected {/if}>windows</option>
+                        <option value="light" {if 'light'==$params[ 'btn_style']} selected {/if}>IOS</option>
+                        <option value="dark" {if 'dark'==$params[ 'btn_style']} selected {/if}>Windows</option>
                     </select>
                 </div>
                 <div class="international-sms">
@@ -54,7 +54,7 @@
             <div class="v-btn active">{lang phone_auth:sms_pay}</div>
             <div class="v-btn">{lang phone_auth:send_record}</div>
         </div>
-        <div class="recharge tab-panel">
+        <div class="recharge tab-panel active">
             <div class="message-con">
                 <p>{lang phone_auth:sms_pay}</p>
                 <div class="specifications">
@@ -133,11 +133,11 @@
                 </table>
             </div>
         </div>
-        <div class="record tab-panel active">
+        <div class="record tab-panel">
             <div class="curve">
-                <p>{lang phone_auth:send_line}</p>
+                {lang phone_auth:send_line}
                 <div class="v-line">
-                    <div id="echart" style="width: 1100px;height:260px;"></div>
+                    <div id="echart" style="height:260px;"></div>
                 </div>
             </div>
             <div class="log">
@@ -184,18 +184,18 @@
         }
     </style>
     <div class="vaptcha-dz-pop wechat-pay">
-        <h3>{lang phone_auth:pay_qrcode}</h3>
+        <div class="vaptcha-dz-title">{lang phone_auth:pay_qrcode}<i class="iconfont close">&#xe60e;</i></div>
         <img width="150px" src="" alt="">
     </div>
     <div class="vaptcha-dz-pop alipay-pop">
-        {lang phone_auth:pay_pop}        
+        {lang phone_auth:pay_pop}
     </div>
     <div class="vaptcha-dz-tip">
         {lang phone_auth:tip_content}
     </div>
     <div class="vaptcha-dz-tip pay-success">
         <span class="dz-tip-text"><i class="iconfont success">&#xe625;</i>{lang phone_auth:pay_success}</span>
-    </div>
+    </div> 
     <div class="vaptcha-dz-tip pay-error">
         <span class="dz-tip-text"><i class="iconfont error">&#xe6b8;</i>{{lang phone_auth:pay_fail}}</span>
     </div>
@@ -208,7 +208,8 @@
             lang: {
                 alipay: '{lang phone_auth:alipay}',
                 wepay: '{lang phone_auth:wechat}',
-                transfer: '{lang phone_auth:transfer}'
+                transfer: '{lang phone_auth:transfer}',
+                send_count: '{lang phone_auth:send_count}'
             },
             params: JSON.parse('{eval echo json_encode($params)}')
         }).init();  

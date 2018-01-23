@@ -437,7 +437,7 @@
                 var vaptchaContainer = form.ele('.vaptcha_container');
                 var inputs = form.ele('input');
                 var sendCodeBtn = form.ele('.dz-btn-code') [0];
-                title.html(options.lang.verify_phone);
+                title.html(options.lang.password_reset);
                 if (lostpasswordLoaded) {
                     inputs.call('val', '');
                     form.ele('button').call('setAttribute', 'disabled', 'disabled');
@@ -512,15 +512,15 @@
                         },
                         error: function (data) {
                             if (data.error_pos === 'vaptcha') {
-                                self.showMsg(data.msg);
                                 lostpwdVaptcha.refresh();
                             }
                             if (data.error_pos === 'phone') {
-                                self.showMsg(data.msg);
                                 form.getInput('phone').addClass('error')
                             }
                             if (data.status === 301) {
                                 self.buttonCountDown(sendCodeBtn, data.msg);
+                            } else {
+                                self.showMsg(data.msg);
                             }
                         }
                     })
@@ -611,15 +611,15 @@
                         },
                         error: function (data) {
                             if (data.error_pos === 'vaptcha') {
-                                self.showMsg(data.msg);
                                 _vaptcha.refresh();
                             }
                             if (data.error_pos === 'phone') {
-                                self.showMsg(data.msg);
                                 form.getInput('phone').addClass('error')
                             }
                             if (data.status === 301) {
                                 self.buttonCountDown(sendCodeBtn, data.msg);
+                            } else {
+                                self.showMsg(data.msg);
                             }
                         }
                     })
@@ -760,7 +760,7 @@
             })
             form.getInput('phone').addEvent('keyup', function (e) {
                 var it = e.target;
-                it.value = trim(it.value);
+                it.value = parseInt(it.value) ? parseInt(it.value) : '';
                 inputsValidate.phone = self.isPhone(it.value);
             })
             form.getInput('phone').addEvent('blur', function (e) {
@@ -814,7 +814,6 @@
                         self.buttonCountDown(sendCodeBtn, 120);
                     },
                     error: function (data) {
-                        console.log(data);
                         if (data.error_pos === 'vaptcha') {
                             form.ele('.vaptcha_container') [0].next().html(data.msg);
                             self.initVaptcha({
@@ -826,14 +825,14 @@
                                     sendCodeBtn.target('click');
                                 }
                             })
-                        }
-                        if (['phone', 'code'].indexOf(data.error_pos) >= 0) {
+                        } else if (['phone', 'code'].indexOf(data.error_pos) >= 0) {
                             form.getInput(data.error_pos).addClass('error')
                             form.getInput(data.error_pos).next().addClass('error')
                             form.getInput(data.error_pos).next().html(data.msg);
-                        }
-                        if (data.status === 301) {
+                        } else if (data.status === 301) {
                             self.buttonCountDown(sendCodeBtn, data.msg);
+                        } else {
+                            self.showMsg(data.msg);               
                         }
                     }
                 })

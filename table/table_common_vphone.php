@@ -23,7 +23,7 @@ class table_common_vphone extends discuz_table
     }
     
 	public function fetch_by_phone($phone) {
-		return DB::fetch_first("SELECT * FROM %t WHERE phone=%d", array($this->_table, $phone));
+		return DB::fetch_first("SELECT * FROM %t WHERE phone=%s", array($this->_table, $phone));
     }
 
     public function fetch_by_uid($uid) {

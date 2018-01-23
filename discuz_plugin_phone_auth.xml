@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
-	<item id="Version"><![CDATA[X3.4]]></item>
-	<item id="Time"><![CDATA[2018-01-22 21:15]]></item>
+	<item id="Version"><![CDATA[X2.5,X3,X3.1,X3.2,X3.3,X3.4]]></item>
+	<item id="Time"><![CDATA[2018-01-23 14:39]]></item>
 	<item id="From"><![CDATA[Discuz! Board (http://discuz.top/)]]></item>
 	<item id="Data">
 		<item id="plugin">
@@ -10,7 +10,7 @@
 			<item id="adminid"><![CDATA[1]]></item>
 			<item id="name"><![CDATA[手机注册]]></item>
 			<item id="identifier"><![CDATA[phone_auth]]></item>
-			<item id="description"><![CDATA[VAPTCHA是”Variation Analysis - based Public Turing Test to Tell Computers and Humans Apart ”的简称，也叫手势验证。一种通过用户鼠标手势即可完成人机验证的图灵测试程序。VAPTCHA更加简单和安全，是目前传统验证码的最佳替代方案。VAPTCHA不仅大幅节省了用户在使用互联网服务时在人机验证上面的耗时，平均通过时间不超过1秒，同时也是目前世界上最不可能被破解的验证系统。]]></item>
+			<item id="description"><![CDATA[V-SMS是由智能人机验证服务商VAPTCHA开发的普惠短信接口。由运营商网关直接发送，极速到达；价格补贴后低至2分以内每条，远远低于市场价；整合VAPTCHA智能人机验证技术，防止短信被盗刷。]]></item>
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[phone_auth/]]></item>
 			<item id="copyright"><![CDATA[VAPTCHA]]></item>
@@ -70,7 +70,7 @@
 				</item>
 			</item>
 		</item>
-		<item id="version"><![CDATA[X3.4]]></item>
+		<item id="version"><![CDATA[X2.5,X3,X3.1,X3.2,X3.3,X3.4]]></item>
 		<item id="language">
 			<item id="scriptlang">
 				<item id="validate_failure"><![CDATA[验证失效，请重新验证。]]></item>
@@ -83,13 +83,14 @@
 				<item id="username_not_number"><![CDATA[用户名不能为纯数字]]></item>
 				<item id="modify_phone_success"><![CDATA[改绑成功]]></item>
 				<item id="not_sms"><![CDATA[剩余短信条数不足]]></item>
+				<item id="send_success"><![CDATA[发送成功]]></item>
 			</item>
 			<item id="templatelang">
 				<item id="account"><![CDATA[账号]]></item>
 				<item id="account_placeholder"><![CDATA[用户名/手机号]]></item>
 				<item id="register"><![CDATA[注册]]></item>
 				<item id="register_link"><![CDATA[立即注册]]></item>
-				<item id="register_phone_pl"><![CDATA[请填写注册手机号]]></item>
+				<item id="register_phone_pl"><![CDATA[请填写手机号]]></item>
 				<item id="login"><![CDATA[登录]]></item>
 				<item id="login_member"><![CDATA[用户登录]]></item>
 				<item id="login_method"><![CDATA[快捷登录]]></item>
@@ -168,7 +169,7 @@
 				<item id="challenge"><![CDATA[流水号]]></item>
 				<item id="time"><![CDATA[时间]]></item>
 				<item id="send_record"><![CDATA[发送记录]]></item>
-				<item id="send_line"><![CDATA[发送曲线]]></item>
+				<item id="send_line"><![CDATA[<p>发送曲线<span class="ri">仅保留最近30天数据</span></p>]]></item>
 				<item id="send_log"><![CDATA[发送日志]]></item>
 				<item id="table_title"><![CDATA[<th>手机号</th><th>短信内容</th><th>扣除条数</th><th>类型</th><th>状态</th><th>提交时间</th>]]></item>
 				<item id="go"><![CDATA[跳转]]></item>
@@ -177,10 +178,11 @@
 				<item id="can_use_day"><![CDATA[预计可用天数]]></item>
 				<item id="domestic_sms"><![CDATA[国内短信]]></item>
 				<item id="pay_qrcode"><![CDATA[扫码完成支付]]></item>
-				<item id="pay_pop"><![CDATA[<div class="vaptcha-dz-title">充值 <span class="fa fa-close"></span></div><div class="vaptcha-dz-main">请在新打开页面完成支付操作。</div><button class="v-btn btn-default finish-pay">支付已完成</button>]]></item>
+				<item id="pay_pop"><![CDATA[<div class="vaptcha-dz-title">充值 <i class="iconfont close">&#xe60e;</i></div><div class="vaptcha-dz-main">请在新打开页面完成支付操作。</div><button class="v-btn btn-default finish-pay">支付已完成</button>]]></item>
 				<item id="pay_success"><![CDATA[支付成功]]></item>
 				<item id="pay_fail"><![CDATA[支付失败，如有疑问请联系客服]]></item>
 				<item id="not_data"><![CDATA[暂无数据]]></item>
+				<item id="send_count"><![CDATA[发送数量]]></item>
 				<item id="market_value"><![CDATA[市场价：<span class="market">4.5</span>分/条 <i class="iconfont prompt" mdtooltip="" mdtooltipposition="right">&#xe60a;<span>购买同样短信条数的市场价格</span></i>]]></item>
 			</item>
 		</item>

@@ -33,7 +33,7 @@ class plugin_phone_auth_member extends plugin_phone_auth{
     public function logging_code() { 
         if(CURMODULE != 'logging' || $_GET['action'] == "logout") return;
         if($_GET['lssubmit'] == "yes"){
-            showmessage('禁止访问');
+            exit('Access Denied');
         }
 
         if (submitcheck('loginsubmit', 1, $seccodestatus)) {
@@ -46,5 +46,9 @@ class plugin_phone_auth_member extends plugin_phone_auth{
     }
 
     public function register_code() { 
+        if(CURMODULE != 'register') return;
+        if (submitcheck('regsubmit')) {
+            exit('Access Denied');            
+        }
     }
 }

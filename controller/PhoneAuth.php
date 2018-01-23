@@ -53,7 +53,7 @@ class PhoneAuth {
      */
     private function sendCodeMsg($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
-            return $this->response(401, 'phone_rule_error',  phone);
+            return $this->response(401, 'phone_rule_error',  'phone');
         }
         $code = Session::getValue($type.'_verify_code');
         if ($code) {
@@ -72,12 +72,8 @@ class PhoneAuth {
                 if ($res == 2001) {
                     Session::set($type.'_code_send_time', $now);
                     Session::set($type.'_phone', $phone);
-                    return $this->response(200, $code);
-                } else if($res = 2010){
-                    return $this->response(401, 'validate_failure', 'vaptcha');            
-                }  else {
-                    return $this->response(401, $res);
                 }
+                return $this->responseCodeMsg($res);
             }
         } else {
             $code = rand(100000, 999999);
@@ -91,22 +87,24 @@ class PhoneAuth {
             Session::set($type.'_verify_code', $code);
             Session::set($type.'_code_send_time', time());
             Session::set($type.'_phone', $phone);
-            return $this->response(200, $code);
-        } else if($res = 2010){
-            return $this->response(401, 'validate_failure', 'vaptcha');            
-        } else {
-            return $this->response(401, $res);            
         }
+        return $this->responseCodeMsg($res);
     }
 
     public function responseCodeMsg($code) {
         switch($code) {
             case 2001: //send success
-                return $this->response();
+                return $this->response(200, 'send_success');
+            case 2007: // 
+                return $this->response(401, 'phone_rule_error', 'phone');
+            case 2002: // token empty
             case 2010: // token error
+            case 2021: // token use limit 3
                 return $this->response(401, 'validate_failure', 'vaptcha');
             case 2012: // 
                 return $this->response(401, 'not_sms');
+            default:
+                return $this->response(401, 'error code '.$code);                
         }
     }
     
@@ -178,9 +176,6 @@ class PhoneAuth {
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if ($member) return $this->response(401, 'phone_is_register', phone);
-        if (!$this->validate()) {
-            return $this->response(401, 'validate_failure', 'vaptcha');
-        }
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $phone);
     }
 
@@ -212,9 +207,6 @@ class PhoneAuth {
         }
         $vphone_member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if ($vphone_member) return $this->response(401, 'phone_is_bind', 'phone');
-        if (!$this->validate()) {
-            return $this->response(401, 'validate_failure', 'vaptcha');
-        }
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], 'bind_phone');
     }
 
@@ -252,9 +244,6 @@ class PhoneAuth {
         }
         $vphone_member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if ($vphone_member) return $this->response(401, 'phone_is_bind', 'phone');
-        if (!$this->validate()) {
-            return $this->response(401, 'validate_failure', 'vaptcha');
-        }
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], 'modify_phone');
     }
 

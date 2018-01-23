@@ -502,14 +502,14 @@
                     error: function (data) {
                         if (data.error_pos === 'vaptcha') {
                             form.getInput('vaptcha_token').value && _vaptcha.refresh();
-                            self.showMsg(data.msg);
                         }
                         if (data.error_pos === 'phone') {
                             form.getInput('phone').addClass('error')
-                            self.showMsg(data.msg);
                         }
                         if (data.status === 301) {
                             self.buttonCountDown(sendCodeBtn, data.msg);
+                        } else {
+                            self.showMsg(data.msg);                            
                         }
                     }
                 })
@@ -655,7 +655,7 @@
             }
             form.getInput('phone').addEvent('keyup', function (e) {
                 var it = e.target;
-                it.value = it.value.trim();
+                it.value = parseInt(it.value) ? parseInt(it.value) : '';
                 inputsValidate.phone = self.isPhone(it.value);
             })
             form.getInput('phone').addEvent('blur', function (e) {
@@ -692,15 +692,15 @@
                     },
                     error: function (data) {
                         if (data.error_pos === 'vaptcha') {
-                            self.showMsg(data.msg);
                             _vaptcha.refresh();
                         }
                         if (['phone', 'code'].indexOf(data.error_pos) >= 0) {
-                            self.showMsg(data.msg);
                             form.getInput(data.error_pos).addClass('error')
                         }
                         if (data.status === 301) {
                             self.buttonCountDown(sendCodeBtn, data.msg);
+                        } else {
+                            self.showMsg(data.msg);
                         }
                     }
                 })
@@ -779,14 +779,14 @@
                     error: function (data) {
                         if (data.error_pos === 'vaptcha') {
                             form.getInput('vaptcha_token').value && _vaptcha.refresh();
-                            self.showMsg(data.msg);
                         }
                         if (data.error_pos === 'phone') {
                             form.getInput('phone').addClass('error')
-                            self.showMsg(data.msg);
                         }
                         if (data.status === 301) {
                             self.buttonCountDown(sendCodeBtn, data.msg);
+                        } else {
+                            self.showMsg(data.msg);
                         }
                     }
                 })

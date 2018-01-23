@@ -115,8 +115,8 @@ helper.prototype = {
         this.initTabs();
         this.initSelectAmount();
         this.setAliayUrl();
-        // this.getOrdersData();
-        this.getSendRecord();
+        this.getOrdersData();
+        // this.getSendRecord();
         this.initPayEvents();
     },
     initSetting: function() {
@@ -152,7 +152,7 @@ helper.prototype = {
             { price: 3.2, num: 20000 },
             { price: 2.8, num: 50000 },
             { price: 2.5, num: 200000 },
-            { price: 2.0, num: 500000 },
+            { price: 2.2, num: 500000 },
         ];
         var priceNodes = $('.recharge .prices span');
         var self = this;
@@ -189,6 +189,7 @@ helper.prototype = {
                 if ($('input[name=pay]:checked').val() === 'wechat') {
                     var url = self.config.site_url + '/plugin.php?id=phone_auth&action=smspay&type=wechat&amount=' + self.selectedAmount;
                     $.get(url, function(data) {
+                        console.log(data);
                         self.wechatToken = data.token;
                         $('.wechat-pay img').attr('src', 'data:image/png;base64, ' + data.data);
                         $('.wechat-pay').show();
@@ -196,14 +197,20 @@ helper.prototype = {
                     }, 'json')
                     return false;
                 } else {
-                    self.checkPayState(self.alipayToken);
                     $('.alipay-pop').show();
+                    self.checkPayTimer = setTimeout(function() {
+                        self.checkPayState(self.alipayToken); 
+                    }, 5000);
                 }
             }
         })
         $('.alipay-pop .finish-pay').click(function() {
-            self.checkPayState(self.alipayToken);
+            self.checkPayState(self.alipayToken, true);
         });
+        $('.vaptcha-dz-pop .close').click(function(){
+            self.checkPayTimer && clearTimeout(self.checkPayTimer);
+            $('.vaptcha-dz-pop').hide();
+        })
     },
     getOrdersData: function() {
         var self = this;
@@ -213,7 +220,6 @@ helper.prototype = {
                 return ;
             }
             data = data.data;
-            console.log(data);
             $('.surplus-count .count').html(data.amount);
             $('.surplus-day .day').html(data.expecttime);
             var tr = '';
@@ -251,26 +257,30 @@ helper.prototype = {
         }, 'json')
     },
     showState: function(type){
+        $('.vaptcha-dz-pop').hide();        
         $('.vaptcha-dz-tip').hide();
         $('.pay-' + type).show();
         setTimeout(function() {
             $('.pay-' + type).hide();            
-        }, 5000)
+        }, 3000)
     },
-    checkPayState: function(token) {
+    checkPayState: function(token, isClick) {
         var self = this;
         $.get(this.config.site_url + '/plugin.php?id=phone_auth&action=paycheck&token=' + token, function(data) {
             var code = data.data;
             self.checkPayTimer && clearTimeout(self.checkPayTimer);
             if (code == "0") {
                 //wait pay
+                if (isClick) {
+                    self.showState('error');
+                    return ;
+                }
                 self.checkPayTimer = setTimeout(function () {
                     self.checkPayState(token);
                 }, 1000);
             } else if (code == '2') {
                 // pay success
                 self.getOrdersData();
-                $('.vaptcha-dz-pop').hide();
                 self.showState('success');
             } else {
                 self.showState('error');
@@ -290,11 +300,14 @@ helper.prototype = {
             color: ['#0088ff'],
             grid: {
                 left: 50,
-                top: 20
+                top: 20,
+                right: 50
             },
-            tooltip: {},
+            tooltip: {
+                trigger: 'axis'
+            },
             legend: {
-                data:['销量']
+                width: $('.curve').width() + 'px'
             },
             xAxis: {
                 type: 'category',
@@ -305,11 +318,20 @@ helper.prototype = {
                 type: 'value',
             },
             series: [{
-                name: '发送量',
+                name: this.config.lang.send_count,
                 type: 'line',
+                smooth: true,
                 data: counts
             }]
         };
-        myChart.setOption(option);        
+        myChart.setOption(option); 
+        myChart.resize({
+            width: $('.curve').width()
+        })
+        window.onresize = function () {
+           myChart.resize({
+                width: $('.curve').width()
+            })
+        };    
     }
 }

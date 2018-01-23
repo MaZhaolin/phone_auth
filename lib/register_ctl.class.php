@@ -128,7 +128,9 @@ class register_ctl {
             $groupinfo['groupid'] = $this->setting['newusergroupid'];
         }
 
-        list($seccodecheck, $secqaacheck) = seccheck('register');
+        if (function_exists('seccheck')) {
+            list($seccodecheck, $secqaacheck) = seccheck('register');
+        }
         $fromuid = !empty($_G['cookie']['promotion']) && $this->setting['creditspolicy']['promotion_register'] ? intval($_G['cookie']['promotion']) : 0;
         $username = isset($_GET['username']) ? $_GET['username'] : '';
         $bbrulehash = $bbrules ? substr(md5(FORMHASH), 0, 8) : '';

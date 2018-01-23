@@ -99,7 +99,7 @@ class sms {
     public function createQuery($data) {
         $data = array_merge($data, array(
             'time' => time(),
-            'version' => '1.0.0'
+            'version' => VERSION
         ));
         $query = http_build_query($data);
         $signature = $this->HMACSHA1($this->config['key'], $query);
