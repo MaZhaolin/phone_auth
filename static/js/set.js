@@ -244,8 +244,8 @@ helper.prototype = {
             var tr = '';
             for(var i in data.records) {
                 var record = data.records[i];
-                tr += '<tr><td>' + record.phone + '</td><td>' + record.content + '</td><td>'
-                + record.consume + '</td><td>' + record.type + '</td><td>'  + (record.statucode == '100' ? '<i class="iconfont success">&#xe625;</i>' : '<i class="iconfont error">&#xe6b8;</i>') + '</td><td>'  + (new Date(record.createtime)).toLocaleString() + '</td></tr>'
+                tr += '<tr><td>86</td><td>' + record.phone + '</td><td>' + record.content + '</td><td>'
+                + record.consume + '</td><td>' + record.type + '</td><td>'  + (record.statucode == '100' ? '<i class="iconfont success">&#xe625;</i>' : ('<i class="iconfont error">&#xe6b8;<span>' + self.config.lang.error_code + record.statucode + '</span></i>')) + '</td><td>'  + (new Date(record.createtime)).toLocaleString() + '</td></tr>'
             }
             tr && $('.log tbody').html(tr);
             self.page = self.page || new Pagination({

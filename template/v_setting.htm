@@ -200,7 +200,7 @@
         <span class="dz-tip-text"><i class="iconfont error">&#xe6b8;</i>{{lang phone_auth:pay_fail}}</span>
     </div>
 </div>
-<script src="{$static_path}/js/set.js"></script>
+<script src="{$static_path}/js/set.min.js"></script>
 <script>
     $(document).ready(function() {
         new helper({
@@ -209,7 +209,8 @@
                 alipay: '{lang phone_auth:alipay}',
                 wepay: '{lang phone_auth:wechat}',
                 transfer: '{lang phone_auth:transfer}',
-                send_count: '{lang phone_auth:send_count}'
+                send_count: '{lang phone_auth:send_count}',
+                error_code: '{lang phone_auth:error_code}'
             },
             params: JSON.parse('{eval echo json_encode($params)}')
         }).init();  

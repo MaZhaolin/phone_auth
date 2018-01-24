@@ -221,13 +221,13 @@ h2 {
               .sms-anti-brush .content .recharge .message-con .subsidy .market-value i:hover {
                 color: #999;
                 background: none;
-                font-size: 14px;
-                z-index: 3; }
+                font-size: 14px; }
                 .sms-anti-brush .content .recharge .message-con .subsidy .market-value i:hover span {
+                  z-index: 3;
                   display: block;
                   position: absolute;
                   padding: 0 10px;
-                  width: 156px;
+                  white-space: pre;
                   font-size: 12px;
                   -webkit-text-stroke-width: 0;
                   color: #fff;
@@ -388,20 +388,33 @@ h2 {
       .sms-anti-brush .content .record .log table tbody tr {
         border-bottom: 1px solid #fafafa; }
         .sms-anti-brush .content .record .log table tbody tr td {
+          position: relative;
           padding: 10px 0;
           line-height: 20px;
           color: #878787;
           font-size: 12px; }
           .sms-anti-brush .content .record .log table tbody tr td:first-child {
             padding-left: 10px; }
-          .sms-anti-brush .content .record .log table tbody tr td .fa {
-            font-size: 16px; }
-            .sms-anti-brush .content .record .log table tbody tr td .fa.fa-check-circle {
-              color: #00D8A3; }
-            .sms-anti-brush .content .record .log table tbody tr td .fa.fa-times-circle {
-              color: #D90000; }
           .sms-anti-brush .content .record .log table tbody tr td.international {
             color: #0085B2; }
+          .sms-anti-brush .content .record .log table tbody tr td .iconfont {
+            cursor: pointer; }
+            .sms-anti-brush .content .record .log table tbody tr td .iconfont.error span {
+              display: none; }
+            .sms-anti-brush .content .record .log table tbody tr td .iconfont.error:hover {
+              background: none;
+              font-size: 18px; }
+              .sms-anti-brush .content .record .log table tbody tr td .iconfont.error:hover span {
+                z-index: 3;
+                display: block;
+                position: absolute;
+                padding: 0 10px;
+                white-space: pre;
+                font-size: 12px;
+                -webkit-text-stroke-width: 0;
+                color: #fff;
+                background: #39424E;
+                border-radius: 2px; }
     .sms-anti-brush .content input.form-control {
       width: 250px;
       height: 30px;
