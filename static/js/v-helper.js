@@ -844,7 +844,6 @@
                     type: 'POST',
                     success: function (data) {
                         if (data.status === 200) {
-                            self.showMsg(data.msg);
                             window.location.reload();
                         }
                     },

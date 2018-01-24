@@ -714,7 +714,6 @@
                     type: 'POST',
                     success: function (data) {
                         if (data.status === 200) {
-                            self.showMsg(data.msg);
                             location.href = self.options.site_url + '/forum.php?mobile=2';
                         }
                     },

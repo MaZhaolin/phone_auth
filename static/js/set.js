@@ -148,11 +148,11 @@ helper.prototype = {
     },
     initSelectAmount: function() {
         var prices = [
-            { price: 3.5, num: 5000 },
-            { price: 3.2, num: 20000 },
-            { price: 2.8, num: 50000 },
-            { price: 2.5, num: 200000 },
-            { price: 2.2, num: 500000 },
+            { price: 3.5, num: 5000, market: 4.5},
+            { price: 3.2, num: 20000, market: 4.3},
+            { price: 2.8, num: 50000, market: '4.0'},
+            { price: 2.5, num: 200000, market: 3.9},
+            { price: 2.2, num: 500000, market: 3.8},
         ];
         var priceNodes = $('.recharge .prices span');
         var self = this;
@@ -164,6 +164,7 @@ helper.prototype = {
             $('input[name=pay]:checked').val() && self.setAliayUrl();
             $('.recharge .v-money .price-total').text('￥' + (prices[index].price * prices[index].num / 100).toFixed(2));
             $('.recharge .v-money .price').text(prices[index].price);
+            $('.recharge .market').text(prices[index].market);
         })
     },
     setAliayUrl: function() {
@@ -179,7 +180,7 @@ helper.prototype = {
         var self = this;
         $('.online-pay-btn').click(function() {
             if (self.config.params.vid.length != 24 || self.config.params.key.length != 32){
-                $('.vaptcha-dz-tip').show();
+                $('.please-finish-config').show();
                 timer && clearTimeout(timer);
                 timer = setTimeout(function() {
                     $('.vaptcha-dz-tip').hide();
@@ -189,7 +190,6 @@ helper.prototype = {
                 if ($('input[name=pay]:checked').val() === 'wechat') {
                     var url = self.config.site_url + '/plugin.php?id=phone_auth&action=smspay&type=wechat&amount=' + self.selectedAmount;
                     $.get(url, function(data) {
-                        console.log(data);
                         self.wechatToken = data.token;
                         $('.wechat-pay img').attr('src', 'data:image/png;base64, ' + data.data);
                         $('.wechat-pay').show();
@@ -214,7 +214,7 @@ helper.prototype = {
     },
     getOrdersData: function() {
         var self = this;
-        $.get(this.config.site_url + '/plugin.php?id=phone_auth&action=smsdata&page=0', function(data) {
+        $.get(this.config.site_url + '/plugin.php?id=phone_auth&action=smsdata&type=order&page=0', function(data) {
             if (data.code !== 200) {
                 console.error('get data error');
                 return ;
