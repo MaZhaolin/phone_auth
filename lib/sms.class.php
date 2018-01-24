@@ -98,7 +98,7 @@ class sms {
 
     public function createQuery($data) {
         $data = array_merge($data, array(
-            'time' => time(),
+            'time' => $this->getCurrentTime(),
             'version' => VERSION
         ));
         $query = http_build_query($data);
@@ -126,6 +126,10 @@ class sms {
         $hash = strtoupper(hash('ripemd128', $uid . $guid . md5($data)));
         return $hash;
      }
+
+    private function getCurrentTime() {
+        return number_format(floor(microtime(true) * 1000), 0, '', '');
+    }
 
     private function post($url, $data) {
         if (function_exists('curl_exec')) {

@@ -49,7 +49,7 @@ class PhoneAuth {
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsg($phone, $type = 'default') {
+    private function sendCodeMsg($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
@@ -64,7 +64,8 @@ class PhoneAuth {
                 //10min not change code 
                 $res = $this->sms->sendCode(array(
                     'phone' => $phone,
-                    'code' => $code
+                    'code' => $code,
+                    'token' => $token
                 ));
                 if ($res == 2001) {
                     Session::set($type.'_code_send_time', $now);
@@ -77,7 +78,8 @@ class PhoneAuth {
         }
         $res = $this->sms->sendCode(array(
             'phone' => $phone,
-            'code' => $code
+            'code' => $code,
+            'token' => $token
         ));
         if ($res == 2001) {
             Session::set($type.'_verify_code', $code);
@@ -123,10 +125,7 @@ class PhoneAuth {
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if (!$member) return $this->response(404, 'phone_not_register', 'phone');
-        if (!$this->validate()) {
-            return $this->response(401, 'validate_failure', 'vaptcha');
-        }
-        return $this->sendCodeMsg($phone);
+        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token']);
     }
 
     public function verifyCode() {
@@ -273,6 +272,7 @@ class PhoneAuth {
     }
 
     public function mobile() {
+        include_once (DISCUZ_ROOT . '/source/discuz_version.php');
         include template('phone_auth:mobile');
     }
 
@@ -290,10 +290,14 @@ class PhoneAuth {
         }
     }
 
+    public function payCheck() {		
+        $token = $_REQUEST['token'];		
+        return $this->sms->getOrderState($token);
+    }
+
     public function smsPay() {
         $type = $_REQUEST['type'];
         $amount = $_REQUEST['amount'];
         return $this->sms->getPayUrl($type, $amount);
     }
 }
-//18983367454

@@ -26,10 +26,40 @@ function get_params($name = null) {
     return $name ? $params[$name] : $params;
 } 
 
+function hex2rgb($hexColor) {
+    $color = str_replace('#', '', $hexColor);
+    if (strlen($color) > 3) {
+        $rgb = array(
+            'r' => hexdec(substr($color, 0, 2)),
+            'g' => hexdec(substr($color, 2, 2)),
+            'b' => hexdec(substr($color, 4, 2))
+        );
+    } else {
+        $color = $hexColor;
+        $r = substr($color, 0, 1) . substr($color, 0, 1);
+        $g = substr($color, 1, 1) . substr($color, 1, 1);
+        $b = substr($color, 2, 1) . substr($color, 2, 1);
+        $rgb = array(
+            'r' => hexdec($r),
+            'g' => hexdec($g),
+            'b' => hexdec($b)
+        );
+    }
+    return $rgb;
+}
+
 function get_theme_style() {
     $color = get_params('style_color');
+    $rgbaColor = implode(hex2rgb($color), ',');
     return <<<STYLE
     <style>
+        .dz-input:focus,.dz-select:focus{
+            border-color: #$color;
+            box-shadow: 0 0 4px 2px rgba($rgbaColor, 0.2);
+            -moz-box-shadow:0 0 4px 2px rgba($rgbaColor, 0.2);
+            -webkit-box-shadow:0 0 4px 2px rgba($rgbaColor, 0.2);
+            -o-box-shadow:0 0 4px 2px rgba($rgbaColor, 0.2);
+        }
         .dz-input:focus,.dz-select:focus, .m-dz .dz-input:focus, .m-dz .dz-select:focus{
             border-color: #$color;
         }

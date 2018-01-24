@@ -17,7 +17,6 @@ class Vaptcha
 
     public function __construct($vid, $key)
     {
-        date_default_timezone_set("UTC");
         $this->vid = $vid;
         $this->key = $key;
     }
