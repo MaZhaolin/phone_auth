@@ -48,7 +48,7 @@ class register_ctl {
             if(strpos($url_forward, $this->setting['regname']) !== false) {
                 $url_forward = 'forum.php';
             }
-            return $this->responseError('login_succeed', $url_forward ? $url_forward : './', array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid']), array('extrajs' => $ucsynlogin));
+            return $this->response('login_succeed', $url_forward ? $url_forward : './', array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid']), array('extrajs' => $ucsynlogin));
         } elseif(!$this->setting['regclosed'] && (!$this->setting['regstatus'] || !$this->setting['ucactivation'])) {
             if($_GET['action'] == 'activation' || $_GET['activationauth']) {
                 if(!$this->setting['ucactivation'] && !$this->setting['closedallowactivation']) {
@@ -499,13 +499,11 @@ class register_ctl {
             }
 
             $init_arr = array('credits' => explode(',', $this->setting['initcredits']), 'profile'=>$profile, 'emailstatus' => $emailstatus);
-
-            // var_dump($uid);
-            // die();
+            
             C::t('common_member')->insert($uid, $username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr);
             
             $phone = $_REQUEST["phone"];
-            C::t("#phone_auth#common_vphone")->save($phone,$uid);
+            C::t("#phone_auth#common_vphone")->save($uid, $phone);
             
             if($emailstatus) {
                 updatecreditbyaction('realemail', $uid);

@@ -21,7 +21,7 @@ class Session {
         $data = Session::get($key);
         return $_SESSION[Session::$pre.$key] = array(
             'value'  => $value,
-            'create' => $data ? $data['create'] : time(),
+            'create' => time(),
             'expire' => $expire
         );
     }

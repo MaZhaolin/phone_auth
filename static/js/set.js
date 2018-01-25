@@ -188,11 +188,12 @@ helper.prototype = {
                 return false;
             } else {
                 if ($('input[name=pay]:checked').val() === 'wechat') {
+                    if (!$('.vaptcha-dz-qrcode').hasClass('active')) return false;
                     var url = self.config.site_url + '/plugin.php?id=phone_auth&action=smspay&type=wechat&amount=' + self.selectedAmount;
                     $.get(url, function(data) {
                         self.wechatToken = data.token;
-                        $('.wechat-pay img').attr('src', 'data:image/png;base64, ' + data.data);
-                        $('.wechat-pay').show();
+                        $('.vaptcha-dz-qrcode img').attr('src', 'data:image/png;base64, ' + data.data);
+                        $('.vaptcha-dz-qrcode').addClass('active');
                         self.checkPayState(self.wechatToken);
                     }, 'json')
                     return false;
@@ -207,9 +208,9 @@ helper.prototype = {
         $('.alipay-pop .finish-pay').click(function() {
             self.checkPayState(self.alipayToken, true);
         });
-        $('.vaptcha-dz-pop .close').click(function(){
+        $('.vaptcha-dz-qrcode .close').click(function(){
             self.checkPayTimer && clearTimeout(self.checkPayTimer);
-            $('.vaptcha-dz-pop').hide();
+            $('.vaptcha-dz-qrcode').removeClass('active');
         })
     },
     getOrdersData: function() {
@@ -257,8 +258,9 @@ helper.prototype = {
         }, 'json')
     },
     showState: function(type){
-        $('.vaptcha-dz-pop').hide();        
+        $('.vaptcha-dz-pop').hide();
         $('.vaptcha-dz-tip').hide();
+        $('.vaptcha-dz-qrcode').removeClass('active');
         $('.pay-' + type).show();
         setTimeout(function() {
             $('.pay-' + type).hide();            

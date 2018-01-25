@@ -35,7 +35,7 @@ class logging_ctl
             $referer = dreferer();
             $ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
             $param = array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['member']['uid']);
-            return $this->response('login_succeed', $referer ? $referer : './', $param, array('showdialog' => 1, 'locationtime' => true, 'extrajs' => $ucsynlogin));
+            return $this->response('login_succeed', $referer ? $referer : './', $param, array('showdialog' => 1, 'locationtime' => true, 'extrajs' => $ucsynlogin), 200);
         }
 
         if (function_exists('seccheck')) {
@@ -84,7 +84,7 @@ class logging_ctl
             //phone_auth
             $name = $_GET['user'];
             $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($name);
-            if ($member) {
+            if (isset($member['username'])) {
                 $member = getuserbyuid($member['uid']);
                 $_GET['username'] = $member['username'];
             } else {
@@ -294,19 +294,7 @@ class logging_ctl
                             return $this->response($loginmessage, $location, $param, $extra);
                         } else {
                             $href = str_replace("'", "\'", $location);
-                            return $this->response('location_login_succeed', $location, array(),
-                                array(
-                                    'showid' => 'succeedmessage',
-                                    'extrajs' => '<script type="text/javascript">' .
-                                    'setTimeout("window.location.href =\'' . $href . '\';", 3000);' .
-                                    '$(\'succeedmessage_href\').href = \'' . $href . '\';' .
-                                    '$(\'main_message\').style.display = \'none\';' .
-                                    '$(\'main_succeed\').style.display = \'\';' .
-                                    '$(\'succeedlocation\').innerHTML = \'' . lang('message', $loginmessage, $param) . '\';</script>' . $ucsynlogin,
-                                    'striptags' => false,
-                                    'showdialog' => true,
-                                )
-                            );
+                            return $this->response('location_login_succeed', $location, array(), 200);
                         }
                     }
                 } else {

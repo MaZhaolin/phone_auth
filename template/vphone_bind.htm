@@ -69,7 +69,7 @@
                     <!--{if $vphone}-->
                     <th>{lang phone_auth:binded_phone}</th>
                     <!--{else}-->
-                    <th>{lang phone_auth:unbind_phone}</th>
+                    <th>{lang phone_auth:unbinded_phone}</th>
                     <!--{/if}-->                    
                     <td>
                         {$vphone['phone']}
@@ -193,7 +193,7 @@
                             return helper.buttonCountDown(sendCodeBtn, data.msg);
                         }
                         var el = form.ele('.error-' + data.error_pos)[0];
-                        el && el.html(data.msg);
+                        el ? el.html(data.msg) : form.ele('.error-code')[0].html(data.msg);
                         if(data.error_pos == 'vaptcha') _vaptcha.refresh();
                         if(data.msg == 'Access denied') location.reload();
                     }

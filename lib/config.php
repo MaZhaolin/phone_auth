@@ -10,7 +10,7 @@ define("PIC_POST_FIX", ".png");
 define("PUBLIC_KEY_PATH", "http://down.vaptcha.com/publickey");
 define("IS_DOWN_PATH", "http://down.vaptcha.com/isdown");
 define("DOWN_TIME_PATH", "downtime/");
-define("VERSION", '1.0.0');
+define("VERSION", '1.0.1');
 define("SDK_LANG", 'php');
 define("API_URL", 'http://47.93.139.20');
 define("GET_CHALLENGE_URL", '/challenge');

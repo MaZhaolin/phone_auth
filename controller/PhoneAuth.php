@@ -49,7 +49,7 @@ class PhoneAuth {
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsg($phone, $token, $type = 'default') {
+    private function sendCodeMsgs($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
@@ -59,7 +59,8 @@ class PhoneAuth {
             $time =  Session::getValue($type.'_code_send_time');
             if ($time && 60 * 2 > ($now - $time)) {
                 //2min not send code return valid time 
-                return $this->response(301, 60 * 2 - ($now - $time), $code);            
+                Session::set($type.'_phone', $phone);
+                return $this->response(301, 60 * 2 - ($now - $time), 'code');            
             } else {
                 //10min not change code 
                 $res = $this->sms->sendCode(array(
@@ -89,18 +90,49 @@ class PhoneAuth {
         return $this->responseCodeMsg($res);
     }
 
+    
+    // test method
+    private function sendCodeMsg($phone, $token, $type = 'default') {
+        if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
+            return $this->response(401, 'phone_rule_error',  'phone');
+        }
+        $code = Session::getValue($type.'_verify_code');
+        if ($code) {
+            $now = time();
+            $time =  Session::getValue($type.'_code_send_time');
+            if ($time && 60 * 2 > ($now - $time)) {
+                //2min not send code return valid time 
+                return $this->response(301, 60 * 2 - ($now - $time), $code);            
+            } else {
+                //10min not change code 
+                Session::set($type.'_code_send_time', $now);
+                Session::set($type.'_phone', $phone);
+                return $this->response(200, $code);
+            }
+        } else {
+            $code = rand(100000, 999999);
+        }
+        
+        Session::set($type.'_verify_code', $code);
+        Session::set($type.'_code_send_time', time());
+        Session::set($type.'_phone', $phone);
+        return $this->response(200, $code);
+    }
+
     public function responseCodeMsg($code) {
         switch($code) {
             case 2001: //send success
                 return $this->response(200, 'send_success');
-            case 2007: // 
+            case 2007: 
                 return $this->response(401, 'phone_rule_error', 'phone');
             case 2002: // token empty
             case 2010: // token error
             case 2021: // token use limit 3
                 return $this->response(401, 'validate_failure', 'vaptcha');
-            case 2012: // 
+            case 2012: 
                 return $this->response(401, 'not_sms');
+            case 2018: 
+                return $this->response(401, 'send_too_fast');
             default:
                 return $this->response(401, 'error code '.$code);                
         }
@@ -131,7 +163,7 @@ class PhoneAuth {
     public function verifyCode() {
         $phone = Session::getValue('default_phone');
         $code = Session::getValue('default_verify_code');
-        if ($phone && $phone != trim($_REQUEST['phone'])) {
+        if (!$phone || $phone != trim($_REQUEST['phone'])) {
             return $this->response(401, 'code_is_error', 'phone');
         }
         if ($code != trim($_REQUEST['code'])) {
@@ -161,9 +193,9 @@ class PhoneAuth {
             return $this->response(401, 'reset_error');
         } else {
             Session::delete('validate_phone');
-            Session::delete('defailt_verify_code');
+            Session::delete('default_verify_code');
             Session::delete('default_phone');
-            return $this->response();
+            return $this->response(200, 'password_reset_success');
         }
     }
 
@@ -179,7 +211,7 @@ class PhoneAuth {
 
     public function register() {
         $phone = $_REQUEST['phone'];
-        if ($phone && $phone != Session::getValue($phone.'_phone')) {
+        if (!$phone || $phone != Session::getValue($phone.'_phone')) {
             return $this->response(401, 'code_is_error', 'phone');
         }
         $code = Session::getValue($phone.'_verify_code');

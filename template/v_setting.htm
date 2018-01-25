@@ -91,10 +91,16 @@
                             <label for="alipay">
                                 <i class="img-alipay"></i>{lang phone_auth:alipay}</label>
                         </span>
-                        <span class="check-way">
+                        <span class="check-way wx-payment">
                             <input id="wechart" type="radio" name="pay" value="wechat" />
                             <label for="wechart">
-                                <i class="img-wechart"></i>{lang phone_auth:wechat}</label>
+                                <i class="img-wechart"></i>{lang phone_auth:wechat}
+                            </label>
+                            <div class="vaptcha-dz-qrcode">
+                                <i class="iconfont close">&#xe6b8;</i>
+                                <div class="title">{lang phone_auth:pay_qrcode}</div>
+                                <img src="" alt="" class="qrcode">
+                            </div>
                         </span>
                     </div>
                 </div>
@@ -183,10 +189,6 @@
             padding-bottom: 25px;
         }
     </style>
-    <div class="vaptcha-dz-pop wechat-pay">
-        <div class="vaptcha-dz-title">{lang phone_auth:pay_qrcode}<i class="iconfont close">&#xe60e;</i></div>
-        <img width="150px" src="" alt="">
-    </div>
     <div class="vaptcha-dz-pop alipay-pop">
         {lang phone_auth:pay_pop}
     </div>

@@ -166,11 +166,10 @@
                 return true;
             }
         },
-        showMsg: function (msg) {
-            errorhandle_ls(msg, { 'loginperm': '4' });
-            return;
+        showMsg: function (msg, success) {
+            var klass = success ? '.vaptcha-tip-success' : '.vaptcha-tip-warn';
             this.modalTimer && clearTimeout(this.modalTimer);
-            modal = this.form.ele('.vaptcha-dz-tip-cont') [0];
+            modal = this.form.ele(klass) [0];
             modal.removeClass('none');
             modal.ele('.dz-tip-text') [0].innerText = msg
             this.modalTimer = setTimeout(function () {
@@ -317,6 +316,7 @@
             var self = this;
             time = time || 120;
             sendCodeBtn.setAttribute('disabled', 'disabled');
+            this.countDownTimer && clearTimeout(this.countDownTimer);
             (function countDown() {
                 if (time == 0) {
                     sendCodeBtn.removeAttribute('disabled');
@@ -325,7 +325,7 @@
                 }
                 sendCodeBtn.innerText = time + 's';
                 time--;
-                setTimeout(countDown, 1000)
+                self.countDownTimer = setTimeout(countDown, 1000);
             })()
         },
         passwordLevel: function (oPass, oLevel) {
@@ -440,6 +440,8 @@
                 title.html(options.lang.password_reset);
                 if (lostpasswordLoaded) {
                     inputs.call('val', '');
+                    this.countDownTimer && clearTimeout(this.countDownTimer);
+                    form.getInput('phone').removeAttribute('disabled');
                     form.ele('button').call('setAttribute', 'disabled', 'disabled');
                     sendCodeBtn.removeAttribute('disabled');
                     sendCodeBtn.html(options.lang.send_code);
@@ -504,7 +506,7 @@
                             'vaptcha_challenge': form.getInput('vaptcha_challenge').value
                         },
                         success: function (data) {
-                            self.showMsg(data.msg);
+                            self.showMsg(data.msg, true);
                             isSend = true;
                             sendCodeBtn.setAttribute('disabled', 'disabled');
                             form.getInput('phone').setAttribute('disabled', 'disabled');
@@ -533,7 +535,7 @@
                 title.html(options.lang.password_reset);
                 if (resetPasswordLoaded) {
                     inputs.call('val', '');
-                    form.ele('button').call('setAttribute', 'disabled', 'disabled')
+                    form.ele('button').call('setAttribute', 'disabled', 'disabled');
                 }
                 resetPasswordLoaded = true;
                 self.passwordLevel(form.getInput('new_password'), form.ele('.pw-strength') [0]);
@@ -553,9 +555,12 @@
                             'new_password': form.getInput('new_password').value
                         },
                         success: function (data) {
-                            wrapper.ele('.vaptcha-dz-popup').call('addClass', 'none')
-                            wrapper.ele('.v-login-form') [0].removeClass('none');
-                            loginAction();
+                            self.showMsg(data.msg, true);
+                            setTimeout(function() {
+                                wrapper.ele('.vaptcha-dz-popup').call('addClass', 'none')
+                                wrapper.ele('.v-login-form') [0].removeClass('none');
+                                loginAction();
+                            }, 1000)
                         },
                         error: function (data) {
                             self.showMsg(data.msg);
@@ -604,7 +609,7 @@
                         type: 'POST',
                         data: self.getFormData(form),
                         success: function (data) {
-                            self.showMsg(data.msg);
+                            self.showMsg(data.msg, true);
                             sendCodeBtn.setAttribute('disabled', 'disabled');
                             form.getInput('phone').setAttribute('disabled', 'disabled');
                             self.buttonCountDown(sendCodeBtn, 120);
@@ -672,17 +677,15 @@
                 vaptcha: false,
                 code: false,
                 qq: options.has_email == 0,
-                agreebbrule: options.has_bbrules == 0,
-                isSendCode: false
+                agreebbrule: options.has_bbrules == 0
             }
             discuzForm.html('');
             //form input rule validate
             var sendCodeBtn = ele('.dz-btn-code') [0];
             function formValidate() {
-                // console.log(inputsValidate);
+                console.log(inputsValidate);
                 var isTrue = inputsValidate.username && inputsValidate.email && inputsValidate.password && inputsValidate.phone;
-                // (isTrue && inputsValidate.vaptcha && !inputsValidate.isSendCode) ? sendCodeBtn.removeAttribute('disabled') : sendCodeBtn.setAttribute('disabled', 'disabled');
-                (isTrue && inputsValidate.code && inputsValidate.agreebbrule && inputsValidate.isSendCode) ?
+                (isTrue && inputsValidate.code && inputsValidate.agreebbrule) ?
                     ele('#register_btn').removeAttribute('disabled') : ele('#register_btn').setAttribute('disabled', 'disabled');
                 return isTrue;
             }
@@ -808,7 +811,6 @@
                         'vaptcha_challenge': form.getInput('vaptcha_challenge').value
                     },
                     success: function (data) {
-                        inputsValidate.isSendCode = true;
                         sendCodeBtn.setAttribute('disabled', 'disabled');
                         form.getInput('phone').setAttribute('disabled', 'disabled');
                         self.buttonCountDown(sendCodeBtn, 120);

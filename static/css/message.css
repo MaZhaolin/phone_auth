@@ -33,7 +33,8 @@ p,
 h2 {
   margin: 0;
   padding: 0;
-  color: #00BFFF; }
+  color: #00BFFF;
+  font-weight: 600; }
 
 .sms-anti-brush {
   height: 100%; }
@@ -128,6 +129,7 @@ h2 {
         cursor: pointer; }
         .sms-anti-brush .content .tab .v-btn.active {
           color: #444;
+          font-weight: 600;
           background: #F1F1F1; }
     .sms-anti-brush .content .recharge,
     .sms-anti-brush .content .record {
@@ -151,6 +153,7 @@ h2 {
         .sms-anti-brush .content .recharge .message-con p {
           font-size: 14px;
           color: #202B39;
+          font-weight: normal;
           margin-bottom: 22px; }
         .sms-anti-brush .content .recharge .message-con .title {
           display: inline-block;
@@ -221,7 +224,8 @@ h2 {
               .sms-anti-brush .content .recharge .message-con .subsidy .market-value i:hover {
                 color: #999;
                 background: none;
-                font-size: 14px; }
+                font-size: 14px;
+                transform: 1s; }
                 .sms-anti-brush .content .recharge .message-con .subsidy .market-value i:hover span {
                   z-index: 3;
                   display: block;
@@ -263,6 +267,74 @@ h2 {
           margin-right: 20px; }
         .sms-anti-brush .content .recharge .message-con .mode .payment {
           display: inline-block; }
+          .sms-anti-brush .content .recharge .message-con .mode .payment .wx-payment {
+            position: relative; }
+            .sms-anti-brush .content .recharge .message-con .mode .payment .wx-payment .vaptcha-dz-qrcode {
+              position: absolute;
+              left: 30px;
+              top: -172px;
+              width: 340px;
+              height: 360px;
+              line-height: 20px;
+              padding: 10px 20px 20px 20px;
+              background: #fff;
+              box-sizing: border-box;
+              z-index: 4;
+              transition: all .1s ease-in;
+              -moz-transition: all .1s ease-in;
+              -webkit-transition: all .1s ease-in;
+              -o-transition: all .1s ease-in;
+              opacity: 0;
+              visibility: hidden;
+              text-align: center;
+              box-shadow: 0 0 3px 6px rgba(0, 0, 0, 0.06);
+              -webkit-box-shadow: 0 0 3px 6px rgba(0, 0, 0, 0.06);
+              -moz-box-shadow: 0 0 3px 6px rgba(0, 0, 0, 0.06);
+              -ms-box-shadow: 0 0 3px 6px rgba(0, 0, 0, 0.06); }
+              .sms-anti-brush .content .recharge .message-con .mode .payment .wx-payment .vaptcha-dz-qrcode::before {
+                content: '';
+                width: 0;
+                height: 0;
+                position: absolute;
+                left: -10px;
+                top: calc(50% - 10px);
+                border-left: 10px solid transparent;
+                border-top: 10px solid transparent;
+                border-right: 10px solid #fff;
+                border-bottom: 10px solid #fff;
+                transform: rotate(135deg);
+                box-shadow: 3px 3px 3px 2px rgba(0, 0, 0, 0.06);
+                -webkit-box-shadow: 3px 3px 3px 2px rgba(0, 0, 0, 0.06);
+                -moz-box-shadow: 3px 3px 3px 2px rgba(0, 0, 0, 0.06);
+                -ms-box-shadow: 3px 3px 3px 2px rgba(0, 0, 0, 0.06); }
+              .sms-anti-brush .content .recharge .message-con .mode .payment .wx-payment .vaptcha-dz-qrcode i.iconfont.close {
+                position: absolute;
+                width: 30px;
+                text-align: center;
+                height: 30px;
+                line-height: 30px;
+                right: -23px;
+                top: -14px;
+                font-size: 25px;
+                vertical-align: middle;
+                color: rgba(0, 0, 0, 0.8);
+                background: none;
+                cursor: pointer; }
+                .sms-anti-brush .content .recharge .message-con .mode .payment .wx-payment .vaptcha-dz-qrcode i.iconfont.close:hover {
+                  color: black; }
+              .sms-anti-brush .content .recharge .message-con .mode .payment .wx-payment .vaptcha-dz-qrcode .title {
+                width: auto;
+                color: #666666;
+                font-size: 16px;
+                line-height: 30px;
+                font-weight: 600; }
+              .sms-anti-brush .content .recharge .message-con .mode .payment .wx-payment .vaptcha-dz-qrcode .qrcode {
+                width: 300px;
+                height: 300px; }
+              .sms-anti-brush .content .recharge .message-con .mode .payment .wx-payment .vaptcha-dz-qrcode.active {
+                opacity: 1;
+                left: 120px;
+                visibility: visible; }
           .sms-anti-brush .content .recharge .message-con .mode .payment input[type="radio"] {
             cursor: pointer;
             vertical-align: middle;
@@ -357,6 +429,7 @@ h2 {
       margin-bottom: 20px; }
       .sms-anti-brush .content .record .curve P {
         color: #333333;
+        font-weight: normal;
         font-size: 14px; }
         .sms-anti-brush .content .record .curve P span.ri {
           float: right;
@@ -367,6 +440,7 @@ h2 {
         height: 260px; }
     .sms-anti-brush .content .record .log P {
       color: #333333;
+      font-weight: normal;
       font-size: 14px; }
     .sms-anti-brush .content .record .log table {
       width: 100%;

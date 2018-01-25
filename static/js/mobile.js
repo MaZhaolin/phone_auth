@@ -260,45 +260,69 @@
             var self = this;
             var form = options.form;
             var successCallback = options.success;
-            self.ajax({
-                url: '/plugin.php?id=phone_auth&action=getChallenge&t=' + (new Date()).getTime(),
-                success: function (data) {
-                    var config = {
-                        vid: data.vid,
-                        challenge: data.challenge,
-                        container: options.element,
-                        type: options.type || 'popup',
-                        style: self.options.vaptcha_style || 'dark',
-                        https: options.https || false,
-                        color: self.options.vaptcha_color || '#3c8aff',
-                        lang: 'zh-CN',
-                        outage: './plugin.php?id=phone_auth&action=downtime',
-                        success: function (token, challenge) {
+            var _v = new function () {
+                this.isPass = false;
+                this.vaptcha = null;
+                this.refresh = function () {
+                    if (this.isPass) {
+                        this.vaptcha.destroy();
+                        self.initVaptcha(options);
+                    }
+                }
+            }()
+            var init = function () {
+                self.ajax({
+                    url: '/plugin.php?id=phone_auth&action=getChallenge&t=' + (new Date()).getTime(),
+                    success: function (data) {
+                        var config = {
+                            vid: data.vid,
+                            challenge: data.challenge,
+                            container: options.element,
+                            type: options.type || 'popup',
+                            style: self.options.vaptcha_style || 'dark',
+                            https: options.https || false,
+                            color: self.options.vaptcha_color || '#3c8aff',
+                            lang: 'zh-CN',
+                            outage: '/plugin.php?id=phone_auth&action=downtime',
+                            success: function (token, challenge) {
+                                if (form) {
+                                    var inputs = form.getElementsByTagName('input');
+                                    inputs['vaptcha_challenge'].value = challenge;
+                                    inputs['vaptcha_token'].value = token;
+                                }
+                                _v.isPass = true;
+                                successCallback && successCallback(token, challenge);
+                            }
+                        }
+                        window.vaptcha(config, function (obj) {
                             if (form) {
                                 var inputs = form.getElementsByTagName('input');
-                                inputs['vaptcha_challenge'].value = challenge;
-                                inputs['vaptcha_token'].value = token;
+                                inputs['vaptcha_challenge'].value = '';
+                                inputs['vaptcha_token'].value = '';
                             }
-                            successCallback && successCallback(token, challenge);
-                        }
+                            _v.vaptcha = obj;
+                            _v.vaptcha.init();
+                        });
                     }
-                    window.vaptcha(config, function (obj) {
-                        if (form) {
-                            var inputs = form.getElementsByTagName('input');
-                            inputs['vaptcha_challenge'].value = '';
-                            inputs['vaptcha_token'].value = '';
-                        }
-                        self.vaptchaObj = obj;
-                        self.vaptchaObj.init();
-                    });
-                }
-            })
-            return {
-                refresh: function () {
-                    self.vaptchaObj.destroy();
-                    self.initVaptcha(options);
-                }
+                })
             }
+            var script = document.getElementById('vaptcha_v_js');
+            if (script) {
+                init();
+            } else {
+                script = document.createElement('script');
+                protocol = options.https ? 'https' : 'http';
+                script.src = protocol + '://cdn.vaptcha.com/v.js';
+                script.id = 'vaptcha_v_js';
+                script.onload = script.onreadystatechange = function () {
+                    if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
+                        init();
+                        script.onload = script.onreadystatechange = null;
+                    }
+                };
+                document.getElementsByTagName("head") [0].appendChild(script);
+            }
+            return _v;
         },
         formValidate: function (rules, form) {
             /* 
@@ -439,8 +463,7 @@
                     type: 'POST',
                     data: self.getFormData(form),
                     success: function (data) {
-                        self.showMsg(data.msg, true);
-                        window.location.href = self.options.site_url + '/forum.php?mobile=2';
+                        window.location.href = self.options.site_url + '/forum.php?mobile=yes';
                     },
                     error: function (data) {
                         if (['user', 'password'].indexOf(data.error_pos) >= 0) {
@@ -450,7 +473,7 @@
                         if (data.error_pos === 'bind_phone') {
                             self.router.redirect('bindphone');
                         }
-                        form.getInput('vaptcha_token').value && _vaptcha.refresh();
+                        _vaptcha.refresh();
                         loginBtn.setAttribute('disabled', 'disabled');
                     }
                 })
@@ -458,15 +481,15 @@
         },
         forgetpwd_loaded: false,
         run_forgetpwd: function () {
+            var self = this,
+                form = ele('.m-dz-forgetword') [0],
+                inputs = form.ele('input'),
+                sendCodeBtn = form.ele('.dz-btn-code') [0];
             if (this.forgetpwd_loaded) {
                 inputs.call('val', '');
                 return;
             }
             this.forgetpwd_loaded = true;
-            var self = this,
-                form = ele('.m-dz-forgetword') [0],
-                inputs = form.ele('input'),
-                sendCodeBtn = form.ele('.dz-btn-code') [0];;
             var validate = function () {
                 self.isPhone(form.getInput('phone').value) && form.getInput('phone').removeClass('error');
                 /^\d{6}$/.test(form.getInput('code').value) && form.getInput('code').removeClass('error');
@@ -501,7 +524,7 @@
                     },
                     error: function (data) {
                         if (data.error_pos === 'vaptcha') {
-                            form.getInput('vaptcha_token').value && _vaptcha.refresh();
+                            _vaptcha.refresh();
                         }
                         if (data.error_pos === 'phone') {
                             form.getInput('phone').addClass('error')
@@ -515,6 +538,7 @@
                 })
             })
             inputs.call('addEvent', 'keyup', validate)
+            inputs.call('addEvent', 'blur', validate)
             inputs.call('addEvent', 'focus', function (e) {
                 e.target.removeClass('error');
             })
@@ -553,11 +577,16 @@
             }
             this.resetpwd_loaded = true;
             inputs.call('addEvent', 'keyup', function () {
-                if (form.getInput('new_password').value.length == form.getInput('verify_password').value.length &&
+                if (form.getInput('new_password').value == form.getInput('verify_password').value &&
                     form.getInput('new_password').value.length > 5 && form.getInput('new_password').value.length < 21) {
                     form.ele('.submit-btn') [0].removeAttribute('disabled');
                 } else {
                     form.ele('.submit-btn') [0].setAttribute('disabled', 'disabled');
+                }
+            })
+            form.getInput('verify_password').addEvent('blur', function() {
+                if (form.getInput('new_password').value != form.getInput('verify_password').value) {
+                    self.showMsg(self.options.lang.password_not_match);
                 }
             })
             form.ele('.submit-btn') [0].addEvent('click', function () {
@@ -568,8 +597,10 @@
                         'new_password': form.getInput('new_password').value
                     },
                     success: function (data) {
-                        self.showMsg(data.msg);
-                        self.router.redirect('login');
+                        self.showMsg(data.msg, true);
+                        setTimeout(function() {
+                            self.router.redirect('login');
+                        }, 1000)
                     },
                     error: function (data) {
                         self.showMsg(data.msg);
@@ -714,7 +745,7 @@
                     type: 'POST',
                     success: function (data) {
                         if (data.status === 200) {
-                            location.href = self.options.site_url + '/forum.php?mobile=2';
+                            location.href = self.options.site_url + '/forum.php?mobile=yes';
                         }
                     },
                     error: function (data) {
@@ -777,7 +808,7 @@
                     },
                     error: function (data) {
                         if (data.error_pos === 'vaptcha') {
-                            form.getInput('vaptcha_token').value && _vaptcha.refresh();
+                            _vaptcha.refresh();
                         }
                         if (data.error_pos === 'phone') {
                             form.getInput('phone').addClass('error')
@@ -804,7 +835,7 @@
                     },
                     success: function (data) {
                         form.addClass('none');
-                        window.location.href = self.options.site_url + '/forum.php?mobile=2';
+                        window.location.href = self.options.site_url + '/forum.php?mobile=yes';
                     },
                     error: function (data) {
                         form.ele('.next-step') [0].setAttribute('disabled', 'disabled');

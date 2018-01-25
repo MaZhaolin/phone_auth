@@ -26,7 +26,7 @@ class sms {
             'label' => $config['label'],
             'code' => $data['code'],
             'minute' => $config['minute'],
-            'phoneprefix' => '86',
+            'countrycode' => '86',
             'phone' => $data['phone'],
         );
         $query = $this->createQuery($data);
@@ -102,9 +102,10 @@ class sms {
             'version' => VERSION
         ));
         $query = http_build_query($data);
+        $query = urldecode($query);
         $signature = $this->HMACSHA1($this->config['key'], $query);
         $query = $query.'&signature='.$signature;
-        return $query;        
+        return $query;
     }
 
     public function createSignature($data) {

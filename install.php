@@ -13,5 +13,6 @@ $sql = "CREATE TABLE IF NOT EXISTS `" . DB::table('common_vphone') . "` (" .
 ") ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
 runquery($sql);
- 
+
 $finish = TRUE;
+?>

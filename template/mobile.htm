@@ -133,7 +133,6 @@
                             <a class="way-text" href="{$site_url}/forum.php?mobile=yes&simpletype=no">{lang no_simplemobiletype}</a><span class="way-line"></span>
                             <!--{if floatval(substr(DISCUZ_VERSION, 1)) > 3}-->             <a class="way-text" href="{$site_url}/forum.php?mobile=2" disabled>{lang mobile2version}</a><span class="way-line"></span>                     <!--{else}-->             <a class="way-text" href="{$site_url}/forum.php?mobile=yes&simpletype=yes" disabled>{lang simplemobiletype}</a><span class="way-line"></span>         <!--{/if}-->
                             <a class="way-text" href="{$site_url}/forum.php?mobile=no">{lang nomobiletype}</a></span>
-                            <a class="way-text" href="http://www.discuz.net/mobile.php?platform=ios">{lang clientversion}</a>
                         </div>
                         <div class="switch-way">
                             <span class="way-text way-copy" disabled>Copyright © 2017 VAPTCHA All Rights Reserved</span>
@@ -339,7 +338,8 @@
                 vaptcha_style: '{$params["btn_style"]}',
                 site_url: '{$site_url}',
                 lang: {
-                    send_code: '{lang phone_auth:send_code}'
+                    send_code: '{lang phone_auth:send_code}',
+                    password_not_match: '{lang phone_auth:password_not_match}'
                 },
                 register: {
                     has_email: {$params["register_email"]},
