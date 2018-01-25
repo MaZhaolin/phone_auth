@@ -188,7 +188,7 @@ helper.prototype = {
                 return false;
             } else {
                 if ($('input[name=pay]:checked').val() === 'wechat') {
-                    if (!$('.vaptcha-dz-qrcode').hasClass('active')) return false;
+                    if ($('.vaptcha-dz-qrcode').hasClass('active')) return false;
                     var url = self.config.site_url + '/plugin.php?id=phone_auth&action=smspay&type=wechat&amount=' + self.selectedAmount;
                     $.get(url, function(data) {
                         self.wechatToken = data.token;
