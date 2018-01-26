@@ -2,7 +2,7 @@
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
 	<item id="Version"><![CDATA[X3.4]]></item>
-	<item id="Time"><![CDATA[2018-01-25 20:52]]></item>
+	<item id="Time"><![CDATA[2018-01-26 19:50]]></item>
 	<item id="From"><![CDATA[Discuz! Board (http://discuz.top/)]]></item>
 	<item id="Data">
 		<item id="plugin">
@@ -175,7 +175,7 @@
 				<item id="send_log"><![CDATA[发送日志]]></item>
 				<item id="table_title"><![CDATA[<th>国别码</th><th>手机号</th><th>短信内容</th><th>扣除条数</th><th>类型</th><th>状态</th><th>提交时间</th>]]></item>
 				<item id="go"><![CDATA[跳转]]></item>
-				<item id="tip_content"><![CDATA[<span class="dz-tip-text">请先完善<span class="vaptcha">VAPTCHA验证单元配置</span></span>]]></item>
+				<item id="tip_content"><![CDATA[<span class="dz-tip-text">请正确配置<span class="vaptcha">VAPTCHA验证单元</span></span>]]></item>
 				<item id="can_use_sms"><![CDATA[剩余短信条数]]></item>
 				<item id="can_use_day"><![CDATA[预计可用天数]]></item>
 				<item id="domestic_sms"><![CDATA[国内短信]]></item>
