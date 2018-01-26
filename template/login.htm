@@ -139,14 +139,6 @@
 					<button class="btn dz-btn submit-btn" disabled="disabled">{lang submit}</button>
 				</div>
         </div>
-        <div class="vaptcha-dz-tip vaptcha-tip-warn none">
-            <img class="dz-tip-icon" src="{$static_path}/img/vaptcha-dz-warning.png"/>
-            <span class="dz-tip-text"></span>
-        </div>
-        <div class="vaptcha-dz-tip vaptcha-tip-success none">
-            <img class="dz-tip-icon" src="{$static_path}/img/vaptcha-dz-success.png"/>
-            <span class="dz-tip-text"></span>
-        </div>
 		<div class="vaptcha-dz-popup bind-phone-form none"> 
             <h2 style="text-align: center; padding: 10px">{lang phone_auth:bind_phone_title}</h2>
             <div class="dz-item2-group">
@@ -172,8 +164,18 @@
                 <button class="btn dz-btn bind-phone-btn" disabled="disabled">{lang phone_auth:click_bind}</button>
             </div> 
 		</div>
+        <div class="vaptcha-tip-cont none">
+            <div class="vaptcha-dz-tip vaptcha-tip-warn none">
+                <img class="dz-tip-icon" src="{$static_path}/img/vaptcha-dz-warning.png"/>
+                <span class="dz-tip-text"></span>
+            </div>
+            <div class="vaptcha-dz-tip vaptcha-tip-success none">
+                <img class="dz-tip-icon" src="{$static_path}/img/vaptcha-dz-success.png"/>
+                <span class="dz-tip-text"></span>
+            </div>
+        </div>
     </div>
-<script src="{$static_path}/js/v-helper.min.js"></script>
+<script src="{$static_path}/js/v-helper.js"></script>
 <script>
     (function login_run() {
         if(window.v_helper) {

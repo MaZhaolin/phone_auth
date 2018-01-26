@@ -1,0 +1,35 @@
+{eval
+    global $_G;
+    $static_path  = get_static_path();
+    $site_url = get_site_url();
+    $params = get_params();
+    $dreferer = dreferer();
+    $bbrulehash = substr(md5(FORMHASH), 0, 8);
+    $setting = $_G['setting'];
+    $time = time();
+    $style = get_theme_style();
+}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" href="http://discuz.top/source/plugin/phone_auth/static/css/m-dz.css">
+    $style
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+        window.config = {
+            site_url: '{$site_url}',
+            static_path: '{$static_path}',
+            vaptcha: {
+                color: '#{$params["style_color"]}',
+                style: '{$params["btn_style"]}'
+            }
+        }
+    </script>
+    <!-- built files will be auto injected -->
+  <script type="text/javascript" src="http://192.168.0.22:8080/app.js"></script></body>
+</html>

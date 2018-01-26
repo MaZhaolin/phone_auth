@@ -169,10 +169,13 @@
         showMsg: function (msg, success) {
             var klass = success ? '.vaptcha-tip-success' : '.vaptcha-tip-warn';
             this.modalTimer && clearTimeout(this.modalTimer);
+            box = this.form.ele('.vaptcha-tip-cont')[0];
             modal = this.form.ele(klass) [0];
             modal.removeClass('none');
+            box.removeClass('none');
             modal.ele('.dz-tip-text') [0].innerText = msg
             this.modalTimer = setTimeout(function () {
+                box.addClass('none')
                 modal.addClass('none');
             }, 1000)
         },
