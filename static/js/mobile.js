@@ -508,8 +508,11 @@
                     form.ele('.send-code-group') [0].removeClass('none');
                 }
             })
+            var isSending = false;
             sendCodeBtn.addEvent('click', function () {
+                if(isSending) return;
                 validate();
+                isSending = true;
                 self.ajax({
                     url: '/plugin.php?id=phone_auth&action=sendcode',
                     type: 'POST',
@@ -519,10 +522,12 @@
                         'vaptcha_challenge': form.getInput('vaptcha_challenge').value
                     },
                     success: function (data) {
+                        isSending = false;
                         self.showMsg(data.msg);
                         self.buttonCountDown(sendCodeBtn);
                     },
                     error: function (data) {
+                        isSending = false;
                         if (data.error_pos === 'vaptcha') {
                             _vaptcha.refresh();
                         }
@@ -707,9 +712,11 @@
                 it.target('keyup');
                 !inputsValidate.code && it.addClass('error');
             })
+            var isSending = false;
             sendCodeBtn.addEvent('click', function () {
                 form.getInput('phone').target('blur');
-                if (!inputsValidate.phone) { return false; }
+                if (!inputsValidate.phone || isSending) { return false; }
+                isSending = true;
                 self.ajax({
                     url: '/plugin.php?id=phone_auth&action=sendRegisterCode',
                     type: 'POST',
@@ -719,9 +726,11 @@
                         'vaptcha_challenge': form.getInput('vaptcha_challenge').value
                     },
                     success: function (data) {
+                        isSending = false;
                         self.buttonCountDown(sendCodeBtn);
                     },
                     error: function (data) {
+                        isSending = false;
                         if (data.error_pos === 'vaptcha') {
                             _vaptcha.refresh();
                         }
@@ -792,8 +801,11 @@
                     form.ele('.send-code-group') [0].removeClass('none');
                 }
             })
+            var isSending = false;
             sendCodeBtn.addEvent('click', function () {
+                if(isSending) return;
                 validate();
+                isSending = true;
                 self.ajax({
                     url: '/plugin.php?id=phone_auth&action=bindphonecode',
                     type: 'POST',
@@ -803,10 +815,12 @@
                         'vaptcha_challenge': form.getInput('vaptcha_challenge').value
                     },
                     success: function (data) {
+                        isSending = false;
                         self.showMsg(data.msg);
                         self.buttonCountDown(sendCodeBtn);
                     },
                     error: function (data) {
+                        isSending = false;
                         if (data.error_pos === 'vaptcha') {
                             _vaptcha.refresh();
                         }

@@ -498,8 +498,11 @@
                         }
                     })
                 })
+                var isSending = false;
                 sendCodeBtn.addEvent('click', function () {
+                    if(isSending) return;
                     validate();
+                    isSending = true;
                     self.ajax({
                         url: '/plugin.php?id=phone_auth&action=sendcode',
                         type: 'POST',
@@ -509,6 +512,7 @@
                             'vaptcha_challenge': form.getInput('vaptcha_challenge').value
                         },
                         success: function (data) {
+                            isSending = false;
                             self.showMsg(data.msg, true);
                             isSend = true;
                             sendCodeBtn.setAttribute('disabled', 'disabled');
@@ -516,6 +520,7 @@
                             self.buttonCountDown(sendCodeBtn, 120);
                         },
                         error: function (data) {
+                            isSending = false;
                             if (data.error_pos === 'vaptcha') {
                                 lostpwdVaptcha.refresh();
                             }
@@ -606,18 +611,23 @@
                         e.target.removeClass('error');
                     }
                 })
+                var isSending = false;                
                 sendCodeBtn.addEvent('click', function () {
+                    if(isSending) return;
+                    isSending = true;
                     self.ajax({
                         url: '/plugin.php?id=phone_auth&action=bindPhoneCode',
                         type: 'POST',
                         data: self.getFormData(form),
                         success: function (data) {
+                            isSending = false;
                             self.showMsg(data.msg, true);
                             sendCodeBtn.setAttribute('disabled', 'disabled');
                             form.getInput('phone').setAttribute('disabled', 'disabled');
                             self.buttonCountDown(sendCodeBtn, 120);
                         },
                         error: function (data) {
+                            isSending = false;
                             if (data.error_pos === 'vaptcha') {
                                 _vaptcha.refresh();
                             }
@@ -802,9 +812,11 @@
                 ele('#agreebbrule').next().addEvent('click', bbruleValidate);
             }
             form.ele('input').call('addEvent', 'keyup', formValidate);
+            var isSending = false;            
             sendCodeBtn.addEvent('click', function () {
                 form.getInput('phone').target('blur');
-                if (!inputsValidate.phone) { return false; }
+                if (!inputsValidate.phone || isSending) { return false; }
+                isSending = true;
                 self.ajax({
                     url: '/plugin.php?id=phone_auth&action=sendRegisterCode',
                     type: 'POST',
@@ -814,11 +826,13 @@
                         'vaptcha_challenge': form.getInput('vaptcha_challenge').value
                     },
                     success: function (data) {
+                        isSending = false;
                         sendCodeBtn.setAttribute('disabled', 'disabled');
                         form.getInput('phone').setAttribute('disabled', 'disabled');
                         self.buttonCountDown(sendCodeBtn, 120);
                     },
                     error: function (data) {
+                        isSending = false;
                         if (data.error_pos === 'vaptcha') {
                             form.ele('.vaptcha_container') [0].next().html(data.msg);
                             self.initVaptcha({
