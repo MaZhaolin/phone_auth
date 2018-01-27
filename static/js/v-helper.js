@@ -376,9 +376,9 @@
             var discuzForm = ele('form[name=login]') [0];
             var wrapper = ele('#loginphone_' + options.id);
             this.form = wrapper;
-            var discuzId = discuzForm.id.split('_') [1];
+            var discuzId = wrapper.parentNode.id.split('_').pop();
             var title = ele('#returnmessage_' + discuzId);
-            // discuzForm.parentNode.removeChild(discuzForm);
+            discuzForm && discuzForm.parentNode.removeChild(discuzForm);
             var loginLoaded = false;
             var lostpasswordLoaded = false;
             var resetPasswordLoaded = false;
