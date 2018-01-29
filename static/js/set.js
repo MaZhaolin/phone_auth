@@ -131,6 +131,16 @@ helper.prototype = {
         }).keyup(function () {
             $(this).colpickSetColor(this.value);
         });
+        var timer;
+        $('.v-settings').submit(function() {
+            if($('.v-settings input[name=site_name]').val().replace(/[\u0391-\uFFE5]/g,"aa").length > 20) {
+                $('.message').show();
+                timer = setTimeout(function() {
+                    $('.message').hide();
+                },  1000)
+                return false;   
+            }
+        });
     },
     initTabs: function() {
         var self = this;

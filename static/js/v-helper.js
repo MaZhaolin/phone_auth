@@ -145,7 +145,8 @@
                 }
             }
         } else {
-            console.error('unknow ele type ', selector)
+            console.log('unknow ele type ', selector)
+            return null;
         }
 
         return element;
@@ -371,13 +372,16 @@
                 }
             })
         },
+        setTitle: function(content) {
+            var discuzId = this.form.parentNode.id.split('_').pop();
+            var title = ele('#returnmessage_' + discuzId);
+            title && trim(title.html()).length != 0 && title.html(content);
+        },
         login_run: function (options) {
             var self = this;
             var discuzForm = ele('form[name=login]') [0];
             var wrapper = ele('#loginphone_' + options.id);
             this.form = wrapper;
-            var discuzId = wrapper.parentNode.id.split('_').pop();
-            var title = ele('#returnmessage_' + discuzId);
             discuzForm && discuzForm.parentNode.removeChild(discuzForm);
             var loginLoaded = false;
             var lostpasswordLoaded = false;
@@ -388,7 +392,7 @@
                 var form = wrapper.ele('.v-login-form') [0];
                 var vaptchaContainer = form.ele('.vaptcha_container');
                 var inputs = form.ele('input');
-                title.html(options.lang.login_member);
+                self.setTitle(options.lang.login_member);
                 if (loginLoaded) {
                     inputs.call('val', '');
                     return;
@@ -440,7 +444,7 @@
                 var vaptchaContainer = form.ele('.vaptcha_container');
                 var inputs = form.ele('input');
                 var sendCodeBtn = form.ele('.dz-btn-code') [0];
-                title.html(options.lang.password_reset);
+                self.setTitle(options.lang.password_reset);
                 if (lostpasswordLoaded) {
                     inputs.call('val', '');
                     this.countDownTimer && clearTimeout(this.countDownTimer);
@@ -540,7 +544,7 @@
                 var form = wrapper.ele('.reset-password') [0];
                 var inputs = form.ele('input');
                 var oPass = form.getInput('new_password');
-                title.html(options.lang.password_reset);
+                self.setTitle(options.lang.password_reset);
                 if (resetPasswordLoaded) {
                     inputs.call('val', '');
                     form.ele('button').call('setAttribute', 'disabled', 'disabled');
@@ -581,7 +585,7 @@
                 wrapper.ele('.vaptcha-dz-popup').call('addClass', 'none')
                 form.removeClass('none');
                 var sendCodeBtn = form.ele('.dz-btn-code') [0];
-                title.html(options.lang.bind_phone);
+                self.setTitle(options.lang.bind_phone);
                 var validate = function () {
                     if (!self.isPhone(form.getInput('phone').value)) {
                         form.getInput('phone').addClass('error');
@@ -696,7 +700,6 @@
             //form input rule validate
             var sendCodeBtn = ele('.dz-btn-code') [0];
             function formValidate() {
-                console.log(inputsValidate);
                 var isTrue = inputsValidate.username && inputsValidate.email && inputsValidate.password && inputsValidate.phone;
                 (isTrue && inputsValidate.code && inputsValidate.agreebbrule) ?
                     ele('#register_btn').removeAttribute('disabled') : ele('#register_btn').setAttribute('disabled', 'disabled');
@@ -717,6 +720,7 @@
             })
             form.getInput(options.username).addEvent('blur', function (e) {
                 var it = e.target;
+                it.target('keyup');
                 if (!inputsValidate.username) {
                     inputsValidate.username = false;
                     it.addClass('error')
@@ -734,6 +738,7 @@
                 })
                 form.getInput(options.email).addEvent('blur', function (e) {
                     var it = e.target;
+                    it.target('keyup');
                     if (!inputsValidate.email) {
                         it.addClass('error');
                         it.next().addClass('error');
