@@ -49,7 +49,7 @@ class PhoneAuth {
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsgs($phone, $token, $type = 'default') {
+    private function sendCodeMsg($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
@@ -92,7 +92,7 @@ class PhoneAuth {
 
     
     // test method
-    private function sendCodeMsg($phone, $token, $type = 'default') {
+    private function sendCodeMsgs($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
@@ -164,7 +164,7 @@ class PhoneAuth {
         $phone = Session::getValue('default_phone');
         $code = Session::getValue('default_verify_code');
         if (!$phone || $phone != trim($_REQUEST['phone'])) {
-            return $this->response(401, 'code_is_error', 'phone');
+            return $this->response(401, 'code_is_error', 'code');
         }
         if ($code != trim($_REQUEST['code'])) {
             return $this->response(401, 'code_is_error', 'code');
@@ -205,14 +205,14 @@ class PhoneAuth {
             return $this->response(401, 'phone_rule_error');
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
-        if ($member) return $this->response(401, 'phone_is_register', phone);
+        if ($member) return $this->response(401, 'phone_is_register', 'phone');
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $phone);
     }
 
     public function register() {
         $phone = $_REQUEST['phone'];
         if (!$phone || $phone != Session::getValue($phone.'_phone')) {
-            return $this->response(401, 'code_is_error', 'phone');
+            return $this->response(401, 'code_is_error', 'code');
         }
         $code = Session::getValue($phone.'_verify_code');
         if ($code != $_REQUEST['code'] ) {
@@ -248,7 +248,7 @@ class PhoneAuth {
         }
         $phone = Session::getValue('bind_phone_phone');
         if (!$phone || $phone != $_REQUEST['phone']) {
-            return $this->response(401, 'code_is_error', 'phone');
+            return $this->response(401, 'code_is_error', 'code');
         }
         $code = Session::getValue('bind_phone_verify_code');
         if ($code != $_REQUEST['code'] ) {
@@ -289,7 +289,7 @@ class PhoneAuth {
             return $this->response(401, 'phone_rule_error');
         }
         if (!$phone || $phone != $_REQUEST['phone']) {
-            return $this->response(401, 'code_is_error', 'phone');
+            return $this->response(401, 'code_is_error', 'code');
         }
         $code = Session::getValue('modify_phone_verify_code');
         if ($code != $_REQUEST['code'] ) {

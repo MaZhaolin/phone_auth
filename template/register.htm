@@ -55,7 +55,6 @@
             <input maxlength="11"  class="form-control dz-input" name="phone">
             <span class="dz-title"></span>
         </div>
-        <div class="v-line"></div>
         <div class="dz-item-group none dz-code-group">
             <span class="dz-intro"><sup>*</sup>{lang phone_auth:code}:</span>
             <input class="form-control dz-input dz-input-code" placeholder="{lang phone_auth:code_pl}" type="text" name="code"/>
@@ -75,22 +74,27 @@
             </div>
             <span class="dz-title error"></span>
         </div>
+        <div class="v-line"></div>
         <!--{if $setting['bbrules']}-->
         <div class="dz-item-group clearfix">
             <span class="dz-intro"></span>
             <input type="checkbox" class='checkbox' name="agreebbrule" value="$bbrulehash" checked id="agreebbrule">
             <label for="agreebbrule" class="dz-item-text">{lang phone_auth:agree}<a class="dz-link protocal-link" href="javascript:;">{lang phone_auth:rulemessage}</a></label>
-        </div>
+        </div> 
         <!--{/if}-->
         <div class="dz-item-group  clearfix">
             <span class="dz-intro"></span>
             <button class="btn dz-btn" id="register_btn" disabled>{lang phone_auth:register}</button>
         </div>
     </div>
-    <div class="vaptcha-dz-tip-cont none">
-        <div class="vaptcha-dz-tip ">
+    <div class="vaptcha-tip-cont none">
+        <div class="vaptcha-dz-tip vaptcha-tip-warn none">
             <img class="dz-tip-icon" src="{$static_path}/img/vaptcha-dz-warning.png"/>
-            <span class="dz-tip-text">{lang phone_auth:finish_vaptcha}</span>
+            <span class="dz-tip-text"></span>
+        </div>
+        <div class="vaptcha-dz-tip vaptcha-tip-success none">
+            <img class="dz-tip-icon" src="{$static_path}/img/vaptcha-dz-success.png"/>
+            <span class="dz-tip-text"></span>
         </div>
     </div>
 </div>

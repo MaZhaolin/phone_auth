@@ -9,43 +9,48 @@
             <div class="basics">
                 <p>{lang phone_auth:base_setting}</p>
                 <span>{lang phone_auth:site_name}</span>
-                <span class="right">{lang phone_auth:site_name_desc}</span>
                 <input type="text" class="form-control" value="{$params['site_name']}" placeholder="{lang phone_auth:site_name_rule}" name="site_name">
+                <span class="right">{lang phone_auth:site_name_desc}</span>
                 <span>{lang phone_auth:vaptcha_setting}</span>
-                <span class="right">{lang phone_auth:vid_desc}</span>
-                <input type="text" maxlength="24" class="form-control" placeholder="ID" name="id" value="{$params['vid']}">
-                <input type="text" maxlength="32" class="form-control" placeholder="KEY" name="key" value="{$params['key']}">
+                <input type="text" class="form-control" placeholder="ID" name="id" value="{$params['vid']}">
+                <span class="right">{lang phone_auth:vid_desc} </span>
+
+                <input type="text" class="form-control" placeholder="KEY" name="key" value="{$params['key']}">
+                <span class="right">{lang phone_auth:key_desc}</span>
             </div>
             <div class="senior">
                 {lang phone_auth:vip_setting}
-                <div class="btn-color">
-                    <div class="title">{lang phone_auth:color_style}</div>
-                    <div class="example-ex">
-                        <span># </span>
-                        <input type="text" id="picker" name="style_color" class="picker" style="border-right-color:#{$params['style_color']}" value="{$params['style_color']}">
+                <div class="dz-set">
+                    <div class="btn-color">
+                        <div class="title">{lang phone_auth:color_style}</div>
+                        <div class="example-ex">
+                            <span># </span>
+                            <input type="text" id="picker" name="style_color" class="picker" style="border-right-color:#{$params['style_color']}" value="{$params['style_color']}">
+                        </div>
                     </div>
+                    <div class="btn-style">
+                        <div class="title">{lang phone_auth:vaptcha_style}</div>
+                        <select name="btn_style">
+                            <option value="light" {if 'light'==$params[ 'btn_style']} selected {/if}>IOS</option>
+                            <option value="dark" {if 'dark'==$params[ 'btn_style']} selected {/if}>Windows</option>
+                        </select>
+                    </div>
+                    <div class="international-sms">
+                        <div class="title">{lang phone_auth:inter_sms}</div>
+                        <select name="enable_inter">
+                            <!-- <option value="1" {if '1' == $params['enable_inter']} selected {/if}>{lang phone_auth:enable}</option> -->
+                            <option value="0" {if '0'==$params[ 'enable_inter']} selected {/if}>{lang phone_auth:disable}</option>
+                        </select>
+                    </div>
+                    <div class="right">{lang phone_auth:vip_setting_desc}</div>
                 </div>
-                <div class="btn-style">
-                    <div class="title">{lang phone_auth:vaptcha_style}</div>
-                    <select name="btn_style">
-                        <option value="light" {if 'light'==$params[ 'btn_style']} selected {/if}>IOS</option>
-                        <option value="dark" {if 'dark'==$params[ 'btn_style']} selected {/if}>Windows</option>
-                    </select>
-                </div>
-                <div class="international-sms">
-                    <div class="title">{lang phone_auth:inter_sms}</div>
-                    <select name="enable_inter">
-                        <!-- <option value="1" {if '1' == $params['enable_inter']} selected {/if}>{lang phone_auth:enable}</option> -->
-                        <option value="0" {if '0'==$params[ 'enable_inter']} selected {/if}>{lang phone_auth:disable}</option>
-                    </select>
-                </div>
-                <div class="right">{lang phone_auth:vip_setting_desc}</div>
                 <div class="register">
                     <div class="title">{lang phone_auth:register_option}</div>
                     <div class="item">
                         <input type="checkbox" name="register_email" id="email" value="1" {if '1'==$params[ 'register_email']} checked {/if}>
                         <label for="email">{lang phone_auth:email}</label>
                     </div>
+                    <div class="right">{lang phone_auth:email_desc}</div>
                 </div>
             </div>
             <button class="v-btn btn-default">{lang phone_auth:save}</button>
@@ -200,6 +205,9 @@
     </div> 
     <div class="vaptcha-dz-tip pay-error">
         <span class="dz-tip-text"><i class="iconfont error">&#xe6b8;</i>{{lang phone_auth:pay_fail}}</span>
+    </div>
+    <div class="vaptcha-dz-tip message">
+        <span class="dz-tip-text"><i class="iconfont error">&#xe6b8;</i>{{lang phone_auth:site_error_tip}}</span>
     </div>
 </div>
 <script src="{$static_path}/js/set.min.js"></script>

@@ -19,6 +19,7 @@ html, body {
   vertical-align: middle; }
   .iconfont.success {
     margin-right: 8px;
+    font-size: 18px;
     color: #00D9A3; }
   .iconfont.error {
     margin-right: 8px;
@@ -57,16 +58,21 @@ h2 {
           font-size: 12px;
           color: #666666; }
           .sms-anti-brush .content .v-settings .basics span.right, .sms-anti-brush .content .v-settings .senior span.right {
-            float: right;
+            margin: -42px 0 0 0;
+            line-height: 32px;
+            color: #CCCCCC;
+            float: right; }
+          .sms-anti-brush .content .v-settings .basics span.title, .sms-anti-brush .content .v-settings .senior span.title {
             color: #CCCCCC; }
+            .sms-anti-brush .content .v-settings .basics span.title a, .sms-anti-brush .content .v-settings .senior span.title a {
+              margin: 0 5px; }
         .sms-anti-brush .content .v-settings .basics input, .sms-anti-brush .content .v-settings .senior input {
           margin-left: 5px;
           display: block; }
+      .sms-anti-brush .content .v-settings .senior .dz-set .right {
+        margin-top: 30px; }
       .sms-anti-brush .content .v-settings .senior p {
         margin: 15px 0 15px 0; }
-        .sms-anti-brush .content .v-settings .senior p span {
-          color: #CCCCCC;
-          font-size: 12px; }
       .sms-anti-brush .content .v-settings .senior input {
         display: inline-block; }
       .sms-anti-brush .content .v-settings .senior .example-ex {
@@ -101,10 +107,10 @@ h2 {
           color: #999999; }
       .sms-anti-brush .content .v-settings .senior .right {
         float: right;
-        line-height: 30px;
         color: #CCCCCC;
         font-size: 12px; }
       .sms-anti-brush .content .v-settings .senior .register {
+        position: relative;
         margin-top: 10px;
         display: block; }
         .sms-anti-brush .content .v-settings .senior .register .item {
@@ -113,8 +119,12 @@ h2 {
           color: #999999;
           font-size: 12px; }
           .sms-anti-brush .content .v-settings .senior .register .item input[type='checkbox'] {
+            margin: 0;
             vertical-align: middle;
             cursor: pointer; }
+        .sms-anti-brush .content .v-settings .senior .register .right {
+          line-height: 16px;
+          right: 0; }
     .sms-anti-brush .content .tab {
       margin-top: 15px; }
       .sms-anti-brush .content .tab .v-btn {
@@ -217,14 +227,14 @@ h2 {
               position: relative;
               color: #999;
               color: rgba(153, 153, 153, 0.9);
-              font-size: 14px;
+              font-size: 16px;
               cursor: pointer; }
               .sms-anti-brush .content .recharge .message-con .subsidy .market-value i span {
                 display: none; }
               .sms-anti-brush .content .recharge .message-con .subsidy .market-value i:hover {
                 color: #999;
                 background: none;
-                font-size: 14px;
+                font-size: 16px;
                 transform: 1s; }
                 .sms-anti-brush .content .recharge .message-con .subsidy .market-value i:hover span {
                   z-index: 3;
@@ -338,7 +348,7 @@ h2 {
           .sms-anti-brush .content .recharge .message-con .mode .payment input[type="radio"] {
             cursor: pointer;
             vertical-align: middle;
-            margin-right: 6px; }
+            margin: 0 6px 0 0; }
           .sms-anti-brush .content .recharge .message-con .mode .payment i {
             width: 20px;
             height: 20px;
@@ -537,7 +547,7 @@ table tr th:last-child {
   width: 160px; }
 
 .v-btn.btn-default {
-  margin-top: 40px;
+  margin-top: 20px;
   width: 120px;
   height: 36px;
   border: none;

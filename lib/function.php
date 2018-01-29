@@ -4,7 +4,7 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function get_request($name, $default = null){
-    return isset($_REQUEST[$name]) ? $_REQUEST[$name] : $default;
+    return isset($_REQUEST[$name]) ? trim($_REQUEST[$name]) : $default;
 }
 
 function get_params($name = null) {

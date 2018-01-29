@@ -2,7 +2,7 @@
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
 	<item id="Version"><![CDATA[X3.4]]></item>
-	<item id="Time"><![CDATA[2018-01-26 19:50]]></item>
+	<item id="Time"><![CDATA[2018-01-29 22:06]]></item>
 	<item id="From"><![CDATA[Discuz! Board (http://discuz.top/)]]></item>
 	<item id="Data">
 		<item id="plugin">
@@ -137,10 +137,12 @@
 				<item id="setting_tips_2"><![CDATA[绑定的手机号可以用于登录和找回密码。]]></item>
 				<item id="base_setting"><![CDATA[基础设置]]></item>
 				<item id="site_name"><![CDATA[网站名称]]></item>
-				<item id="site_name_desc"><![CDATA[建议使用简洁名称，将被包含到短信内容]]></item>
+				<item id="site_name_desc"><![CDATA[短信模板：你的<b>网站名称</b>验证码：123456,10分钟内有效]]></item>
 				<item id="site_name_rule"><![CDATA[不超过10个汉字]]></item>
-				<item id="vaptcha_setting"><![CDATA[VAPTCHA验证单元配置]]></item>
-				<item id="vid_desc"><![CDATA[请到<a href="https://www.vaptcha.com/" target="_blank" title="了解VAPTCHA">VAPTCHA官网</a>注册并免费获取私有KEY及ID]]></item>
+				<item id="site_error_tip"><![CDATA[网站名称不得多于10个汉字]]></item>
+				<item id="vaptcha_setting"><![CDATA[VAPTCHA验证单元配置</span><span class="title">（请到<a href="https://www.vaptcha.com/" target="_blank" title="了解VAPTCHA">VAPTCHA官网</a>注册并免费获取私有KEY及ID）]]></item>
+				<item id="vid_desc"><![CDATA[ID所关联的VAPTCHA账号将作为短信充值关联账号，请使用同一账号下的验证单元]]></item>
+				<item id="key_desc"><![CDATA[用于验证过程数据传输加密，请勿泄露]]></item>
 				<item id="vip_setting"><![CDATA[<p>高级设置</p>]]></item>
 				<item id="vip_setting_desc"><![CDATA[请根据自己网站风格和需求来设置]]></item>
 				<item id="color_style"><![CDATA[颜色风格]]></item>
@@ -149,6 +151,7 @@
 				<item id="enbale"><![CDATA[允许]]></item>
 				<item id="disable"><![CDATA[不允许]]></item>
 				<item id="register_option"><![CDATA[注册填写选项]]></item>
+				<item id="email_desc"><![CDATA[邮箱将不做验证，仅用于接受信息不会用于找回密码等操作]]></item>
 				<item id="save"><![CDATA[保存]]></item>
 				<item id="sms"><![CDATA[短信]]></item>
 				<item id="sms_pay"><![CDATA[短信充值]]></item>
