@@ -153,7 +153,7 @@ class PhoneAuth {
     public function sendCode() {
         $phone = trim($_REQUEST['phone']);
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
-            return $this->response(401, 'phone_rule_error',  phone);
+            return $this->response(401, 'phone_rule_error',  'phone');
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if (!$member) return $this->response(401, 'phone_not_register', 'phone');
