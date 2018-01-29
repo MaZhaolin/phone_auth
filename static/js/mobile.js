@@ -311,7 +311,7 @@
                 init();
             } else {
                 script = document.createElement('script');
-                protocol = options.https ? 'https' : 'http';
+                protocol = 'https';//options.https ? 'https' : 'http';
                 script.src = protocol + '://cdn.vaptcha.com/v.js';
                 script.id = 'vaptcha_v_js';
                 script.onload = script.onreadystatechange = function () {

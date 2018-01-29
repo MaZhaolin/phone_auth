@@ -156,7 +156,7 @@ class PhoneAuth {
             return $this->response(401, 'phone_rule_error',  phone);
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
-        if (!$member) return $this->response(404, 'phone_not_register', 'phone');
+        if (!$member) return $this->response(401, 'phone_not_register', 'phone');
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token']);
     }
 
