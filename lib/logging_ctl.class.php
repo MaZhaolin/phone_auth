@@ -41,13 +41,14 @@ class logging_ctl
         if (function_exists('seccheck')) {
             list($seccodecheck) = seccheck('login');
         }
-        if (!empty($_GET['auth'])) {
-            $dauth = authcode($_GET['auth'], 'DECODE', $_G['config']['security']['authkey']);
-            list(, , , $secchecklogin2) = explode("\t", $dauth);
-            if ($secchecklogin2) {
-                $seccodecheck = true;
-            }
-        }
+        // if (!empty($_GET['auth'])) {
+        //     $dauth = authcode($_GET['auth'], 'DECODE', $_G['config']['security']['authkey']);
+        //     list(, , , $secchecklogin2) = explode("\t", $dauth);
+        //     if ($secchecklogin2) {
+        //         $seccodecheck = true;
+        //     }
+        // }
+        $seccodecheck = false;
         $seccodestatus = !empty($_GET['lssubmit']) ? false : $seccodecheck;
         $invite = getinvite();
 
@@ -84,7 +85,7 @@ class logging_ctl
             //phone_auth
             $name = $_GET['user'];
             $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($name);
-            if (isset($member['username'])) {
+            if (isset($member['uid'])) {
                 $member = getuserbyuid($member['uid']);
                 $_GET['username'] = $member['username'];
             } else {

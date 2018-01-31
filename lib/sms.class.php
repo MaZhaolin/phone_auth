@@ -13,7 +13,7 @@ class sms {
             'vid' => get_params('vid'),
             'key' => get_params('key'),
             'label' => get_params('site_name'),
-            'minute' => 10
+            'expiretime' => 10
         );
     }
 
@@ -25,7 +25,7 @@ class sms {
             'token' => $data['token'],
             'label' => $config['label'],
             'code' => $data['code'],
-            'minute' => $config['minute'],
+            'expiretime' => $config['expiretime'],
             'countrycode' => '86',
             'phone' => $data['phone'],
         );

@@ -21,21 +21,21 @@
     <div class="content">
         <div class="dz-item-group">
             <span class="dz-intro"><sup>*</sup>{lang username}:</span>
-            <input class="form-control dz-input" type="text" name="{$setting['reginput']['username']}">
+            <input class="form-control dz-input" type="text" name="username">
             <span class="dz-title">{lang phone_auth:username_rule}</span>
         </div>
         <div class="v-line"></div> 
         <!--{if $params['register_email'] == '1'}-->
         <div class="dz-item-group">
             <span class="dz-intro"><sup>*</sup>{lang phone_auth:email}:</span>
-            <input class="form-control dz-input" type="text" name="{$setting['reginput']['email']}">
+            <input class="form-control dz-input" type="text" name="email">
             <span class="dz-title">{lang phone_auth:email_rule}</span>
         </div>
         <div class="v-line"></div> 
         <!--{/if}-->
         <div class="dz-item-group">
             <span class="dz-intro"><sup>*</sup>{lang panel_login_password}:</span>
-            <input class="form-control dz-input" type="password" name="{$setting['reginput']['password']}" >
+            <input class="form-control dz-input" type="password" name="password" >
             <span class="dz-title">{lang phone_auth:password_rule}</span>
             <div class="pw-strength">
                     <div class="pw-bar"></div>
@@ -114,9 +114,9 @@
                 has_email: {$params["register_email"]},
                 has_qq: 0,
                 has_bbrules: {$setting['bbrules']},
-                username: '{$setting["reginput"]["username"]}',
-                email: '{$setting["reginput"]["email"]}',
-                password: '{$setting["reginput"]["password"]}',
+                username: 'username',
+                email: 'email',
+                password: 'password',
                 lang: {
                     username: '{lang phone_auth:username_rule}',
                     email: '{lang phone_auth:email_rule}',

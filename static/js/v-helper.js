@@ -394,7 +394,7 @@
                 var inputs = form.ele('input');
                 self.setTitle(options.lang.login_member);
                 if (loginLoaded) {
-                    inputs.call('val', '');
+                    // inputs.call('val', '');
                     return;
                 }
                 loginLoaded = true;
@@ -693,8 +693,8 @@
                 phone: false,
                 vaptcha: false,
                 code: false,
-                qq: options.has_email == 0,
-                agreebbrule: options.has_bbrules == 0
+                qq: options.has_qq == 0,
+                agreebbrule: true
             }
             discuzForm.html('');
             //form input rule validate

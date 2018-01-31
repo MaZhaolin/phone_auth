@@ -189,6 +189,9 @@ helper.prototype = {
         var timer = null;
         var self = this;
         $('.online-pay-btn').click(function() {
+            if($('.online-pay-btn').hasClass('disabled')) {
+                return false;
+            }
             if (self.config.params.vid.length != 24 || self.config.params.key.length != 32){
                 $('.please-finish-config').show();
                 timer && clearTimeout(timer);
@@ -218,9 +221,27 @@ helper.prototype = {
         $('.alipay-pop .finish-pay').click(function() {
             self.checkPayState(self.alipayToken, true);
         });
+        $('.alipay-pop .close').click(function() {
+            self.checkPayTimer && clearTimeout(self.checkPayTimer);
+            $('.alipay-pop').hide('active');
+        });
         $('.vaptcha-dz-qrcode .close').click(function(){
             self.checkPayTimer && clearTimeout(self.checkPayTimer);
             $('.vaptcha-dz-qrcode').removeClass('active');
+        })
+        $('.agreement-link').click(function() {
+            $('.dz-sms-pop').show();
+        })
+        $('.dz-sms-pop .close').click(function() {
+            $('.dz-sms-pop').hide();
+            return false;
+        })
+        $('#agreement').change(function() {
+            if (this.checked) {
+                $('.online-pay-btn').removeClass('disabled');
+            } else {
+                $('.online-pay-btn').addClass('disabled');                
+            }
         })
     },
     getOrdersData: function() {
@@ -256,7 +277,7 @@ helper.prototype = {
             for(var i in data.records) {
                 var record = data.records[i];
                 tr += '<tr><td>86</td><td>' + record.phone + '</td><td>' + record.content + '</td><td>'
-                + record.consume + '</td><td>' + record.type + '</td><td>'  + (record.statucode == '100' ? '<i class="iconfont success">&#xe625;</i>' : ('<i class="iconfont error">&#xe6b8;<span>' + self.config.lang.error_code + record.statucode + '</span></i>')) + '</td><td>'  + (new Date(record.createtime)).toLocaleString() + '</td></tr>'
+                + record.consume + '</td><td>' + record.type + '</td><td>'  + (record.statucode == '100' ? '<i class="iconfont success">&#xe652;</i>' : ('<i class="iconfont error">&#xe653;<span>' + self.config.lang.error_code + record.statucode + '</span></i>')) + '</td><td>'  + (new Date(record.createtime)).toLocaleString() + '</td></tr>'
             }
             tr && $('.log tbody').html(tr);
             self.page = self.page || new Pagination({

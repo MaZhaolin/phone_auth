@@ -11,10 +11,15 @@ require_once template('phone_auth:login_simple');
 require_once template('phone_auth:register');
 
 // disable vaptcha login & regsiter module
+//old version
 global $_G;
 if(array_key_exists('vaptcha', $_G['cache']['plugin'])) {
     $vaptcha_modules = unserialize($_G['cache']['plugin']['vaptcha']['modules']);
     $_G['cache']['plugin']['vaptcha']['modules'] = serialize(array_diff($vaptcha_modules, array('1', '2')));
+}
+//new version
+if(array_key_exists('vaptcha', $_G['setting'])) {
+    $_G['setting']['vaptcha']['enableModules'] = range(3, 11);
 }
 
 class plugin_phone_auth {

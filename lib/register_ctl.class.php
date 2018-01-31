@@ -37,10 +37,15 @@ class register_ctl {
     function on_register() {
         global $_G;
 
-        $_GET['username'] = trim($_GET[''.$this->setting['reginput']['username']]);
-        $_GET['password'] = $_GET[''.$this->setting['reginput']['password']];
-        $_GET['password2'] = $_GET[''.$this->setting['reginput']['password2']];
-        $_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
+        // $_GET['username'] = trim($_GET[''.$this->setting['reginput']['username']]);
+        // $_GET['password'] = $_GET[''.$this->setting['reginput']['password']];
+        // $_GET['password2'] = $_GET[''.$this->setting['reginput']['password2']];
+        // $_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
+
+        $_GET['username'] = trim($_GET['username']);
+        $_GET['password'] = $_GET['password'];
+        $_GET['password2'] = $_GET['password2'];
+        $_GET['email'] = $_GET['email'];
 
         if($_G['uid']) {
             $ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
@@ -131,6 +136,7 @@ class register_ctl {
         if (function_exists('seccheck')) {
             list($seccodecheck, $secqaacheck) = seccheck('register');
         }
+        $seccodecheck= false;
         $fromuid = !empty($_G['cookie']['promotion']) && $this->setting['creditspolicy']['promotion_register'] ? intval($_G['cookie']['promotion']) : 0;
         $username = isset($_GET['username']) ? $_GET['username'] : '';
         $bbrulehash = $bbrules ? substr(md5(FORMHASH), 0, 8) : '';

@@ -49,7 +49,7 @@ class PhoneAuth {
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsg($phone, $token, $type = 'default') {
+    private function sendCodeMsgs($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
@@ -92,7 +92,7 @@ class PhoneAuth {
 
     
     // test method
-    private function sendCodeMsgs($phone, $token, $type = 'default') {
+    private function sendCodeMsg($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
@@ -143,6 +143,7 @@ class PhoneAuth {
         if (!$this->validate()) {
             return $this->response(401, 'validate_failure');
         }
+        return $this->response('username_nonexistence', 'user');
         require_once dirname(dirname(__FILE__))."/lib/logging_ctl.class.php";
         $ctl_obj = new logging_ctl();
         $ctl_obj->setting = $_G['setting'];
@@ -202,7 +203,7 @@ class PhoneAuth {
     public function sendRegisterCode() {
         $phone = trim($_REQUEST['phone']);
         if(!preg_match('/^1([0-9]{9})/',$phone)){
-            return $this->response(401, 'phone_rule_error');
+            return $this->response(401, 'phone_rule_error', 'phone');
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if ($member) return $this->response(401, 'phone_is_register', 'phone');

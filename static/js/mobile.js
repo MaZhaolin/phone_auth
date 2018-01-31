@@ -523,7 +523,7 @@
                     },
                     success: function (data) {
                         isSending = false;
-                        self.showMsg(data.msg);
+                        self.showMsg(data.msg, true);
                         self.buttonCountDown(sendCodeBtn);
                     },
                     error: function (data) {
@@ -816,7 +816,7 @@
                     },
                     success: function (data) {
                         isSending = false;
-                        self.showMsg(data.msg);
+                        self.showMsg(data.msg, true);
                         self.buttonCountDown(sendCodeBtn);
                     },
                     error: function (data) {
