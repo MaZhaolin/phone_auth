@@ -25,11 +25,5 @@ if (isset($_REQUEST['site_name'])) {
 $params = get_params();
 $static_path  = rtrim($_G['siteurl'], '/').'/source/plugin/phone_auth/static';
 $site_url = get_site_url();
-// $sms = new sms();
-// $data = array(
-//     'vid' => $params['vid'],
-//     'token' => $sms->createGuid(),
-//     'amount' => $sms->
-// )
 include template('phone_auth:v_setting');
 ?>

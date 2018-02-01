@@ -24,8 +24,9 @@ class PhoneAuth {
     }
 
     public function response($status = 200, $msg = 'success', $error_pos = null) {
+        $msg = lang('plugin/phone_auth', $msg);
         return Response::json(array(
-            'msg' => lang('plugin/phone_auth', $msg),
+            'msg' => characet($msg),
             'error_pos' => $error_pos
         ), $status);
     }

@@ -6,15 +6,16 @@ class register_ctl {
 
     function response($msg, $error_pos = null, $value = array()){
         return Response::json(array(
-                'msg' => lang('message', $msg, $value),
-                'error_pos' => $error_pos
-            ), 200);
+            'msg' => characet(lang('message', $msg, $value)),
+            'error_pos' => $error_pos
+        ), 200);
     }
+
     function responseError($msg, $error_pos = null, $value = array()){
         return Response::json(array(
-                'msg' => lang('message', $msg, $value),
-                'error_pos' => $error_pos
-            ), 401);
+            'msg' => lang('message', $msg, $value),
+            'error_pos' => $error_pos
+        ), 401);
     }
 
     public function register_ctl() {

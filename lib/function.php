@@ -73,6 +73,15 @@ function get_theme_style() {
 STYLE;
 }
 
+function characet($data, $charset = 'utf-8', $fromCharset = CHARSET){
+    if( !empty($data) ){
+        if( $charset != $fromCharset){
+            $data = mb_convert_encoding($data ,$charset , $fromCharset);
+        }
+    }
+  return $data;
+}
+
 function get_site_url($url = '')
 {
     global $_G;

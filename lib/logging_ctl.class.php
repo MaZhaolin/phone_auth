@@ -12,7 +12,7 @@ class logging_ctl
     public function response($msg, $error_pos = null, $values = null, $status = 401)
     {
         return Response::json(array(
-            'msg' => lang('message', $msg, $values),
+            'msg' => characet(lang('message', $msg, $values)),
             'error_pos' => $error_pos,
         ), $status);
     }

@@ -30,6 +30,7 @@ class sms {
             'phone' => $data['phone'],
         );
         $query = $this->createQuery($data);
+        return 2012;
         $result = $this->post($url, $query);
         return intval($result);
     }
@@ -41,7 +42,9 @@ class sms {
             'page' => $page
         );
         $url = $this->createSignatureUrl('/sms/sendrecord', $data);
-        return $this->readContentFormGet($url);
+        $res = $this->readContentFormGet($url);
+        $res = characet($res, CHARSET, 'utf-8');
+        return $res;
     }
 
     public function getOrderState($token) {
@@ -103,20 +106,10 @@ class sms {
         ));
         $query = http_build_query($data);
         $query = urldecode($query);
-        $query = $this->characet($query);
+        $query = characet($query);
         $signature = $this->HMACSHA1($this->config['key'], $query);
         $query = $query.'&signature='.$signature;
         return $query;
-    }
-
-    public function characet($data){
-      if( !empty($data) ){
-        $fileType = mb_detect_encoding($data , array('UTF-8','GBK','LATIN1','BIG5')) ;
-        if( $fileType != 'UTF-8'){
-          $data = mb_convert_encoding($data ,'utf-8' , $fileType);
-        }
-      }
-      return $data;
     }
 
     public function createSignature($data) {

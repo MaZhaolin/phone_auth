@@ -11,9 +11,10 @@ $phone_auth_instance = new PhoneAuth();
 if (method_exists($phone_auth_instance, $action)) {
     echo $phone_auth_instance->$action();
 } else {
-    echo Response::json(array('msg' => 'Not Found'), 404);
+    echo Response::json(array(
+        'msg' => 'Not Found',
+        'version' => VERSION
+    ), 404);
 }
-
-
 
 
