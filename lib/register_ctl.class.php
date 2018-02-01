@@ -13,7 +13,7 @@ class register_ctl {
 
     function responseError($msg, $error_pos = null, $value = array()){
         return Response::json(array(
-            'msg' => lang('message', $msg, $value),
+            'msg' => characet(lang('message', $msg, $value)),
             'error_pos' => $error_pos
         ), 401);
     }

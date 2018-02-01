@@ -90,7 +90,6 @@ class PhoneAuth {
         }
         return $this->responseCodeMsg($res);
     }
-
     
     // test method
     private function sendCodeMsg($phone, $token, $type = 'default') {
@@ -144,7 +143,6 @@ class PhoneAuth {
         if (!$this->validate()) {
             return $this->response(401, 'validate_failure');
         }
-        return $this->response('username_nonexistence', 'user');
         require_once dirname(dirname(__FILE__))."/lib/logging_ctl.class.php";
         $ctl_obj = new logging_ctl();
         $ctl_obj->setting = $_G['setting'];

@@ -299,9 +299,9 @@
                 })
             }
             var script = document.getElementById('vaptcha_v_js');
-            if (script) {
+            if (script && window.vaptcha) {
                 init();
-            } else {
+            } else{
                 script = document.createElement('script');
                 protocol = 'https';//options.https ? 'https' : 'http';
                 script.src = protocol + '://cdn.vaptcha.com/v.js';
