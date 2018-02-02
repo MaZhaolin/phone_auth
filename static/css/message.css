@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   font-family: "Helvetica Neue", helvetica, 'lucida grande', 'lucida sans unicode', lucida, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif; }
 
@@ -654,7 +655,8 @@ input:-ms-input-placeholder {
   transform: translate(-50%, -50%);
   transform: -webkit-translate(-50%, -50%);
   transform: -moz-translate(-50%, -50%);
-  transform: -ms-translate(-50%, -50%); }
+  transform: -ms-translate(-50%, -50%);
+  font-family: "宋体"; }
   .dz-sms-pop .vaptcha-clause {
     padding: 30px;
     width: 700px;
@@ -739,13 +741,15 @@ input:-ms-input-placeholder {
     font-weight: 600;
     color: #444; }
     .vaptcha-dz-pop .vaptcha-dz-title i {
-      float: right;
-      font-size: 20px;
-      color: #DDDDDD;
-      line-height: 40px;
+      position: absolute;
+      top: -20px;
+      right: -15px;
+      font-size: 30px;
+      color: #444;
+      color: rgba(68, 68, 68, 0.9);
       cursor: pointer; }
       .vaptcha-dz-pop .vaptcha-dz-title i:hover {
-        color: #CCCCCC; }
+        color: #444; }
   .vaptcha-dz-pop .vaptcha-dz-main {
     padding: 0 20px;
     color: #666;

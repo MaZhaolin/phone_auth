@@ -22,6 +22,7 @@ class Session {
         return $_SESSION[Session::$pre.$key] = array(
             'value'  => $value,
             'create' => time(),
+            'readcount' => 0,
             'expire' => $expire
         );
     }
@@ -41,6 +42,7 @@ class Session {
         } else if($now - $data['create'] > $data['expire']) {
             return $default;
         } else {
+            $_SESSION[Session::$pre.$key]['readcount']++;
             return $data;
         }
     }
@@ -93,10 +95,24 @@ class Session {
      * @param string $key
      * @return int
      */
-    public static function refresh($key) {
+   /*  public static function refresh($key) {
         $data = $_SESSION[Session::$pre.$key];
         if($data) {
             return $_SESSION[Session::$pre.$key]['create'] = time();
+        }
+        return false;
+    } */
+    
+    /**
+     * refrsh read count
+     *
+     * @param string $key
+     * @return int
+     */
+    public static function refresh($key) {
+        $data = $_SESSION[Session::$pre.$key];
+        if($data) {
+            return $_SESSION[Session::$pre.$key]['readcount'] = 0;
         }
         return false;
     }

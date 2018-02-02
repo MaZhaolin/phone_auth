@@ -80,6 +80,7 @@
 				<item id="phone_is_bind"><![CDATA[手机号已被绑定]]></item>
 				<item id="phone_is_register"><![CDATA[手机号已注册!]]></item>
 				<item id="code_is_error"><![CDATA[验证码有误，请重试]]></item>
+				<item id="code_is_expire"><![CDATA[验证码过期，请重新发送]]></item>
 				<item id="username_not_number"><![CDATA[用户名不能为纯数字]]></item>
 				<item id="modify_phone_success"><![CDATA[改绑成功]]></item>
 				<item id="not_sms"><![CDATA[剩余短信条数不足]]></item>

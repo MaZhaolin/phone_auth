@@ -30,7 +30,6 @@ class sms {
             'phone' => $data['phone'],
         );
         $query = $this->createQuery($data);
-        return 2012;
         $result = $this->post($url, $query);
         return intval($result);
     }
