@@ -691,7 +691,7 @@
             }
             form.getInput('phone').addEvent('keyup', function (e) {
                 var it = e.target;
-                it.value = parseInt(it.value) ? parseInt(it.value) : '';
+                !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
                 inputsValidate.phone = self.isPhone(it.value);
             })
             form.getInput('phone').addEvent('blur', function (e) {

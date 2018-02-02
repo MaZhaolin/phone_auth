@@ -155,7 +155,7 @@
 			</div>
 			<div class="m-dz-main">
 				<div class="dz-item-group">
-					<input maxlength="15" class="form-control dz-input dz-input-icon" name="{$setting['reginput']['username']}"  type="text" placeholder="{lang phone_auth:username_rule}" />
+					<input maxlength="15" class="form-control dz-input dz-input-icon" name="username"  type="text" placeholder="{lang phone_auth:username_rule}" />
 					<span class="form-icon">
 						<img  src="{$static_path}/img/user-126x126.png"/>
                     </span>
@@ -163,14 +163,14 @@
                 </div>
                 <!--{if $params['register_email'] == '1'}-->
 				<div class="dz-item-group">
-					<input class="form-control dz-input dz-input-icon" type="text"  name="{$setting['reginput']['email']}" placeholder="{lang phone_auth:email_rule}" />
+					<input class="form-control dz-input dz-input-icon" type="text"  name="email" placeholder="{lang phone_auth:email_rule}" />
 					<span class="form-icon">
 						<img  src="{$static_path}/img/messege-126x126.png"/>
 					</span>
                 </div>
                 <!--{/if}-->
 				<div class="dz-item-group dz-item-password">
-					<input maxlength="20" class="form-control dz-input dz-input-icon" name="{$setting['reginput']['password']}"  type="password" placeholder="{lang phone_auth:password_rule}" />
+					<input maxlength="20" class="form-control dz-input dz-input-icon" name="password"  type="password" placeholder="{lang phone_auth:password_rule}" />
 					<span class="form-icon">
 						<img  src="{$static_path}/img/password-126x126.png"/>
 					</span>
@@ -343,9 +343,9 @@
                 },
                 register: {
                     has_email: {$params["register_email"]},
-                    username: '{$setting["reginput"]["username"]}',
-                    email: '{$setting["reginput"]["email"]}',
-                    password: '{$setting["reginput"]["password"]}',
+                    username: 'username',
+                    email: 'email',
+                    password: 'password',
                     agreebbrule: '$bbrulehash'
                 },
             });

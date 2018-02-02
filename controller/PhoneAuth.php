@@ -50,7 +50,7 @@ class PhoneAuth {
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsg($phone, $token, $type = 'default') {
+    private function sendCodeMsgs($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
@@ -92,7 +92,7 @@ class PhoneAuth {
     }
     
     // test method
-    private function sendCodeMsgs($phone, $token, $type = 'default') {
+    private function sendCodeMsg($phone, $token, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
