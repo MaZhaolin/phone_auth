@@ -3,6 +3,7 @@ if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
+
 class table_common_vphone extends discuz_table
 {
 	public function __construct() {
@@ -16,7 +17,7 @@ class table_common_vphone extends discuz_table
     public function getUser($member){
         $m = getuserbyuid($member['uid']);
         return array_merge($member, array(
-            'username' => $m['username'],
+            'username' => characet($m['username']),
             'email' => $m['email'],
             'regdate' => $m['regdate'] * 1000
         ));
@@ -42,6 +43,7 @@ class table_common_vphone extends discuz_table
         $pagecount = 20;
         $start = ($page - 1) * $pagecount;
         $table = DB::table('common_member');
+        $value = characet($value, CHARSET, 'utf-8');
         $count  = DB::fetch_all("SELECT count(*) FROM $table  WHERE username LIKE '%$value%'");
         $count = intval($count['0']['count(*)']);
         $members  = DB::fetch_all("SELECT * FROM $table  WHERE username LIKE '%$value%' limit $start, $pagecount");
@@ -49,7 +51,7 @@ class table_common_vphone extends discuz_table
             $m = DB::fetch_first("SELECT * FROM %t WHERE uid=%d", array($this->_table, $member['uid']));
             $members[$key] = array_merge($m, array(
                 'uid' => $member['uid'],
-                'username' => $member['username'],
+                'username' => characet($member['username']),
                 'email' => $member['email'],
                 'regdate' => $member['regdate'] * 1000
             ));
