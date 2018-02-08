@@ -111,7 +111,6 @@ var helper = function(config) {
 helper.prototype = {
     constructor: helper,
     init: function() {
-        this.initSetting();
         this.initTabs();
         this.initSelectAmount();
         this.setAliayUrl();
@@ -172,7 +171,7 @@ helper.prototype = {
             $(this).addClass('active');
             self.selectedAmount = prices[index].num;
             $('input[name=pay]:checked').val() && self.setAliayUrl();
-            $('.recharge .v-money .price-total').text('￥' + (prices[index].price * prices[index].num / 100).toFixed(2));
+            $('.recharge .v-money .price-total').text('\uffe5' + (prices[index].price * prices[index].num / 100).toFixed(2));
             $('.recharge .v-money .price').text(prices[index].price);
             $('.recharge .market').text(prices[index].market);
         })
@@ -277,7 +276,7 @@ helper.prototype = {
             for(var i in data.records) {
                 var record = data.records[i];
                 tr += '<tr><td>86</td><td>' + record.phone + '</td><td>' + record.content + '</td><td>'
-                + record.consume + '</td><td>' + record.type + '</td><td>'  + (record.statucode == '100' ? '<i class="iconfont success">&#xe652;</i>' : ('<i class="iconfont error">&#xe653;<span>' + self.config.lang.error_code + record.statucode + '</span></i>')) + '</td><td>'  + (new Date(record.createtime)).toLocaleString() + '</td></tr>'
+                + record.consume + '</td><td>' + record.type + '</td><td>'  + (record.statucode == '100' ? '<i class="iconfont success">&#xe652;</i>' : ('<i class="iconfont error">&#xe70d;<span>' + self.config.lang.error_code + record.statucode + '</span></i>')) + '</td><td>'  + (new Date(record.createtime)).toLocaleString() + '</td></tr>'
             }
             tr && $('.log tbody').html(tr);
             self.page = self.page || new Pagination({

@@ -51,91 +51,7 @@ ul, li {
   .sms-anti-brush .content {
     min-height: calc(100% - 40px);
     padding: 20px; }
-    .sms-anti-brush .content .v-settings {
-      padding: 15px;
-      background: #fff;
-      border: 1px solid #eee; }
-      .sms-anti-brush .content .v-settings .basics, .sms-anti-brush .content .v-settings .senior {
-        padding-bottom: 20px;
-        border-bottom: 1px solid #F9F9F9; }
-        .sms-anti-brush .content .v-settings .basics p, .sms-anti-brush .content .v-settings .senior p {
-          color: #333333;
-          font-size: 14px; }
-        .sms-anti-brush .content .v-settings .basics span, .sms-anti-brush .content .v-settings .senior span {
-          margin: 15px 0 10px 5px;
-          display: inline-block;
-          font-size: 12px;
-          color: #666666; }
-          .sms-anti-brush .content .v-settings .basics span.right, .sms-anti-brush .content .v-settings .senior span.right {
-            margin: -42px 0 0 0;
-            line-height: 32px;
-            color: #CCCCCC;
-            float: right; }
-          .sms-anti-brush .content .v-settings .basics span.title, .sms-anti-brush .content .v-settings .senior span.title {
-            color: #CCCCCC; }
-            .sms-anti-brush .content .v-settings .basics span.title a, .sms-anti-brush .content .v-settings .senior span.title a {
-              margin: 0 5px; }
-        .sms-anti-brush .content .v-settings .basics input, .sms-anti-brush .content .v-settings .senior input {
-          margin-left: 5px;
-          display: block; }
-      .sms-anti-brush .content .v-settings .senior .dz-set .right {
-        margin-top: 30px; }
-      .sms-anti-brush .content .v-settings .senior p {
-        margin: 15px 0 15px 0; }
-      .sms-anti-brush .content .v-settings .senior input {
-        display: inline-block; }
-      .sms-anti-brush .content .v-settings .senior .example-ex {
-        width: 90px; }
-        .sms-anti-brush .content .v-settings .senior .example-ex span {
-          margin: 0;
-          padding: 0 2px;
-          line-height: 30px; }
-      .sms-anti-brush .content .v-settings .senior .btn-color,
-      .sms-anti-brush .content .v-settings .senior .btn-style,
-      .sms-anti-brush .content .v-settings .senior .international-sms,
-      .sms-anti-brush .content .v-settings .senior .register {
-        display: inline-block;
-        margin-left: 5px; }
-        .sms-anti-brush .content .v-settings .senior .btn-color .title,
-        .sms-anti-brush .content .v-settings .senior .btn-style .title,
-        .sms-anti-brush .content .v-settings .senior .international-sms .title,
-        .sms-anti-brush .content .v-settings .senior .register .title {
-          color: #666666;
-          font-size: 12px;
-          margin-bottom: 5px; }
-        .sms-anti-brush .content .v-settings .senior .btn-color select,
-        .sms-anti-brush .content .v-settings .senior .btn-style select,
-        .sms-anti-brush .content .v-settings .senior .international-sms select,
-        .sms-anti-brush .content .v-settings .senior .register select {
-          width: 100px;
-          height: 30px;
-          border: 1px solid #ddd;
-          border-radius: 2px;
-          outline: none;
-          cursor: pointer;
-          color: #999999; }
-      .sms-anti-brush .content .v-settings .senior .right {
-        float: right;
-        color: #CCCCCC;
-        font-size: 12px; }
-      .sms-anti-brush .content .v-settings .senior .register {
-        position: relative;
-        margin-top: 10px;
-        display: block; }
-        .sms-anti-brush .content .v-settings .senior .register .item {
-          display: inline-block;
-          margin-right: 10px;
-          color: #999999;
-          font-size: 12px; }
-          .sms-anti-brush .content .v-settings .senior .register .item input[type='checkbox'] {
-            margin: 0;
-            vertical-align: middle;
-            cursor: pointer; }
-        .sms-anti-brush .content .v-settings .senior .register .right {
-          line-height: 16px;
-          right: 0; }
     .sms-anti-brush .content .tab {
-      margin-top: 15px;
       font-size: 0; }
       .sms-anti-brush .content .tab .v-btn {
         display: inline-block;
@@ -443,31 +359,6 @@ ul, li {
         .sms-anti-brush .content .recharge .record .title {
           color: #202B39;
           font-size: 14px; }
-        .sms-anti-brush .content .recharge .record table {
-          width: 100%;
-          margin-top: 15px;
-          margin-bottom: 20px;
-          border-collapse: collapse; }
-          .sms-anti-brush .content .recharge .record table thead {
-            background: #F9F9F9;
-            border-bottom: 1px solid #ddd; }
-            .sms-anti-brush .content .recharge .record table thead tr {
-              height: 36px; }
-              .sms-anti-brush .content .recharge .record table thead tr th {
-                text-align: left;
-                font-weight: normal;
-                color: #888888;
-                font-size: 12px; }
-                .sms-anti-brush .content .recharge .record table thead tr th:first-child {
-                  padding-left: 10px; }
-          .sms-anti-brush .content .recharge .record table tbody tr {
-            border-bottom: 1px solid #fafafa; }
-            .sms-anti-brush .content .recharge .record table tbody tr td {
-              color: #999999;
-              font-size: 12px;
-              line-height: 40px; }
-              .sms-anti-brush .content .recharge .record table tbody tr td:first-child {
-                padding-left: 10px; }
     .sms-anti-brush .content .record .curve {
       margin-top: 15px;
       border-bottom: 1px solid #F9F9F9;
@@ -539,21 +430,246 @@ ul, li {
                 color: #fff;
                 background: #39424E;
                 border-radius: 2px; }
-    .sms-anti-brush .content input.form-control {
-      width: 250px;
+
+.v-settings {
+  padding: 15px;
+  background: #fff; }
+  .v-settings .basics, .v-settings .senior {
+    padding-bottom: 20px;
+    border-bottom: 1px solid #F9F9F9; }
+    .v-settings .basics p, .v-settings .senior p {
+      color: #333333;
+      font-size: 14px; }
+    .v-settings .basics span, .v-settings .senior span {
+      margin: 15px 0 10px 5px;
+      display: inline-block;
+      font-size: 12px;
+      color: #666666; }
+      .v-settings .basics span.right, .v-settings .senior span.right {
+        margin: -42px 0 0 0;
+        line-height: 32px;
+        color: #CCCCCC;
+        float: right; }
+      .v-settings .basics span.title, .v-settings .senior span.title {
+        color: #CCCCCC; }
+        .v-settings .basics span.title a, .v-settings .senior span.title a {
+          margin: 0 5px; }
+    .v-settings .basics input, .v-settings .senior input {
+      margin-left: 5px;
+      display: block; }
+  .v-settings .senior .dz-set .right {
+    margin-top: 30px; }
+  .v-settings .senior p {
+    margin: 15px 0 15px 0; }
+  .v-settings .senior input {
+    display: inline-block; }
+  .v-settings .senior .example-ex {
+    width: 90px; }
+    .v-settings .senior .example-ex span {
+      margin: 0;
+      padding: 0 2px;
+      line-height: 30px; }
+  .v-settings .senior .btn-color,
+  .v-settings .senior .btn-style,
+  .v-settings .senior .international-sms,
+  .v-settings .senior .register {
+    display: inline-block;
+    margin-left: 5px; }
+    .v-settings .senior .btn-color .title,
+    .v-settings .senior .btn-style .title,
+    .v-settings .senior .international-sms .title,
+    .v-settings .senior .register .title {
+      color: #666666;
+      font-size: 12px;
+      margin-bottom: 5px; }
+    .v-settings .senior .btn-color select,
+    .v-settings .senior .btn-style select,
+    .v-settings .senior .international-sms select,
+    .v-settings .senior .register select {
+      width: 100px;
       height: 30px;
-      padding: 0 6px;
-      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 2px;
       outline: none;
-      border: 1px solid #DDDDDD;
-      border-radius: 2px; }
-      .sms-anti-brush .content input.form-control:focus {
-        border-color: #12C0FA; }
-    .sms-anti-brush .content a {
-      color: #007FFF;
-      text-decoration: none; }
-      .sms-anti-brush .content a:hover {
-        text-decoration: underline; }
+      cursor: pointer;
+      color: #999999; }
+  .v-settings .senior .right {
+    float: right;
+    color: #CCCCCC;
+    font-size: 12px; }
+  .v-settings .senior .register {
+    position: relative;
+    margin-top: 10px;
+    display: block; }
+    .v-settings .senior .register .item {
+      display: inline-block;
+      margin-right: 10px;
+      color: #999999;
+      font-size: 12px; }
+      .v-settings .senior .register .item input[type='checkbox'] {
+        margin: 0;
+        vertical-align: middle;
+        cursor: pointer; }
+    .v-settings .senior .register .right {
+      line-height: 16px;
+      right: 0; }
+
+.user-management {
+  padding: 15px; }
+  .user-management .management-title {
+    height: 32px;
+    line-height: 32px;
+    font-size: 14px;
+    color: #666666; }
+    .user-management .management-title .right {
+      float: right; }
+      .user-management .management-title .right .btn {
+        height: 32px;
+        vertical-align: top;
+        margin: 0;
+        padding: 0;
+        border: none;
+        outline: none;
+        border-radius: 2px;
+        background: #fff;
+        cursor: pointer; }
+        .user-management .management-title .right .btn.btn-download {
+          width: 90px;
+          font-size: 12px;
+          color: #fff;
+          background: #FF8000;
+          background: rgba(255, 128, 0, 0.9); }
+          .user-management .management-title .right .btn.btn-download:hover {
+            background: #ff8000; }
+      .user-management .management-title .right .search {
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+        width: 260px;
+        height: 32px;
+        line-height: 32px; }
+        .user-management .management-title .right .search .input {
+          position: absolute;
+          left: 0;
+          top: 0;
+          padding-left: 90px;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          -moz-box-sizing: border-box;
+          -webkit-box-sizing: border-box;
+          border: 1px solid #eee;
+          background: #fff;
+          outline: none; }
+          .user-management .management-title .right .search .input:focus {
+            border: 1px solid #00BFFF; }
+        .user-management .management-title .right .search .btn-group {
+          position: absolute;
+          left: 1px;
+          top: 1px;
+          width: 80px;
+          height: 32px;
+          font-size: 12px; }
+          .user-management .management-title .right .search .btn-group .btn.btn-default {
+            height: 30px;
+            color: #999; }
+            .user-management .management-title .right .search .btn-group .btn.btn-default i {
+              font-size: 20px; }
+            .user-management .management-title .right .search .btn-group .btn.btn-default:first-child {
+              left: 0; }
+            .user-management .management-title .right .search .btn-group .btn.btn-default:last-child {
+              right: 0; }
+          .user-management .management-title .right .search .btn-group .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            float: left;
+            min-width: 100px;
+            padding: 5px 0;
+            margin: 2px 0 0;
+            font-size: 14px;
+            list-style: none;
+            background-color: #fff;
+            border: 1px solid #eee;
+            background-clip: padding-box; }
+            .user-management .management-title .right .search .btn-group .dropdown-menu .dropdown-item {
+              padding: 3px 10px;
+              display: block;
+              padding: 3px 20px;
+              clear: both;
+              font-weight: normal;
+              line-height: 1.428571429;
+              color: #666;
+              white-space: nowrap;
+              cursor: pointer; }
+              .user-management .management-title .right .search .btn-group .dropdown-menu .dropdown-item:hover {
+                color: #fff;
+                text-decoration: none;
+                background-color: #428bca; }
+        .user-management .management-title .right .search .btn {
+          position: absolute;
+          right: 0; }
+          .user-management .management-title .right .search .btn.btn-search {
+            width: 50px;
+            top: 0;
+            color: #fff;
+            background: #00BFFF;
+            background: rgba(0, 191, 255, 0.9); }
+            .user-management .management-title .right .search .btn.btn-search:hover {
+              background: deepskyblue; }
+            .user-management .management-title .right .search .btn.btn-search i {
+              font-size: 20px; }
+        .user-management .management-title .right .search ul, .user-management .management-title .right .search li {
+          list-style-type: none; }
+        .user-management .management-title .right .search a:hover {
+          text-decoration: none; }
+
+table {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  border-collapse: collapse; }
+  table thead {
+    background: #F9F9F9;
+    border-bottom: 1px solid #ddd; }
+    table thead tr {
+      height: 36px; }
+      table thead tr th {
+        text-align: left;
+        font-weight: normal;
+        color: #888888;
+        font-size: 12px; }
+        table thead tr th:first-child {
+          padding-left: 10px; }
+        table thead tr th:last-child {
+          width: 160px; }
+  table tbody tr {
+    border-bottom: 1px solid #fafafa; }
+    table tbody tr td {
+      color: #999999;
+      font-size: 12px;
+      line-height: 40px; }
+      table tbody tr td:first-child {
+        padding-left: 10px; }
+
+input.form-control {
+  width: 250px;
+  height: 30px;
+  padding: 0 6px;
+  margin-bottom: 10px;
+  outline: none;
+  border: 1px solid #DDDDDD;
+  border-radius: 2px; }
+  input.form-control:focus {
+    border-color: #12C0FA; }
+
+a {
+  color: #007FFF;
+  text-decoration: none;
+  cursor: pointer; }
+  a:hover {
+    text-decoration: underline; }
 
 .example-ex {
   display: inline-block;
@@ -582,9 +698,6 @@ ul, li {
       line-height: 20px;
       outline: none;
       color: #666666; }
-
-table tr th:last-child {
-  width: 160px; }
 
 .v-btn.btn-default {
   margin-top: 20px;

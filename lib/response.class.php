@@ -57,4 +57,18 @@ class Response {
             'status' => $status
         )));
     }
+
+    public static function success($data, $msg = 'scuccss') {
+        return Response::json(array(
+            'msg' => $msg,
+            'data' => $data
+        ), 200);
+    }
+
+    public static function notFound() {
+        return Response::json(array(
+            'msg' => 'Not Found',
+            'version' => VERSION
+        ), 404);
+    }
 }
