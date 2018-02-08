@@ -18,6 +18,35 @@ class register_ctl {
         ), 401);
     }
 
+    function vcheckemail($email) {
+        global $_G;
+    
+        $email = strtolower(trim($email));
+        if(strlen($email) > 32) {
+            return $this->responseError('profile_email_illegal', '', array(), array('handle' => false));
+        }
+        if($_G['setting']['regmaildomain']) {
+            $maildomainexp = '/('.str_replace("\r\n", '|', preg_quote(trim($_G['setting']['maildomainlist']), '/')).')$/i';
+            if($_G['setting']['regmaildomain'] == 1 && !preg_match($maildomainexp, $email)) {
+                return $this->responseError('profile_email_domain_illegal', '', array(), array('handle' => false));
+            } elseif($_G['setting']['regmaildomain'] == 2 && preg_match($maildomainexp, $email)) {
+                return $this->responseError('profile_email_domain_illegal', '', array(), array('handle' => false));
+            }
+        }
+    
+        loaducenter();
+        $ucresult = uc_user_checkemail($email);
+    
+        if($ucresult == -4) {
+            return $this->responseError('profile_email_illegal', '', array(), array('handle' => false));
+        } elseif($ucresult == -5) {
+            return $this->responseError('profile_email_domain_illegal', '', array(), array('handle' => false));
+        } elseif($ucresult == -6) {
+            return $this->responseError('profile_email_duplicate', '', array(), array('handle' => false));
+        }
+        return 'true';
+    }
+
     public function register_ctl() {
         global $_G;
         if($_G['setting']['bbclosed']) {
@@ -43,7 +72,7 @@ class register_ctl {
         // $_GET['password2'] = $_GET[''.$this->setting['reginput']['password2']];
         // $_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
 
-        $_GET['username'] = trim($_GET['username']);
+        $_GET['username'] = $_GET['username'] = characet($_GET['username'], CHARSET, 'utf-8');
         $_GET['password'] = $_GET['password'];
         $_GET['password2'] = $_GET['password2'];
         $_GET['email'] = $_GET['email'];
@@ -220,30 +249,36 @@ class register_ctl {
                 }
                 $sendurl = false;
             }
-            if(!$activationauth && $sendurl) {
-                checkemail($_GET['email']);
-            }
-            if($sendurl) {
-                $hashstr = urlencode(authcode("$_GET[email]\t$_G[timestamp]", 'ENCODE', $_G['config']['security']['authkey']));
-                $registerurl = "{$_G[siteurl]}member.php?mod=".$this->setting['regname']."&amp;hash={$hashstr}&amp;email={$_GET[email]}";
-                $email_register_message = lang('email', 'email_register_message', array(
-                    'bbname' => $this->setting['bbname'],
-                    'siteurl' => $_G['siteurl'],
-                    'url' => $registerurl
-                ));
-                if(!sendmail("$_GET[email] <$_GET[email]>", lang('email', 'email_register_subject'), $email_register_message)) {
-                    runlog('sendmail', "$_GET[email] sendmail failed.");
+
+            if (get_params('register_email') == '1') {
+                if(!$activationauth && $sendurl) {
+                    $res = $this->vcheckemail($_GET['email']);
+                    if ($res != 'true') {
+                        return $res;
+                    }
                 }
-                return $this->responseError('register_email_send_succeed', dreferer(), array('bbname' => $this->setting['bbname']), array('showdialog' => false, 'msgtype' => 3, 'closetime' => 10));
-            }
-            $emailstatus = 0;
-            if($this->setting['sendregisterurl'] && !$sendurl) {
-                $_GET['email'] = strtolower($hash[0]);
-                $this->setting['regverify'] = $this->setting['regverify'] == 1 ? 0 : $this->setting['regverify'];
-                if(!$this->setting['regverify']) {
-                    $groupinfo['groupid'] = $this->setting['newusergroupid'];
+                if($sendurl) {
+                    $hashstr = urlencode(authcode("$_GET[email]\t$_G[timestamp]", 'ENCODE', $_G['config']['security']['authkey']));
+                    $registerurl = "{$_G[siteurl]}member.php?mod=".$this->setting['regname']."&amp;hash={$hashstr}&amp;email={$_GET[email]}";
+                    $email_register_message = lang('email', 'email_register_message', array(
+                        'bbname' => $this->setting['bbname'],
+                        'siteurl' => $_G['siteurl'],
+                        'url' => $registerurl
+                    ));
+                    if(!sendmail("$_GET[email] <$_GET[email]>", lang('email', 'email_register_subject'), $email_register_message)) {
+                        runlog('sendmail', "$_GET[email] sendmail failed.");
+                    }
+                    return $this->responseError('register_email_send_succeed', dreferer(), array('bbname' => $this->setting['bbname']), array('showdialog' => false, 'msgtype' => 3, 'closetime' => 10));
                 }
-                $emailstatus = 1;
+                $emailstatus = 0;
+                if($this->setting['sendregisterurl'] && !$sendurl) {
+                    $_GET['email'] = strtolower($hash[0]);
+                    $this->setting['regverify'] = $this->setting['regverify'] == 1 ? 0 : $this->setting['regverify'];
+                    if(!$this->setting['regverify']) {
+                        $groupinfo['groupid'] = $this->setting['newusergroupid'];
+                    }
+                    $emailstatus = 1;
+                }
             }
 
             if($this->setting['regstatus'] == 2 && empty($invite) && !$invitestatus) {
