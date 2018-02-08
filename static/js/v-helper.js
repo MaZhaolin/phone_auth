@@ -252,6 +252,7 @@
             var self = this;
             var form = options.form;
             var successCallback = options.success;
+            options.scene = options.scene || '';
             var _v = new function () {
                 this.isPass = false;
                 this.vaptcha = null;
@@ -264,7 +265,7 @@
             }()
             var init = function () {
                 self.ajax({
-                    url: '/plugin.php?id=phone_auth&action=getChallenge&t=' + (new Date()).getTime(),
+                    url: '/plugin.php?id=phone_auth&action=getChallenge&scene=' + options.scene + '&t=' + (new Date()).getTime(),
                     success: function (data) {
                         var config = {
                             vid: data.vid,
@@ -409,6 +410,7 @@
                     }
                 }
                 loginVaptcha = self.initVaptcha({
+                    scene: '01',
                     element: vaptchaContainer,
                     form: form,
                     success: validate
@@ -911,6 +913,7 @@
             });
             function loadVaptcha() {
                 self.initVaptcha({
+                    scene: '01',
                     element: container.ele('.vp-content'),
                     type: 'embed',
                     form: form,

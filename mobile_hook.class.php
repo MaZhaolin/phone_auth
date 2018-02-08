@@ -11,7 +11,6 @@ class mobileplugin_phone_auth {
 
 }
 
-
 class mobileplugin_phone_auth_member extends mobileplugin_phone_auth{
     public function logging_code() {
         if(CURMODULE != 'logging' || $_GET['action'] == "logout") return;

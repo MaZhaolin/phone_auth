@@ -32,17 +32,18 @@ class PhoneAuth {
     }
 
     public function getChallenge() {
-        return $this->vaptcha->getChallenge();
+        $scene = get_request('scene'); 
+        return $this->vaptcha->getChallenge($scene);
     }
 
     public function downtime() {
         return $this->vaptcha->downTime($_GET['data']);
     }
 
-    private function validate() {
+    private function validate($scene = '') {
         $token = $_REQUEST['vaptcha_token'];
         $challenge = $_REQUEST['vaptcha_challenge'];
-        return $this->vaptcha->validate($challenge, $token);
+        return $this->vaptcha->validate($challenge, $token, $scene);
     }
 
     /**
@@ -54,7 +55,8 @@ class PhoneAuth {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
-        $code = Session::getValue($type.'_verify_code');
+        $key = $type.'_verify_code';
+        $code = Session::getValue($key);
         if ($code) {
             $now = time();
             $time =  Session::getValue($type.'_code_send_time');
@@ -70,6 +72,7 @@ class PhoneAuth {
                     'token' => $token
                 ));
                 if ($res == 2001) {
+                    Session::refresh($key);
                     Session::set($type.'_code_send_time', $now);
                     Session::set($type.'_phone', $phone);
                 }
@@ -84,7 +87,7 @@ class PhoneAuth {
             'token' => $token
         ));
         if ($res == 2001) {
-            Session::set($type.'_verify_code', $code);
+            Session::set($key, $code);
             Session::set($type.'_code_send_time', time());
             Session::set($type.'_phone', $phone);
         }
@@ -103,9 +106,11 @@ class PhoneAuth {
             $time =  Session::getValue($type.'_code_send_time');
             if ($time && 60 * 2 > ($now - $time)) {
                 //2min not send code return valid time 
+                Session::set($type.'_phone', $phone);
                 return $this->response(301, 60 * 2 - ($now - $time), $code);            
             } else {
                 //10min not change code 
+                Session::refresh($key);
                 Session::set($type.'_code_send_time', $now);
                 Session::set($type.'_phone', $phone);
                 return $this->response(200, $code);
@@ -141,8 +146,8 @@ class PhoneAuth {
     
     public function login() {
         global $_G;
-        if (!$this->validate()) {
-            return $this->response(401, 'validate_failure');
+        if (!$this->validate('01')) {
+            return $this->response(401, 'validate_failure', 'vaptcha');
         }
         require_once dirname(dirname(__FILE__))."/lib/logging_ctl.class.php";
         $ctl_obj = new logging_ctl();
@@ -317,6 +322,10 @@ class PhoneAuth {
     }
 
     public function mobile() {
+        global $_G;
+        if ($_G['uid']) {
+            redirect(get_site_url('/forum.php?mobile=yes'));
+        }
         include_once (DISCUZ_ROOT . '/source/discuz_version.php');
         include template('phone_auth:mobile');
     }

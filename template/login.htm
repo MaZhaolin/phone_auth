@@ -44,6 +44,12 @@
                 <input class="checkbox" id="cookieTime" placeholder="" type="checkbox" name="cookietime"  value="2592000" />
                 <label class="dz-item-text" for="cookieTime">{lang login_permanent}</label>
             </div>
+<!-- 			<span class="dz-line"></span>
+			<div class="dz-item-group mt10">
+				<span class="dz-intro">快捷登录：</span>
+				<a class="dz-login-img dz-login-qq " href="javascript:;"></a>
+				<a class="dz-login-img dz-login-wechat" href="javascript:;"></a>
+			</div> -->
             <div class="dz-item-group">
                 <span class="dz-intro"></span>
                 <button class="btn dz-btn login-button" disabled>{lang phone_auth:login}</button>
@@ -175,7 +181,7 @@
             </div>
         </div>
     </div>
-<script src="{$static_path}/js/v-helper.min.js"></script>
+<script src="{$static_path}/js/v-helper.min.js?v=1.5.0"></script>
 <script>
     (function login_run() {
         if(window.v_helper) {

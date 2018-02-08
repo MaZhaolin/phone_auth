@@ -12,7 +12,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="{CHARSET}">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title></title>
     <link rel="stylesheet" href="http://discuz.top/source/plugin/phone_auth/static/css/m-dz.css">
@@ -24,6 +24,7 @@
         window.config = {
             site_url: '{$site_url}',
             static_path: '{$static_path}',
+            formhash: '{FORMHASH}',
             vaptcha: {
                 color: '#{$params["style_color"]}',
                 style: '{$params["btn_style"]}'
@@ -31,5 +32,5 @@
         }
     </script>
     <!-- built files will be auto injected -->
-  <script type="text/javascript" src="http://192.168.0.22:8080/app.js"></script></body>
+  <script type="text/javascript" src="http://192.168.0.2:8080/app.js"></script></body>
 </html>

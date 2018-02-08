@@ -272,7 +272,7 @@
             }()
             var init = function () {
                 self.ajax({
-                    url: '/plugin.php?id=phone_auth&action=getChallenge&t=' + (new Date()).getTime(),
+                    url: '/plugin.php?id=phone_auth&action=getChallenge&scene=' + options.scene + '&t=' + (new Date()).getTime(),
                     success: function (data) {
                         var config = {
                             vid: data.vid,
@@ -439,6 +439,7 @@
                 }
             }
             var _vaptcha = self.initVaptcha({
+                scene: '01',
                 form: form,
                 element: vaptcha,
                 success: validate
@@ -699,7 +700,7 @@
                 it.target('keyup');
                 if (!inputsValidate.phone) {
                     it.addClass('error');
-                    self.showMsg('请输入正确的手机号');
+                    self.showMsg('&#35831;&#36755;&#20837;&#27491;&#30830;&#30340;&#25163;&#26426;&#21495;');
                 }
             })
             form.getInput('code').addEvent('keyup', function (e) {
