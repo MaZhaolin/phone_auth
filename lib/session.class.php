@@ -1,14 +1,17 @@
-<?php 
-if(!defined('IN_DISCUZ')) {
+<?php
+if (!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
 
-session_start();
+require_once dirname(__FILE__) . '/MysqlSession.class.php';
 
-class Session {
+$session = new MysqlSession();
+
+class Session
+{
 
     public static $pre = 'vaptcha_';
-    
+
     /**
      * set session
      *
@@ -17,57 +20,61 @@ class Session {
      * @param integer $expire default 10min
      * @return session
      */
-    public static function set($key, $value, $expire = 600){
+    public static function set($key, $value, $expire = 600)
+    {
         $data = Session::get($key);
-        return $_SESSION[Session::$pre.$key] = array(
-            'value'  => $value,
+        return $_SESSION[Session::$pre . $key] = array(
+            'value' => $value,
             'create' => time(),
             'readcount' => 0,
-            'expire' => $expire
+            'expire' => $expire,
         );
     }
 
     /**
-     * get session 
+     * get session
      *
      * @param string $key
      * @param any $default
      * @return any
      */
-    public static function get($key, $default = null) {
-        $data = $_SESSION[Session::$pre.$key];
+    public static function get($key, $default = null)
+    {
+        $data = $_SESSION[Session::$pre . $key];
         $now = time();
-        if (!$data){
+        if (!$data) {
             return $default;
-        } else if($now - $data['create'] > $data['expire']) {
+        } else if ($now - $data['create'] > $data['expire']) {
             return $default;
         } else {
-            $_SESSION[Session::$pre.$key]['readcount']++;
+            $_SESSION[Session::$pre . $key]['readcount']++;
             return $data;
         }
     }
 
-     /**
+    /**
      * get session value
      *
      * @param string $key
      * @param any $default
      * @return any
      */
-    public static function getValue($key, $default = null) {
+    public static function getValue($key, $default = null)
+    {
         $data = Session::get($key);
         return $data ? $data['value'] : $default;
     }
-    
+
     /**
      * get session live time
      *
      * @param string $key
      * @return int
      */
-    public static function getLiveTime($key) {
-        $data = $_SESSION[Session::$pre.$key];
-        if (!$data){
+    public static function getLiveTime($key)
+    {
+        $data = $_SESSION[Session::$pre . $key];
+        if (!$data) {
             return 0;
         } else {
             return time() - $data['create'];
@@ -80,44 +87,48 @@ class Session {
      * @param string $key
      * @return int
      */
-    public static function getValidTime($key) {
-        $data = $_SESSION[Session::$pre.$key];
-        if (!$data){
+    public static function getValidTime($key)
+    {
+        $data = $_SESSION[Session::$pre . $key];
+        if (!$data) {
             return 0;
         } else {
             return $data['expire'] - Session::getLiveTime($key);
         }
     }
-    
+
     /**
      * refrsh expire time
      *
      * @param string $key
      * @return int
      */
-   /*  public static function refresh($key) {
-        $data = $_SESSION[Session::$pre.$key];
-        if($data) {
-            return $_SESSION[Session::$pre.$key]['create'] = time();
-        }
-        return false;
+    /*  public static function refresh($key) {
+    $data = $_SESSION[Session::$pre.$key];
+    if($data) {
+    return $_SESSION[Session::$pre.$key]['create'] = time();
+    }
+    return false;
     } */
-    
+
     /**
      * refrsh read count
      *
      * @param string $key
      * @return int
      */
-    public static function refresh($key) {
-        $data = $_SESSION[Session::$pre.$key];
-        if($data) {
-            return $_SESSION[Session::$pre.$key]['readcount'] = 0;
+    public static function refresh($key)
+    {
+        $data = $_SESSION[Session::$pre . $key];
+        if ($data) {
+            return $_SESSION[Session::$pre . $key]['readcount'] = 0;
         }
         return false;
     }
 
-    public static function delete($key) {
-        unset($_SESSION[Session::$pre.$key]);
+    public static function delete($key)
+    {
+        unset($_SESSION[Session::$pre . $key]);
     }
-}
+} 
+
