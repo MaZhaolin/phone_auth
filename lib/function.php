@@ -64,7 +64,7 @@ function get_theme_style() {
             border-color: #$color;
         }
         .dz-btn, .m-dz .dz-btn, .m-dz .m-dz-top {
-            background-color: #$color;
+            background: #$color;
         }
         .dz-item-group .dz-link{
             color: #$color;
