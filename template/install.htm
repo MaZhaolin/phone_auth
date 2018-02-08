@@ -1,0 +1,63 @@
+<style>
+    .v-set{
+        text-align: center;
+        padding-top: 20px;
+    }
+    .v-set h2{
+        font-size: 2em;
+        color: red;
+    }
+    .v-set p{
+        line-height: 2em;
+    }
+    .v-set p.error{
+        color: red;
+    }
+    .form-group{
+        padding-bottom: 10px;
+    }
+    .form-group input.col-2{
+        width: 120px;
+    }
+    .form-group input{
+        padding: 0 6px;
+        height: 30px;
+        width: 260px;
+        border: 1px solid #DDDDDD;
+        outline: none;
+        border-radius: 2px;
+        -webkit-border-radius: 2px;
+        -moz-border-radius: 2px;
+        -ms-border-radius: 2px;
+    }
+    .form-group input:focus{
+        border-color: #12C0FA;
+    }
+    .v-set button{
+        padding: 10px 30px;
+        color: #fff;
+        border: none;
+        background: #3c8aff;
+        background: rgba(60, 138, 255, 0.9);
+        border-radius: 2px;
+        cursor: pointer;
+    }
+</style>
+<form class="v-set" action="" method="post">
+    <h2>&#38750;&#24120;&#37325;&#35201;!</h2>
+    <p>&#35831;&#22635;&#20889;&#24050;&#26377;&#25163;&#26426;&#21495;&#25968;&#25454;&#34920;&#23383;&#27573;&#65292;&#19981;&#35774;&#32622;&#23558;&#20250;&#23548;&#33268;&#29992;&#25143;&#37325;&#22797;&#32465;&#23450;&#25163;&#26426;&#21495;</p>
+    <p>&#26032;&#32593;&#31449;&#25110;&#21407;&#26469;&#27809;&#26377;&#25163;&#26426;&#21495;&#23383;&#27573;&#21017;&#19981;&#38656;&#35201;&#22635;&#20889;&#65292;&#30452;&#25509;&#28857;&#20987;&#19979;&#19968;&#27493;&#23433;&#35013;&#65292;&#25554;&#20214;&#23558;&#20250;&#33258;&#21160;&#21019;&#24314;&#25968;&#25454;&#34920;</p>
+    <p class="error">{$error_msg}</p>
+    <div class="form-group">
+        <input name='table[name]' value="{$data['name']}" type="text" placeholder="&#25968;&#25454;&#34920;&#21517;&#31216;&#65292;&#19981;&#24102;&#21069;&#32512;">
+    </div>
+    <div class="form-group">
+        <input name='table[phone_key]' value="{$data['phone_key']}" type="text" placeholder="&#25163;&#26426;&#23383;&#27573;&#21517;">
+    </div>
+    <div class="form-group">
+        <p style="line-height: 1em;margin-bottom: 10px;">&#20197;&#19979;&#33267;&#23569;&#22635;&#19968;&#20010;</p>
+        <input class="col-2" name='table[name_key]' value="{$data['name_key']}" type="text" placeholder="&#29992;&#25143;&#21517;&#30340;&#23383;&#27573;&#21517;">
+        <input class="col-2" name='table[id_key]' value="{$data['id_key']}" type="text" placeholder="&#29992;&#25143;&#105;&#100;&#30340;&#23383;&#27573;&#21517;">
+    </div>
+    <button id="nextStep">&#19979;&#19968;&#27493;</button>
+</form>
