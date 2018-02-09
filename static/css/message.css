@@ -472,20 +472,23 @@ ul, li {
   .v-settings .senior .btn-color,
   .v-settings .senior .btn-style,
   .v-settings .senior .international-sms,
-  .v-settings .senior .register {
+  .v-settings .senior .register,
+  .v-settings .senior .landing {
     display: inline-block;
     margin-left: 5px; }
     .v-settings .senior .btn-color .title,
     .v-settings .senior .btn-style .title,
     .v-settings .senior .international-sms .title,
-    .v-settings .senior .register .title {
+    .v-settings .senior .register .title,
+    .v-settings .senior .landing .title {
       color: #666666;
       font-size: 12px;
       margin-bottom: 5px; }
     .v-settings .senior .btn-color select,
     .v-settings .senior .btn-style select,
     .v-settings .senior .international-sms select,
-    .v-settings .senior .register select {
+    .v-settings .senior .register select,
+    .v-settings .senior .landing select {
       width: 100px;
       height: 30px;
       border: 1px solid #ddd;
@@ -497,20 +500,20 @@ ul, li {
     float: right;
     color: #CCCCCC;
     font-size: 12px; }
-  .v-settings .senior .register {
+  .v-settings .senior .register, .v-settings .senior .landing {
     position: relative;
     margin-top: 10px;
     display: block; }
-    .v-settings .senior .register .item {
+    .v-settings .senior .register .item, .v-settings .senior .landing .item {
       display: inline-block;
       margin-right: 10px;
       color: #999999;
       font-size: 12px; }
-      .v-settings .senior .register .item input[type='checkbox'] {
+      .v-settings .senior .register .item input[type='checkbox'], .v-settings .senior .landing .item input[type='checkbox'] {
         margin: 0;
         vertical-align: middle;
         cursor: pointer; }
-    .v-settings .senior .register .right {
+    .v-settings .senior .register .right, .v-settings .senior .landing .right {
       line-height: 16px;
       right: 0; }
 

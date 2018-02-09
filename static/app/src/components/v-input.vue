@@ -1,9 +1,7 @@
 <template>
   <div class="dz-item-group">
-    <input v-model="value" @focus="focusHandle" @blur="blurHandle" :class="klass" class="form-control dz-input dz-input-icon" :type="type" :placeholder="placeholder" />
-    <span class="form-icon">
-        <v-img :src="`/img/${icon}-126x126.png`"/>
-    </span>
+    <input v-model="value" :maxlength="maxLength" @keydown="keydownHandle" @focus="focusHandle" @blur="blurHandle" :class="klass" class="form-control dz-input dz-input-icon" :type="type" :placeholder="placeholder" />
+    <span class="form-icon iconfont" v-html="icon"></span>
   </div>
 </template>
 
@@ -20,6 +18,9 @@ export default {
     type: {
       type: String,
       default: 'text'
+    },
+    maxLength: {
+      type: Number
     }
   },
   model: {
@@ -38,6 +39,14 @@ export default {
     },
     blurHandle() {
       this.$emit('validate', this);
+      this.value.length === 0 && this.klass.push('error');
+    },
+    keydownHandle() {
+      if (this.maxLength && this.value.length) {
+        this.$nextTick(() => {
+          this.value = this.value.substr(0, this.maxLength);
+        })
+      }
     }
   },
   watch: {

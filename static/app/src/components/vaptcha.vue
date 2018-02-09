@@ -13,6 +13,12 @@
 import axios from '@/lib/axios';
 
 export default {
+  props: {
+    scene: {
+      type: String,
+      default: ''
+    }
+  },
   data() {
     return {
       vaptcha: null,
@@ -36,7 +42,9 @@ export default {
       document.body.append(script);
     },
     initVaptcha() {
-      axios.get('/plugin.php?id=phone_auth&action=getchallenge')
+      axios.get('/plugin.php?id=phone_auth&action=getchallenge', {
+        params: {scene: this.scene}
+      })
       .then(({data}) => {
         let config={
           vid: data.vid, //验证单元id, string, 必填
@@ -49,10 +57,7 @@ export default {
           outage: "http://localhost:4000/api/vaptcha/downtime", //服务器端配置的宕机模式接口地址
           success: (token,challenge) => {//验证成功回调函数, 参数token, challenge 为string, 必填
             this.isValidated = true;
-            this.$emit('success', {
-              vaptcha_token: token,
-              vaptcha_challenge: challenge
-            });
+            this.$emit('success', {token, challenge});
           },
           fail:() => {//验证失败回调函数
               //todo:执行人机验证失败后的操作

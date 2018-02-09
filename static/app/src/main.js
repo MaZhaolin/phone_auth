@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import VImg from '@/components/common/v-img'
-import VButton from '@/components/common/v-button'
-import VInput from '@/components/common/v-input'
-import vaptcha from '@/components/common/vaptcha';
-import message from '@/components/common/message';
+import VImg from '@/components/v-img'
+import VButton from '@/components/v-button'
+import VInput from '@/components/v-input'
+import vaptcha from '@/components/vaptcha';
+import message from '@/components/message';
 
 Vue.config.productionTip = false
 Vue.component('v-img', VImg);

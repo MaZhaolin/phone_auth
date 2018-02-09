@@ -2,7 +2,7 @@
   <div id="app">
     <div class="m-dz m-dz-login">
       <div class="m-dz-top">
-        <span class="logo-img" @click="$router.back()"><v-img src="/img/back-48x48.png" /></span>
+				<span class="logo-img fl iconfont redirect-back " @click="$router.back()">&#xe7c2;</span>
         <span class="logo-text">{{title}}</span>
       </div>
       <div class="m-dz-main">
