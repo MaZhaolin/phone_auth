@@ -327,7 +327,7 @@ class PhoneAuth {
             redirect(get_site_url('/forum.php?mobile=yes'));
         }
         include_once (DISCUZ_ROOT . '/source/discuz_version.php');
-        include template('phone_auth:app');
+        include template('phone_auth:mobile');
     }
 
     public function smsData() {

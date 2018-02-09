@@ -44,12 +44,18 @@
                 <input class="checkbox" id="cookieTime" placeholder="" type="checkbox" name="cookietime"  value="2592000" />
                 <label class="dz-item-text" for="cookieTime">{lang login_permanent}</label>
             </div>
-<!-- 			<span class="dz-line"></span>
+            {if $params['qq_login'] == '1' || $params['wechat_login'] == '1' }
+			<span class="dz-line"></span>
 			<div class="dz-item-group mt10">
-				<span class="dz-intro">快捷登录：</span>
-				<a class="dz-login-img dz-login-qq " href="javascript:;"></a>
-				<a class="dz-login-img dz-login-wechat" href="javascript:;"></a>
-			</div> -->
+                <span class="dz-intro">&#24555;&#25463;&#30331;&#24405;:</span>
+                {if $params['qq_login'] == '1' }
+                <a class="dz-login-img dz-login-qq " target="_blank" href="{$site_url}/connect.php?mod=login&op=init&referer=forum.php&statfrom=login_simple"></a>
+                {/if}
+                {if $params['wechat_login'] == '1' }
+				<a class="dz-login-img dz-login-wechat" target="_blank" href="{$site_url}/plugin.php?id=wechat:login"></a>
+                {/if}
+            </div>
+            {/if}
             <div class="dz-item-group">
                 <span class="dz-intro"></span>
                 <button class="btn dz-btn login-button" disabled>{lang phone_auth:login}</button>

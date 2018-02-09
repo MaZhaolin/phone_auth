@@ -14,7 +14,9 @@ if (isset($_REQUEST['site_name'])) {
         'style_color' => get_request('style_color', '3c8aff'),
         'btn_style' => get_request('btn_style', 'dark'),
         'enable_inter' => get_request('enable_inter', '0'), //open international sms
-        'register_email' => get_request('register_email', '0')
+        'register_email' => get_request('register_email', '0'),
+        'qq_login' => get_request('qq_login', '0'), //open international sms
+        'wechat_login' => get_request('wechat_login', '0')
     );
     C::t('common_setting')->update_batch(array("phone_auth_setting"=>$params));
     updatecache('setting');

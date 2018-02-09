@@ -20,7 +20,9 @@ function get_params($name = null) {
             'btn_style' => 'dark',
             'enable_inter' => '0', //open international sms
             'register_email' => '0',
-            'register_qq' => '0'
+            'register_qq' => '0',
+            'qq_login' => '1',
+            'wechat_login' => '1'
        );
     }
     return $name ? $params[$name] : $params;
