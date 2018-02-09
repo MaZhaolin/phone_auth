@@ -90,7 +90,7 @@ class MysqlSession
         $Query = "INSERT INTO " . DB::table('sessions') . " (SessionKey,SessionExpTime,SessionArray) VALUES ('" . $SessionKey . "','" . $SessionExpTime . "','" . $SessionArray . "')";
         $Result = $this->IS_MYSQLI ? mysqli_query($this->DB_SELECT_DB, $Query) : mysql_query($Query, $this->DB_SELECT_DB);
         if (!$Result) {
-            $Query = "UPDATE " . DB::table('sessions') . " SET SessionExpTime = '" . $SessionExpTime . "', SessionArray = '" . $SessionArray . "' WHERE SessionKey = '" . $SessionKey . "' AND  SessionExpTime > " . time();
+            $Query = "UPDATE " . DB::table('sessions') . " SET SessionExpTime = '" . $SessionExpTime . "', SessionArray = '" . $SessionArray . "' WHERE SessionKey = '" . $SessionKey."'";
             $Result = $this->IS_MYSQLI ? mysqli_query($this->DB_SELECT_DB, $Query) : mysql_query($Query, $this->DB_SELECT_DB);
         }
         return $Result;
