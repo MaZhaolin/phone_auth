@@ -19,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_REQUEST['password'];
     } else {
         $rebind = false;
-        $error_msg = '密码错误';
+        $error_msg = '&#23494;&#30721;&#38169;&#35823;';
     }
 }
 $params = get_params();

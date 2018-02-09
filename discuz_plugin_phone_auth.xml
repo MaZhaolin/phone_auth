@@ -210,7 +210,7 @@
 				<item id="can_use_day"><![CDATA[预计可用天数]]></item>
 				<item id="domestic_sms"><![CDATA[国内短信]]></item>
 				<item id="pay_qrcode"><![CDATA[请用微信扫码完成支付]]></item>
-				<item id="pay_pop"><![CDATA[<div class="vaptcha-dz-title">充值 <i class="iconfont close">&#xe653;</i></div><div class="vaptcha-dz-main">请在新打开页面完成支付操作。</div><button class="v-btn btn-default finish-pay">支付已完成</button>]]></item>
+				<item id="pay_pop"><![CDATA[<div class="vaptcha-dz-title">充值 <i class="iconfont close">&#xe70d;</i></div><div class="vaptcha-dz-main">请在新打开页面完成支付操作。</div><button class="v-btn btn-default finish-pay">支付已完成</button>]]></item>
 				<item id="pay_success"><![CDATA[支付成功]]></item>
 				<item id="pay_fail"><![CDATA[支付失败，如有疑问请联系客服]]></item>
 				<item id="not_data"><![CDATA[暂无数据]]></item>
