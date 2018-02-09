@@ -99,7 +99,7 @@ class logging_ctl
                 return $this->response('login_password_invalid', 'password');
             }
             $vphone = C::t("#phone_auth#common_vphone")->fetch_by_uid($res['ucresult']['uid']);
-            if(!$vphone) {
+            if(!isset($vphone['uid'])) {
                 Session::set('bind_phone_user', $res['member']);
                 return $this->response($res['ucresult']['username'], 'bind_phone');
             }

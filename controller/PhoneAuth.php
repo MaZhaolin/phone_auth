@@ -162,7 +162,7 @@ class PhoneAuth {
             return $this->response(401, 'phone_rule_error',  'phone');
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
-        if (!$member) return $this->response(401, 'phone_not_register', 'phone');
+        if (!isset($member['uid'])) return $this->response(401, 'phone_not_register', 'phone');
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token']);
     }
 
@@ -214,7 +214,7 @@ class PhoneAuth {
             return $this->response(401, 'phone_rule_error', 'phone');
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
-        if ($member) return $this->response(401, 'phone_is_register', 'phone');
+        if (isset($member['uid'])) return $this->response(401, 'phone_is_register', 'phone');
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $phone);
     }
 
@@ -248,7 +248,7 @@ class PhoneAuth {
             return $this->response(401, 'phone_rule_error',  'phone');
         }
         $vphone_member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
-        if ($vphone_member) return $this->response(401, 'phone_is_bind', 'phone');
+        if (isset($vphone_member['uid'])) return $this->response(401, 'phone_is_bind', 'phone');
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], 'bind_phone');
     }
 
@@ -288,7 +288,7 @@ class PhoneAuth {
             return $this->response(401, 'phone_rule_error',  'phone');
         }
         $vphone_member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
-        if ($vphone_member) return $this->response(401, 'phone_is_bind', 'phone');
+        if (isset($vphone_member['uid'])) return $this->response(401, 'phone_is_bind', 'phone');
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], 'modify_phone');
     }
 
@@ -327,7 +327,7 @@ class PhoneAuth {
             redirect(get_site_url('/forum.php?mobile=yes'));
         }
         include_once (DISCUZ_ROOT . '/source/discuz_version.php');
-        include template('phone_auth:mobile');
+        include template('phone_auth:app');
     }
 
     public function smsData() {
