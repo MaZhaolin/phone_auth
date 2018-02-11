@@ -89,7 +89,7 @@ class logging_ctl
                 $member = getuserbyuid($member['uid']);
                 $_GET['username'] = $member['username'];
             } else {
-                $_GET['username'] = $name;
+                $_GET['username'] = characet($name, CHARSET, 'utf-8');
             }
             $res = userlogin($_GET['username'], $_GET['password'], '', '');
             if ($res['ucresult']['uid'] == -1) {

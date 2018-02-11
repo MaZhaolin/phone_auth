@@ -72,7 +72,7 @@ class register_ctl {
         // $_GET['password2'] = $_GET[''.$this->setting['reginput']['password2']];
         // $_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
 
-        $_GET['username'] = $_GET['username'] = characet($_GET['username'], CHARSET, 'utf-8');
+        $_GET['username'] = characet($_GET['username'], CHARSET, 'utf-8');
         $_GET['password'] = $_GET['password'];
         $_GET['password2'] = $_GET['password2'];
         $_GET['email'] = $_GET['email'];
@@ -268,7 +268,7 @@ class register_ctl {
                     if(!sendmail("$_GET[email] <$_GET[email]>", lang('email', 'email_register_subject'), $email_register_message)) {
                         runlog('sendmail', "$_GET[email] sendmail failed.");
                     }
-                    return $this->responseError('register_email_send_succeed', dreferer(), array('bbname' => $this->setting['bbname']), array('showdialog' => false, 'msgtype' => 3, 'closetime' => 10));
+                    return $this->response('register_email_send_succeed', dreferer(), array('bbname' => $this->setting['bbname']), array('showdialog' => false, 'msgtype' => 3, 'closetime' => 10));
                 }
                 $emailstatus = 0;
                 if($this->setting['sendregisterurl'] && !$sendurl) {
