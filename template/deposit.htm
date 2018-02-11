@@ -197,7 +197,10 @@
                 send_count: '{lang phone_auth:send_count}',
                 error_code: '{lang phone_auth:error_code}'
             },
-            params: JSON.parse('{eval echo json_encode($params)}')
+            params: {
+                vid: '{$params["vid"]}',
+                key: '{$params["key"]}'
+            }
         }).init();  
     })  
 </script>
