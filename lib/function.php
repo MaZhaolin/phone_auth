@@ -23,10 +23,15 @@ function get_params($name = null) {
             'register_email' => '0',
             'register_qq' => '0',
             'qq_login' => '1',
-            'wechat_login' => '1',
-            'qq_login_url' => get_site_url().'/connect.php?mod=login&op=init&referer=forum.php&statfrom=login_simple',
-            'wechat_login_url' => get_site_url().'/plugin.php?id=wechat:login'
+            'wechat_login' => '1'
        );
+    }
+    // new version add params
+    if (!isset($params['qq_login_url'])) {
+        $params = array_merge($params, array(
+         'qq_login_url' => get_site_url().'/connect.php?mod=login&op=init&referer=forum.php&statfrom=login_simple',
+         'wechat_login_url' => get_site_url().'/plugin.php?id=wechat:login'
+        ));
     }
     return $name ? $params[$name] : $params;
 } 
