@@ -4,7 +4,8 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function get_request($name, $default = null){
-    return isset($_REQUEST[$name]) ? trim($_REQUEST[$name]) : $default;
+    $value = trim($_REQUEST[$name]);
+    return empty($value) ? $default : $value;
 }
 
 function get_params($name = null) {
@@ -22,7 +23,9 @@ function get_params($name = null) {
             'register_email' => '0',
             'register_qq' => '0',
             'qq_login' => '1',
-            'wechat_login' => '1'
+            'wechat_login' => '1',
+            'qq_login_url' => get_site_url().'/connect.php?mod=login&op=init&referer=forum.php&statfrom=login_simple',
+            'wechat_login_url' => get_site_url().'/plugin.php?id=wechat:login'
        );
     }
     return $name ? $params[$name] : $params;

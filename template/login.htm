@@ -49,10 +49,10 @@
 			<div class="dz-item-group mt10">
                 <span class="dz-intro">&#24555;&#25463;&#30331;&#24405;:</span>
                 {if $params['qq_login'] == '1' }
-                <a class="dz-login-img dz-login-qq " target="_blank" href="{$site_url}/connect.php?mod=login&op=init&referer=forum.php&statfrom=login_simple"></a>
+                <a class="dz-login-img dz-login-qq " target="_blank" href="{$params['qq_login_url']}"></a>
                 {/if}
                 {if $params['wechat_login'] == '1' }
-				<a class="dz-login-img dz-login-wechat" target="_blank" href="{$site_url}/plugin.php?id=wechat:login"></a>
+				<a class="dz-login-img dz-login-wechat" target="_blank" href="{$params['wechat_login_url']}"></a>
                 {/if}
             </div>
             {/if}

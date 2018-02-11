@@ -53,16 +53,17 @@
                     <div class="right">{lang phone_auth:email_desc}</div>
                 </div>
                 <div class="landing">
-                    <div class="title">&#31532;&#19977;&#26041;&#30331;&#24405;</div>
+                    <span>&#31532;&#19977;&#26041;&#30331;&#24405; </span><span class="title">（若调用官方插件请不要更改输入框内容，若调用第三方插件请自行输入登录地址）</span>
                     <div class="item">
                         <input type="checkbox" name="qq_login" value="1" id="qq" {if '1' == $params['qq_login'] } checked {/if}> 
-                        <label for="qq">QQ</label>
+                        <label for="qq" class="min-w">QQ</label>
+                        <input type="text" class="form-control" value="{$params['qq_login_url']}" name="qq_login_url">
                     </div>
                     <div class="item">
                         <input type="checkbox" name="wechat_login" value="1" id="wx" {if '1' == $params['wechat_login'] } checked {/if}> 
-                        <label for="wx">&#24494;&#20449;</label>
+                        <label for="wx" class="min-w">&#24494;&#20449;</label>
+                        <input type="text" class="form-control"  value="{$params['wechat_login_url']}" name="wechat_login_url">
                     </div>
-                    <div class="right">&#20165;&#36866;&#29992;&#20110;&#100;&#105;&#115;&#99;&#117;&#122;&#33258;&#24102;&#25554;&#20214;</div>
                 </div>
             </div>
 

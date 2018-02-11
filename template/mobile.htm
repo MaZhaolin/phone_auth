@@ -62,12 +62,12 @@
                     <div class="dz-qq-wechart">
                         {if $params['qq_login'] == '1' }
                         <div class="dz-qq-item">
-                            <a href="{$site_url}/connect.php?mod=login&op=init&referer=forum.php&statfrom=login_simple" class="iconfont dz-qq">&#xe623;</a>
+                            <a href="{$params['qq_login_url']}" class="iconfont dz-qq">&#xe623;</a>
                         </div>
                         {/if}
                         {if $params['wechat_login'] == '1' }
                         <div class="dz-wechart-item">
-                            <a href="{$site_url}/plugin.php?id=wechat:login" class="iconfont dz-wechart">&#xe66a;</a>
+                            <a href="{$params['wechat_login_url']}" class="iconfont dz-wechart">&#xe66a;</a>
                         </div>
                         {/if}
                     </div>
