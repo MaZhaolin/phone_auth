@@ -44,13 +44,15 @@ class QQAuth {
     }
 
     private function getUserInfo($accessToken) {
-        $openId = readContentFormGet("https://graph.qq.com/oauth2.0/me?access_token=$accessToken");
-        return $openId;
+        $res = readContentFormGet("https://graph.qq.com/oauth2.0/me?access_token=$accessToken");
+        $openId = explode('"', $res)[7];
         $data = array(
             'access_token' => $accessToken,
             'oauth_consumer_key' => $this->id,
             'openid' => $openId
         );
-        return readContentFormGet();
+        $query = http_build_query($data);
+        $user = readContentFormGet("https://graph.qq.com/user/get_user_info?$query");
+        return json_decode($user);
     }
 }
