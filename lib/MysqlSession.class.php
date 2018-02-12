@@ -11,14 +11,6 @@ class MysqlSession
     
     public function MysqlSession()
     {
-        $sql = "CREATE TABLE IF NOT EXISTS `" . DB::table('sessions') . "` (" .
-        "`SessionKey` varchar(32) NOT NULL default '', ".
-        "`SessionArray` blob NOT NULL, ".
-        "`SessionExpTime` int(20) unsigned NOT NULL default '0', ".
-        "PRIMARY KEY (`SessionKey`), ".
-        "KEY `SessionKey` (`SessionKey`) ".
-        ") ENGINE=InnoDB DEFAULT CHARSET=utf8";
-        DB::query($sql);
         global $_G;
         $config = $_G['config']['db'][1];
         $this->DB_SERVER = $config['dbhost'];
