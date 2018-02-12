@@ -41,7 +41,7 @@ class sms {
             'page' => $page
         );
         $url = $this->createSignatureUrl('/sms/sendrecord', $data);
-        $res = $this->readContentFormGet($url);
+        $res = readContentFormGet($url);
         $res = characet($res, CHARSET, 'utf-8');
         return $res;
     }
@@ -50,7 +50,7 @@ class sms {
         $url = $this->createSignatureUrl('/smspay/orderstate', array(
             'token' => $token
         ));
-        $res = $this->readContentFormGet($url);
+        $res = readContentFormGet($url);
         return $res;
     }
 
@@ -67,7 +67,7 @@ class sms {
 
         if ($type == 'wechat') {
             $url = $this->createSignatureUrl($wechat_url, $data);
-            $result = $this->readContentFormGet($url);
+            $result = readContentFormGet($url);
             $result = json_decode($result);
             $result->token = $token;
             return json_encode($result);
@@ -89,7 +89,7 @@ class sms {
             'page' => $page
         );
         $url = $this->createSignatureUrl('/sms/orderrecord', $data);
-        $res = $this->readContentFormGet($url);
+        $res = readContentFormGet($url);
         return $res;
     }
 
@@ -191,29 +191,5 @@ class sms {
         }  
         $signature = str_replace(array('/', '+', '='), '', base64_encode($signature));
         return $signature;  
-    }
-
-    public static function readContentFormGet($url) {
-        if (function_exists('curl_exec')) {
-            $ch = curl_init();  
-            curl_setopt($ch, CURLOPT_URL, $url); 
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  
-            curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);  
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1*1000);  
-            $errno = curl_errno($ch);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            return $errno > 0 ? false : $response;
-        } else {
-            $opts = array(
-                'http' => array(
-                    'method' => 'GET',
-                    'timeout' => 1*1000
-                )
-            );
-            $context = stream_context_create($opts);
-            $response = @file_get_contents($url, false, $context);
-            return $response ? $response : false;
-        }
     }
 }

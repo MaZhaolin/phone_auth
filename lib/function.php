@@ -92,6 +92,30 @@ function characet($data, $charset = 'utf-8', $fromCharset = CHARSET){
   return $data;
 }
 
+function readContentFormGet($url) {
+    if (function_exists('curl_exec')) {
+        $ch = curl_init();  
+        curl_setopt($ch, CURLOPT_URL, $url); 
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  
+        curl_setopt($ch, CURLOPT_BINARYTRANSFER, true);  
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1*1000);  
+        $errno = curl_errno($ch);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $errno > 0 ? false : $response;
+    } else {
+        $opts = array(
+            'http' => array(
+                'method' => 'GET',
+                'timeout' => 1*1000
+            )
+        );
+        $context = stream_context_create($opts);
+        $response = @file_get_contents($url, false, $context);
+        return $response ? $response : false;
+    }
+}
+
 function get_site_url($url = '')
 {
     global $_G;
