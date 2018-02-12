@@ -56,4 +56,8 @@ class plugin_phone_auth_member extends plugin_phone_auth{
             exit('Access Denied');            
         }
     }
+
+    public function connect_code() {
+        // include template('phone_auth:connect');        
+    }
 }
