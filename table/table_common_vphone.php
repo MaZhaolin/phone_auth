@@ -29,7 +29,7 @@ class table_common_vphone extends discuz_table
         $start = ($page - 1) * $pagecount;
         $count  = DB::fetch_all("SELECT count(*) FROM $table WHERE $key LIKE '%$value%'");
         $count = intval($count['0']['count(*)']);
-        $members  = DB::fetch_all("SELECT * FROM $table  WHERE $key LIKE '%$value%' limit $start, $pagecount");
+        $members  = DB::fetch_all("SELECT * FROM $table  WHERE $key LIKE '%$value%' ORDER BY uid DESC limit $start, $pagecount");
         foreach($members as $key => $member) {
             $members[$key] = $this->getUser($member);
         }
@@ -46,7 +46,7 @@ class table_common_vphone extends discuz_table
         $value = characet($value, CHARSET, 'utf-8');
         $count  = DB::fetch_all("SELECT count(*) FROM $table  WHERE username LIKE '%$value%'");
         $count = intval($count['0']['count(*)']);
-        $members  = DB::fetch_all("SELECT * FROM $table  WHERE username LIKE '%$value%' limit $start, $pagecount");
+        $members  = DB::fetch_all("SELECT * FROM $table  WHERE username LIKE '%$value%' ORDER BY uid DESC limit $start, $pagecount");
         foreach($members as $key => $member) {
             $m = DB::fetch_first("SELECT * FROM %t WHERE uid=%d", array($this->_table, $member['uid']));
             $members[$key] = array_merge($m, array(
