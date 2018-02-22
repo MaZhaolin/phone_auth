@@ -62,6 +62,15 @@ class table_common_vphone extends discuz_table
         );
     }
 
+    public function findUserByOpenid($openid, $type = 'qq') {
+        $type = $type.'_openid';
+        $member = DB::fetch_first("SELECT * FROM %t WHERE $type=%s", array($this->_table, $openid));
+        $m = array_merge(getuserbyuid($member['uid']), array(
+            'username' => characet($m['username'])
+        ));
+        return array_merge($member, $m);
+    }
+
     
     public function save($uid, $phone, $country_code = '86') {
         $data = array (

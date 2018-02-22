@@ -14,4 +14,13 @@ $sql = "CREATE TABLE IF NOT EXISTS `" . DB::table('sessions') . "` (" .
 
 runquery($sql);
 
+$query = DB::query("DESCRIBE ".DB::table('common_vphone')." qq_openid");
+$temp = DB::fetch($query);
+if(!$temp) {
+    $sql = 'ALTER TABLE '.DB::table('common_vphone').' ADD COLUMN qq_openid char(32) DEFAULT ""';
+    runquery($sql);
+    $sql = 'ALTER TABLE '.DB::table('common_vphone').' ADD COLUMN wechat_openid char(32) DEFAULT ""';
+    runquery($sql); 
+}
+
 $finish = TRUE;
