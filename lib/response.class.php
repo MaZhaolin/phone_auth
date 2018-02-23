@@ -58,7 +58,7 @@ class Response {
         )));
     }
 
-    public static function success($data, $msg = 'scuccss') {
+    public static function success($data = null, $msg = 'scuccss') {
         return Response::json(array(
             'msg' => $msg,
             'data' => $data

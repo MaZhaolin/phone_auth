@@ -13,7 +13,7 @@ function resolve (dir) {
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: './src/members.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -26,7 +26,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       '@': resolve('src'),
-      'vue': 'vue/dist/vue.js'
+      'vue': process.env.NODE_ENV === 'production' ? 'vue/dist/vue.common.js' : 'vue/dist/vue.js'
     }
   },
   module: {

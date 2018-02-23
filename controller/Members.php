@@ -20,4 +20,10 @@ class Members {
         return Response::success($members);
     }
 
+    public function unbind() {
+        $phone = $_POST['phone'];
+        $res = C::t('#phone_auth#common_vphone')->unbind($phone);
+        return Response::success();
+    }
+
 }
