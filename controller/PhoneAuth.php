@@ -214,7 +214,13 @@ class PhoneAuth {
             return $this->response(401, 'phone_rule_error', 'phone');
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
-        if (isset($member['uid'])) return $this->response(401, 'phone_is_register', 'phone');
+        if (isset($member['uid'])) {
+            if(is_null($member['username'])) {
+                C::t('#phone_auth#common_vphone')->unbind($phone);
+            } else {
+                return $this->response(401, 'phone_is_register', 'phone');                
+            }
+        }
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $phone);
     }
 

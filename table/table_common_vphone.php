@@ -62,7 +62,10 @@ class table_common_vphone extends discuz_table
         );
     }
 
-    
+    public function unbind($phone) {
+        return DB::query("DELETE FROM %t WHERE phone=%s", array($this->_table, $phone));
+    }
+
     public function save($uid, $phone, $country_code = '86') {
         $data = array (
             "phone" => $phone,

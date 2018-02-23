@@ -1,14 +1,13 @@
 <template>
   <div class="user-management">
-    <div class="management-title">
-      &#29992;&#25143;&#31649;&#29702;
+    <div class="management-title">用户管理
       <div class="right">
         <div class="search">
           <input type="text" class="input" @keydown.enter="searchHandle" v-model="form.value">
           <vp-select v-model="form.key">
-            <vp-option value="phone">&#25163;&#26426;&#21495;</vp-option>
+            <vp-option value="phone">手机号</vp-option>
             <vp-option value="uid">ID</vp-option>
-            <vp-option value="username">&#29992;&#25143;&#21517;</vp-option>
+            <vp-option value="username">用户名</vp-option>
           </vp-select>
           <button class="btn btn-search" @click="searchHandle">
               <i class="iconfont">&#xe6d4;</i>
@@ -22,15 +21,16 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>&#29992;&#25143;&#21517;</th>
-            <th>&#37038;&#31665;</th>
-            <th>&#25163;&#26426;&#21495;</th>
-            <th>&#27880;&#20876;&#26102;&#38388;</th>
+            <th>用户名</th>
+            <th>邮箱</th>
+            <th>手机号</th>
+            <th>注册时间</th>
+            <th>操作</th>
           </tr>
         </thead>
         <tbody>
           <tr v-if="members.length === 0">
-            <td>&#26410;&#26597;&#35810;&#21040;&#25968;&#25454;</td>
+            <td>暂无数据</td>
           </tr>
           <tr v-for="(member, key) in members" :key="key">
             <td>
@@ -40,6 +40,7 @@
             <td>{{member.email}}</td>
             <td>{{member.phone}}</td>
             <td>{{member.regdate | dateString}}</td>
+            <td><a @click="unbind(key)">解绑</a></td>
           </tr>
         </tbody>
       </table>
@@ -90,6 +91,14 @@ export default {
           this.members = data.members;
           this.pageTotal = data.pageTotal
         });
+    },
+    unbind(key) {
+      axios.post('/plugin.php?id=phone_auth&control=Members&action=unbind', {
+        phone: this.members[key].phone
+      })
+      .then(({data}) => {
+        data.status === 200 && this.members.splice(key, 1);
+      })
     },
     redirectUserSet(uid) {
       let url = config.site_url + '/admin.php?action=members&operation=search';
