@@ -78,7 +78,7 @@ function get_theme_style() {
         }
         .dz-item-group .dz-link{
             color: #$color;
-        }
+        }       
     </style>
 STYLE;
 }

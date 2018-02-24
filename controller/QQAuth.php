@@ -4,24 +4,25 @@ if(!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
 require_once dirname(dirname(__FILE__)) . '/lib/function.php';
+require_once dirname(dirname(__FILE__)) . '/lib/session.class.php';
 
 class QQAuth {
     private $id;
     private $key;
 
     public function __construct() {
-        $this->id = '101393385';
-        $this->key = 'deca6c4fbcc419704372a9054eb654a1';
+        $this->id = '101393385';//'310322341';
+        $this->key = 'deca6c4fbcc419704372a9054eb654a1';//'ABJxV2vXOcAx2aKc';
     }
 
     public function auth() {
         $state = uniqid();
-        $redirectUri = 'http://www.vaptcha.com/plugin.php?id=phone_auth&control=QQAuth&action=login';
+        $redirectUri = 'http://www.cc8.cc/connect.php';
         $data = array(
             'response_type' => 'code',
             'client_id' => $this->id,
             'redirect_uri' => $redirectUri,
-            'state' => $state
+            'state' => ''
         );
         $query = http_build_query($data);
         redirect("https://graph.qq.com/oauth2.0/authorize?$query");
@@ -29,6 +30,7 @@ class QQAuth {
     
     public function login() {
         $redirectUri = 'http://www.vaptcha.com/plugin.php?id=phone_auth&control=QQAuth&action=login';
+        $mobile = $_REQUEST['mobile'] == 'yes' ; 
         $data = array(
             'grant_type' => 'authorization_code',
             'client_id' => $this->id,
@@ -42,14 +44,16 @@ class QQAuth {
         $res = 'access_token=61D9F6B91548410750188B3B212FEBA1&expires_in=7776000&refresh_token=E65924F6C542BDCB0F46678F3A1020BB';
         parse_str($res, $arr);
         $member = $this->getUserInfo($arr['access_token']);
-        
         if(isset($member['uid'])) {
             require_once libfile('function/member');
             var_dump($member);
             setloginstatus($member, 2592000);
-            // redirect(get_site_url('/member.php?mod=register'));
+            return redirect($mobile ? get_site_url('/forum.php?mobile=yes') : get_site_url('/member.php?mod=register'));
        }
-       var_dump($member);
+       Session::set('auth_activate', '1', 3600);
+       Session::set('auth_type', 'qq', 3600);
+       Session::set('auth_user', $member, 3600);
+       return redirect($mobile ? get_site_url('/member.php?mod=register&mobile=yes') : get_site_url('/member.php?mod=register'));
         // var_dump(copy($user->figureurl_qq_2, $this->get_avatar(2, 'small')));
     }
 
