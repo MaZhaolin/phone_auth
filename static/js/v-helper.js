@@ -280,8 +280,8 @@
                             success: function (token, challenge) {
                                 if (form) {
                                     var inputs = form.getElementsByTagName('input');
-                                    inputs['vaptcha_challenge'].value = challenge;
-                                    inputs['vaptcha_token'].value = token;
+                                    form.querySelector('input[name=vaptcha_challenge]').value = challenge;
+                                    form.querySelector('input[name=vaptcha_token]').value = token;
                                 }
                                 _v.isPass = true;
                                 successCallback && successCallback(token, challenge);
@@ -290,8 +290,8 @@
                         window.vaptcha(config, function (obj) {
                             if (form) {
                                 var inputs = form.getElementsByTagName('input');
-                                inputs['vaptcha_challenge'].value = '';
-                                inputs['vaptcha_token'].value = '';
+                                form.querySelector('input[name=vaptcha_challenge]').value = '';
+                                form.querySelector('input[name=vaptcha_token]').value = '';
                             }
                             _v.vaptcha = obj;
                             _v.vaptcha.init();
