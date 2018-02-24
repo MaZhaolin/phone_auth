@@ -216,7 +216,7 @@
 				<item id="not_data"><![CDATA[暂无数据]]></item>
 				<item id="send_count"><![CDATA[发送数量]]></item>
 				<item id="error_code"><![CDATA[错误码]]></item>
-				<item id="market_value"><![CDATA[<span class="market">4.5</span>分/条 <i class="iconfont prompt" mdtooltip="" mdtooltipposition="right">&#59017;<span>购买同样短信条数的市场价格</span></i>]]></item>
+				<item id="market_value"><![CDATA[<a href="https://common-buy.aliyun.com/?spm=5176.8195934.907839.sms6.32cd41835Q3wKJ&&commodityCode=newdysmsbag#/buy" target="_blank">市场价</a> <span class="market">4.5</span>分/条 <i class="iconfont prompt" mdtooltip="" mdtooltipposition="right">&#59017;<span>购买同样短信条数的市场价格</span></i>]]></item>
 			</item>
 		</item>
 		<item id="installfile"><![CDATA[install.php]]></item>
