@@ -30,69 +30,11 @@
             <span class="item" :class="[(@active == 'register' && 'active')]" :click="show('register')">创建新账号</span>
         </div>
         <!-- 注册 -->
-        <div class="content active" :visible="@active == 'register'">
-            <div class="dz-item-group">
-                <label class="dz-intro"><sup>*</sup>用户名：</label>
-                <input class="form-control dz-input" type="text" >
-                <span class="dz-title">用户名3-15个字符组成，不能纯数字</span>
-            </div>
-            <div class="v-line"></div>
-            <div class="dz-item-group">
-                <label class="dz-intro"><sup>*</sup>密码：</label>
-                <input class="form-control dz-input" type="text" >
-                <span class="dz-title">密码由6-20个字符组成</span>
-                <div class="pw-strength pw-medium">
-                    <div class="pw-bar"></div>
-                    <div class="pw-bar-on"></div>
-                    <div class="pw-separate">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
-            <div class="v-line"></div>
-            <div class="dz-item-group">
-                <label class="dz-intro"><sup>*</sup>手机号：</label>
-                <input class="form-control dz-input error" type="text" >
-                <span class="dz-title error">！手机号已存在</span>
-            </div>
-            <div class="dz-item-group">
-                <label class="dz-intro"><sup>*</sup>人机验证：</label>
-                <input type="hidden" name="vaptcha_token">
-                <input type="hidden" name="vaptcha_challenge">
-                <div class="vaptcha_container">
-                    <div class="vaptcha-init-main">
-                        <div class="vaptcha-init-loading">
-                            <a>
-                                <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
-                            </a>
-                            <span class="vaptcha-text">
-                                <a href="https://www.vaptcha.com/" title="{lang vaptcha:loading_captcha}" target="_blank">{lang vaptcha:loading_captcha}</a>{lang vaptcha:loading_vaptcha}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="v-line"></div>
-            <div class="dz-item-group">
-                <label class="dz-intro"></label>
-                <input class="" placeholder="" type="checkbox" >
-                <span class="dz-item-text">
-                    <span>同意</span>
-                    <a class="dz-link" href="javascript:;">网站服务条款</a>
-                </span>
-            </div>
-            <div class="dz-item-group">
-                <label class="dz-intro"></label>
-                <input class="btn dz-btn" type="submit" value="提交">
-            </div>
-        </div>
+        <xmp :widget="{is:'ms-register'}" :visible="@active == 'register'"></xmp>
         <!-- 登陆 -->
         <xmp :widget="{is:'ms-login'}" :visible="@active == 'login'"></xmp>
     </div>
+    <xmp :widget="{is:'ms-msg', $id: 'msg'}"></xmp>
 </div>
 <script>
     window.v_options = {
@@ -104,8 +46,7 @@
         }
     }
 </script>
-<script src="https://cdn.staticfile.org/avalon.js/2.2.4/avalon.js"></script>
-<script src="{$static_path}/js/auth/dist/m.js"></script>
+<script src="{$static_path}/js/m.js"></script>
 
 {else}
 <div id="registerphone_$id"  class="dz-register">
