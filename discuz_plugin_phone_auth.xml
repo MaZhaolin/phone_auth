@@ -14,7 +14,7 @@
 			<item id="datatables"><![CDATA[]]></item>z
 			<item id="directory"><![CDATA[phone_auth/]]></item>
 			<item id="copyright"><![CDATA[VAPTCHA]]></item>
-			<item id="version"><![CDATA[1.6.3]]></item>
+			<item id="version"><![CDATA[1.7.0]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[pc_hook]]></item>
@@ -158,8 +158,8 @@
 				<item id="agree"><![CDATA[同意]]></item>
 				<item id="next_step"><![CDATA[下一步]]></item>
 				<item id="click_bind"><![CDATA[点击绑定]]></item>
-				<item id="captcha"><![CDATA[验证码]]></item>
-				<item id="captcha_loading"><![CDATA[启动中]]></item>
+				<item id="captcha"><![CDATA[CAPTCHA]]></item>
+				<item id="captcha_loading"><![CDATA[is initializing..]]></item>
 				<item id="setting_tips_1"><![CDATA[请输入你的手机号进行绑定，一个手机号只能绑定一个论坛账号。]]></item>
 				<item id="setting_tips_2"><![CDATA[绑定的手机号可以用于登录和找回密码。]]></item>
 				<item id="base_setting"><![CDATA[基础设置]]></item>
