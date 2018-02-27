@@ -245,9 +245,10 @@ class PhoneAuth {
     }
 
     public function bindPhoneCode() {
+        global $_G;
         $phone = $_REQUEST['phone'];        
         $member = Session::getValue('bind_phone_user');
-        if (!$member) {
+        if (!$member && !$_G['uid']) {
             return $this->response(401, 'Access denied');
         }
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
@@ -259,9 +260,10 @@ class PhoneAuth {
     }
 
     public function bindPhone(){
+        global $_G;        
         $code = $_REQUEST['code'];
         $member = Session::getValue('bind_phone_user');
-        if (!$member) {
+        if (!$member && !$_G['uid']) {
             return $this->response(401, 'Access denied');
         }
         $phone = Session::getValue('bind_phone_phone');
@@ -278,6 +280,12 @@ class PhoneAuth {
         Session::delete('bind_phone_user');
         Session::delete('bind_phone_phone');
         Session::delete('bind_phone_verify_code');
+        Session::set('isBind', true);        
+        if(!isset($member['uid'])) {
+            $member['uid'] = $_G['uid'];
+            C::t("#phone_auth#common_vphone")->save($member['uid'], $phone);
+            return $this->response(200, 'success');
+        }
         C::t("#phone_auth#common_vphone")->save($member['uid'], $phone);
         setloginstatus($member, 2592000);
         return $this->response(200, 'success');

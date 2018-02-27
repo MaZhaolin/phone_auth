@@ -6,9 +6,11 @@ loadcache('plugin');
 
 require_once dirname(__FILE__) . '/lib/function.php';
 require_once dirname(__FILE__) . '/lib/session.class.php';
+require_once dirname(__FILE__) . '/lib/response.class.php';
 require_once template('phone_auth:login');
 require_once template('phone_auth:login_simple');
 require_once template('phone_auth:register');
+require_once template('phone_auth:bind_popup');
 
 // disable vaptcha login & regsiter module
 //old version
@@ -36,7 +38,8 @@ class plugin_phone_auth_member extends plugin_phone_auth{
     }
 
     public function logging_code() { 
-        if(CURMODULE != 'logging' || $_GET['action'] == "logout") return;
+        if($_GET['action'] == "logout") return Session::delete('isBind');
+        if(CURMODULE != 'logging') return;
         if($_GET['lssubmit'] == "yes"){
             exit('Access Denied');
         }
@@ -58,6 +61,43 @@ class plugin_phone_auth_member extends plugin_phone_auth{
     }
 
     public function connect_code() {
-        // include template('phone_auth:connect');        
+        include template('phone_auth:connect');        
+    }
+
+}
+
+class plugin_phone_auth_forum extends plugin_phone_auth {
+    
+    function isbind() {
+        global $_G;
+        if(!isset($_G['uid']) || empty($_G['uid']) || Session::getValue('isBind', false)) return true;
+        $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
+        if(!isset($member['phone'])) {
+            Session::set('isBind', false, 24 * 60 * 60 * 7);
+            return false;
+        }
+        Session::set('isBind', true, 24 * 60 * 60 * 7);
+        return true;
+    }
+
+    function viewthread_fastpost_btn_extra() {
+		if(!$this->isbind()) return bind_popup();
+	}
+	function post_btn_extra() {
+		if(!$this->isbind()) return bind_popup();
+	}
+	
+	function forumdisplay_fastpost_btn_extra() {
+		if(!$this->isbind()) return bind_popup();
+    }
+    
+    public function post_recode() {
+        global $_G;
+        if($this->isbind()) return;
+        if ($_GET['action'] == 'reply' && $_GET['inajax'] == '1' && $_GET['handlekey'] == 'qreply_'.$_GET['tid'] && $_GET['replysubmit'] == 'yes') {
+            showmessage('请先完善手机号');
+		} else if (submitcheck('topicsubmit') || submitcheck('replysubmit') || submitcheck('editsubmit')) {
+            showmessage('请先完善手机号');
+        }
     }
 }

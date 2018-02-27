@@ -27,7 +27,7 @@ class Session
             'value' => $value,
             'create' => time(),
             'readcount' => 0,
-            'expire' => $expire,
+            'expire' => $data['expire'] ? $data['expire'] : $expire,
         );
     }
 

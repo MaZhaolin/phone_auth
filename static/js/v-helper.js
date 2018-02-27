@@ -674,7 +674,7 @@
                 wrapper.ele('.lost-password-form') [0].removeClass('none');
                 lostpasswordAction();
             }
-            ele('.lost-password') [0].addEvent('click', showLostPasswordView)
+            ele('.lost-password') [0] && ele('.lost-password') [0].addEvent('click', showLostPasswordView)
             if (options.islostpwd) {
                 showLostPasswordView();
             } else if (options.bind_phone) {
