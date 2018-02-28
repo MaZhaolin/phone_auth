@@ -146,7 +146,7 @@ class PhoneAuth {
     
     public function login() {
         global $_G;
-        if (!$this->validate('01')) {
+        if (get_params('login_captcha') != '0' && !$this->validate('01')) {
             return $this->response(401, 'validate_failure', 'vaptcha');
         }
         require_once dirname(dirname(__FILE__))."/lib/logging_ctl.class.php";

@@ -403,18 +403,18 @@
                     var data = self.getFormData(form);
                     data.user.length > 0 && form.getInput('user').removeClass('error');
                     data.password.length > 5 && form.getInput('password').removeClass('error');
-                    if (data.user.length > 0 && data.password.length > 5 && data.vaptcha_token) {
+                    if (data.user.length > 0 && data.password.length > 5) {
                         form.ele('.login-button') [0].removeAttribute('disabled');
                     } else {
                         form.ele('.login-button') [0].setAttribute('disabled', 'disabled');
                     }
                 }
-                loginVaptcha = self.initVaptcha({
+                options.login_captcha && (loginVaptcha = self.initVaptcha({
                     scene: '01',
                     element: vaptchaContainer,
                     form: form,
                     success: validate
-                })
+                }))
                 inputs.call('addEvent', 'keyup', validate)
                 inputs.call('addEvent', 'blur', validate)
                 ele('.login-button') [0].addEvent('click', function (e) {
@@ -426,8 +426,8 @@
                             window.location.reload();
                         },
                         error: function (data) {
-                            if (['user', 'password'].indexOf(data.error_pos) >= 0) {
-                                form.getInput(data.error_pos).addClass('error');
+                            if (['user', 'password', 'vaptcha'].indexOf(data.error_pos) >= 0) {
+                                form.getInput(data.error_pos) && form.getInput(data.error_pos).addClass('error');
                                 data.msg && self.showMsg(data.msg);
                             }
                             if (data.error_pos == 'bind_phone') {
@@ -435,7 +435,7 @@
                                 bindPhoneAction();
                                 return;
                             }
-                            loginVaptcha.refresh();
+                            options.login_captcha && loginVaptcha.refresh();
                             form.ele('.login-button') [0].setAttribute('disabled', 'disabled');
                         }
                     })
@@ -954,7 +954,21 @@
                 var user = form.getInput('user');
                 var password = form.getInput('password');
                 if (user.val() && password.val()) {
-                    self.popup_captcha(form);
+                    options.login_captcha ? self.popup_captcha(form) :
+                    self.ajax({
+                      url: '/plugin.php?id=phone_auth&mod=logging&action=login&loginsubmit=yes',
+                      type: 'POST',
+                      data: self.getFormData(form),
+                      success: function (data) {
+                          window.location.reload();
+                      },
+                      error: function (data) {
+                          if (data.error_pos == 'bind_phone') {
+                              return showWindow('login', 'member.php?mod=logging&action=login');
+                          }
+                          data.msg && errorhandle_ls(data.msg, { 'loginperm': '4' })
+                      }
+                  });
                 } else {
                     showWindow('login', 'member.php?mod=logging&action=login');
                 }

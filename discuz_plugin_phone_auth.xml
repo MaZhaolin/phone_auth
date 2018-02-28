@@ -99,7 +99,7 @@
 		<item id="version"><![CDATA[X2.5,X3,X3.1,X3.2,X3.3,X3.4]]></item>
 		<item id="language">
 			<item id="scriptlang">
-				<item id="validate_failure"><![CDATA[验证失效，请重新验证。]]></item>
+				<item id="validate_failure"><![CDATA[请进行人机验证]]></item>
 				<item id="phone_not_register"><![CDATA[手机号尚未注册]]></item>
 				<item id="phone_rule_error"><![CDATA[手机号格式错误]]></item>
 				<item id="phone_is_change"><![CDATA[手机号不匹配,请重试]]></item>
@@ -113,6 +113,7 @@
 				<item id="send_too_fast"><![CDATA[发送频率过快，请稍后再试]]></item>
 				<item id="password_reset_success"><![CDATA[重置成功!]]></item>
 				<item id="send_success"><![CDATA[发送成功]]></item>
+				<item id="please_bind_phone"><![CDATA[请先完善手机号]]></item>
 			</item>
 			<item id="templatelang">
 				<item id="account"><![CDATA[账号]]></item>

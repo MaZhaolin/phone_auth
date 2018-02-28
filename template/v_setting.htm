@@ -42,6 +42,13 @@
                             <option value="0" {if '0'==$params[ 'enable_inter']} selected {/if}>{lang phone_auth:disable}</option>
                         </select>
                     </div>
+                    <div class="international-sms">
+                        <div class="title">&#30331;&#24405;&#39564;&#35777;<span style="display: inline-block;color:#ccc;margin: 0">(建议开启)</span></div>
+                        <select name="login_captcha">
+                            <option value="1" {if '0' != $params['login_captcha']} selected {/if}>&#24320;&#21551;</option>
+                            <option value="0" {if '0' == $params[ 'login_captcha']} selected {/if}>&#20851;&#38381;</option>
+                        </select>
+                    </div>
                     <div class="right">{lang phone_auth:vip_setting_desc}</div>
                 </div>
                 <div class="register">

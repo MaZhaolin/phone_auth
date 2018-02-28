@@ -8,6 +8,7 @@
         $static_path  = get_static_path();
         $site_url  = get_site_url();
         $bind_phone = Session::getValue('bind_phone_user');
+        $login_captcha = get_params('login_captcha');
         if(isset($bind_phone)) 
             $bind_phone = $bind_phone['username'];
 }
@@ -26,6 +27,7 @@
             <input tabindex="1" class="form-control dz-input" placeholder="{lang login_password}" type="password" name="password"  value="" />
             <a class="dz-link lost-password" >&nbsp;&nbsp;{lang forgotpw}</a>
         </div>
+        {if $login_captcha != '0'}
         <div class="dz-item-group">
             <span class="dz-intro">{lang phone_auth:vaptcha}:</span>
             <input type="hidden" name="vaptcha_token">
@@ -42,6 +44,7 @@
                 </div>
             </div>
         </div>
+        {/if}
         <div class="dz-item-group">
             <span class="dz-intro"></span>
             <input class="checkbox" id="cookieTime" placeholder="" type="checkbox" name="cookietime" value="2592000" />
@@ -214,6 +217,7 @@
             }).login_run({
                 id: '$id',
                 islostpwd: $islostpwd,
+                login_captcha: {$login_captcha},
                 lang: {
                     login_member: '{lang phone_auth:login_member}',
                     verify_phone: '{lang phone_auth:verify_phone}',

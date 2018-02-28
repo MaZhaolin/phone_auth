@@ -33,6 +33,11 @@ function get_params($name = null) {
          'wechat_login_url' => get_site_url().'/plugin.php?id=wechat:login'
         ));
     }
+    if (!isset($params['login_captcha'])) {
+        $params = array_merge($params, array(
+         'login_captcha' => '1'
+        ));
+    }
     return $name ? $params[$name] : $params;
 } 
 

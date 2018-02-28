@@ -32,7 +32,8 @@
 				<div class="dz-item-group">
 					<input maxlength="20" class="form-control dz-input dz-input-icon" name="password" type="password" placeholder="{lang panel_login_password}" />
 					<span class="iconfont form-icon">&#xe6c5;</span>
-				</div>
+                </div>
+                {if $params['login_captcha'] == '1'}
 				<div class="dz-item-group">
 					<input type="hidden" name="vaptcha_token">
                     <input type="hidden" name="vaptcha_challenge">
@@ -45,7 +46,7 @@
                         </div>
                     </div>
 				</div> 
-				
+				{/if}
 				<div class="dz-item-group">
 					<button class="btn dz-btn login-btn" disabled>{lang phone_auth:login}</button>
 				</div>
@@ -62,12 +63,12 @@
                     <div class="dz-qq-wechart">
                         {if $params['qq_login'] == '1' }
                         <div class="dz-qq-item">
-                            <a href="{$params['qq_login_url']}" class="iconfont dz-qq">&#xe623;</a>
+                            <a href="{$params['qq_login_url']}&mobile=yes" class="iconfont dz-qq">&#xe623;</a>
                         </div>
                         {/if}
                         {if $params['wechat_login'] == '1' }
                         <div class="dz-wechart-item">
-                            <a href="{$params['wechat_login_url']}" class="iconfont dz-wechart">&#xe66a;</a>
+                            <a href="{$params['wechat_login_url']}&mobile=yes" class="iconfont dz-wechart">&#xe66a;</a>
                         </div>
                         {/if}
                     </div>
@@ -317,6 +318,7 @@
                 vaptcha_color: '#{$params["style_color"]}',
                 vaptcha_style: '{$params["btn_style"]}',
                 site_url: '{$site_url}',
+                login_captcha: {$params['login_captcha']},
                 lang: {
                     send_code: '{lang phone_auth:send_code}',
                     password_not_match: '{lang phone_auth:password_not_match}'

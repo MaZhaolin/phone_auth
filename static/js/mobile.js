@@ -433,18 +433,19 @@
             var validate = function () {
                 var user = form.getInput('user');
                 var password = form.getInput('password');
-                if (user.val() && password.val().length > 5 && form.getInput('vaptcha_token').val()) {
+                if (user.val() && password.val().length > 5) {
                     loginBtn.removeAttribute('disabled');
                 } else {
                     loginBtn.setAttribute('disabled', 'disabled');
                 }
             }
-            var _vaptcha = self.initVaptcha({
+            var  _vaptcha ;
+            this.options.login_captcha && (_vaptcha = self.initVaptcha({
                 scene: '01',
                 form: form,
                 element: vaptcha,
                 success: validate
-            });
+            }));
             self.formValidate([
                 {
                     name: 'user', validator: function (value, el) {
@@ -468,14 +469,14 @@
                         window.location.href = self.options.site_url + '/forum.php?mobile=yes';
                     },
                     error: function (data) {
-                        if (['user', 'password'].indexOf(data.error_pos) >= 0) {
-                            form.getInput(data.error_pos).addClass('error');
+                        if (['user', 'password', 'vaptcha'].indexOf(data.error_pos) >= 0) {
+                            form.getInput(data.error_pos) && form.getInput(data.error_pos).addClass('error');
                             self.showMsg(data.msg);
                         }
                         if (data.error_pos === 'bind_phone') {
                             self.router.redirect('bindphone');
                         }
-                        _vaptcha.refresh();
+                        self.options.login_captcha && _vaptcha.refresh();
                         loginBtn.setAttribute('disabled', 'disabled');
                     }
                 })

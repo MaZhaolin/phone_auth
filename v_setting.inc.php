@@ -13,6 +13,7 @@ if (isset($_REQUEST['site_name'])) {
         'site_name' => get_request('site_name', $_G['setting']['bbname']),
         'style_color' => get_request('style_color', '3c8aff'),
         'btn_style' => get_request('btn_style', 'dark'),
+        'login_captcha' => get_request('login_captcha', '0'),
         'enable_inter' => get_request('enable_inter', '0'), //open international sms
         'register_email' => get_request('register_email', '0'),
         'qq_login' => get_request('qq_login', '0'), //open international sms

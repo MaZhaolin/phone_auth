@@ -2,6 +2,7 @@
     function login_simple_template() {
         $static_path  = get_static_path();
         $site_url = get_site_url();
+        $login_captcha = get_params('login_captcha');        
 }
 <!--{block return}-->
 <style>
@@ -126,6 +127,7 @@
     <input type="hidden" name="quickforward" value="yes">
     <input type="hidden" name="handlekey" value="ls">
 </div>
+{if $login_captcha == '1'}
 <div id="popup_vaptcha" class="discuz-vp-container">
     <div class="vp-mask"></div>
     <div class="vp-header">{lang phone_auth:popup_vaptcha_title}<a href="https://www.vaptcha.com" target="_blank">{lang phone_auth:popup_vaptcha_link}</a></div>
@@ -133,6 +135,7 @@
         <div class="loading"><span style="animation-delay: -.32s"></span><span style="animation-delay: -.16s"></span><span></span></div>
     </div>
 </div>
+{/if}
 <script src="{$static_path}/js/v-helper.min.js?v=1.7.0"></script>
 <script>
      (function login_run() {
@@ -141,6 +144,7 @@
                 site_url: '{$site_url}'
             }).login_simple_run({
                 id: '$id',
+                login_captcha: {$login_captcha},
                 lang: {
                     send_code: '{lang phone_auth:send_code}'
                 }
