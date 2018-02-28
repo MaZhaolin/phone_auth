@@ -2,6 +2,7 @@
 if(!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
+require_once 'config.php';
 
 class Response {
     public static function setStatus($num) {

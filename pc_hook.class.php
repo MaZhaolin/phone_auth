@@ -21,7 +21,9 @@ if(array_key_exists('vaptcha', $_G['cache']['plugin'])) {
 }
 //new version
 if(array_key_exists('vaptcha', $_G['setting'])) {
-    $_G['setting']['vaptcha']['enableModules'] = range(3, 11);
+    $params = unserialize($_G['setting']['vaptcha']);
+    $params['enableModules'] = array('3','4','5','6','7','8','9','10','11');
+    $_G['setting']['vaptcha'] = serialize($params);
 }
 
 class plugin_phone_auth {
@@ -61,6 +63,7 @@ class plugin_phone_auth_member extends plugin_phone_auth{
     }
 
     public function connect_code() {
+        global $_G;
         include template('phone_auth:connect');        
     }
 
@@ -95,9 +98,29 @@ class plugin_phone_auth_forum extends plugin_phone_auth {
         global $_G;
         if($this->isbind()) return;
         if ($_GET['action'] == 'reply' && $_GET['inajax'] == '1' && $_GET['handlekey'] == 'qreply_'.$_GET['tid'] && $_GET['replysubmit'] == 'yes') {
-            showmessage('请先完善手机号');
+            showmessage(lang('plugin/phone_auth', 'please_bind_phone'));
 		} else if (submitcheck('topicsubmit') || submitcheck('replysubmit') || submitcheck('editsubmit')) {
-            showmessage('请先完善手机号');
+            showmessage(lang('plugin/phone_auth', 'please_bind_phone'));
         }
+    }
+}
+
+class plugin_phone_auth_home extends plugin_phone_auth {
+    public function spacecp_profile_extra() {
+        if($_GET['op'] && $_GET['op'] != 'base') return;
+        global $_G;
+        $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
+        $site_url = get_site_url();
+        return <<<HTML
+        <tbody>
+            <tr>
+                <th>手机号</th>
+                <td>
+                    $member[phone]
+                    (<a class="" href="{$site_url}/home.php?mod=spacecp&ac=plugin&id=phone_auth:vphone_bind">点击修改</a>)</td>
+                <td></td>
+            </tr>
+        </tbody>
+HTML;
     }
 }

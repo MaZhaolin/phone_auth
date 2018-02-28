@@ -546,7 +546,7 @@ class register_ctl {
             
             $phone = $_REQUEST["phone"];
             C::t("#phone_auth#common_vphone")->save($uid, $phone);
-            
+
             if($emailstatus) {
                 updatecreditbyaction('realemail', $uid);
             }

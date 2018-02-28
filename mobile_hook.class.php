@@ -21,4 +21,10 @@ class mobileplugin_phone_auth_member extends mobileplugin_phone_auth{
     public function register_code() {
         redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no#register'));
     }
+
+    public function connect_code() {
+        if(CURMODULE == 'connect') {
+            showmessage('qq号未绑定账号请先注册', get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no#register'));
+        }
+    }
 }
