@@ -185,7 +185,7 @@ class register_ctl {
                 }
             }
         }
-        if(!submitcheck('regsubmit', 0, $seccodecheck, $secqaacheck)) {
+        if(!submitcheck('regsubmit', 0, $seccodecheck/* , $secqaacheck */)) {
 
             if($_GET['action'] == 'activation') {
                 $auth = explode("\t", authcode($auth, 'DECODE'));
