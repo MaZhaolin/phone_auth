@@ -42,12 +42,8 @@ class plugin_phone_auth_member extends plugin_phone_auth{
     public function logging_code() { 
         if($_GET['action'] == "logout") return Session::delete('isBind');
         if(CURMODULE != 'logging') return;
-        if($_GET['lssubmit'] == "yes"){
-            exit('Access Denied');
-        }
-
-        if (submitcheck('loginsubmit', 1, $seccodestatus)) {
-            exit('Access Denied');
+        if($_GET['lssubmit'] == "yes" || submitcheck('loginsubmit', 1, $seccodestatus)){
+            redirect(get_site_url('/member.php?mod=logging&action=login'));
         }
     }
 
@@ -58,7 +54,7 @@ class plugin_phone_auth_member extends plugin_phone_auth{
     public function register_code() { 
         if(CURMODULE != 'register') return;
         if (submitcheck('regsubmit')) {
-            exit('Access Denied');            
+            redirect(get_site_url('/member.php?mod=register'));               
         }
     }
 
