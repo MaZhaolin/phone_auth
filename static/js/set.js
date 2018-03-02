@@ -275,7 +275,7 @@ helper.prototype = {
             var tr = '';
             for(var i in data.records) {
                 var record = data.records[i];
-                tr += '<tr><td>86</td><td>' + record.phone + '</td><td>' + record.content + '</td><td>'
+                tr += '<tr><td>' + record.countrycode + '</td><td>' + record.phone + '</td><td>' + record.content + '</td><td>'
                 + record.consume + '</td><td>' + record.type + '</td><td>'  + (record.statucode == '100' ? '<i class="iconfont success">&#xe652;</i>' : ('<i class="iconfont error">&#xe70d;<span>' + self.config.lang.error_code + record.statucode + '</span></i>')) + '</td><td>'  + (new Date(record.createtime)).toLocaleString() + '</td></tr>'
             }
             tr && $('.log tbody').html(tr);
