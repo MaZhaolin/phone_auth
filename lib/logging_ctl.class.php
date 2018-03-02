@@ -99,10 +99,10 @@ class logging_ctl
                 return $this->response('login_password_invalid', 'password');
             }
             $vphone = C::t("#phone_auth#common_vphone")->fetch_by_uid($res['ucresult']['uid']);
-            if(!isset($vphone['uid'])) {
+            /* if(!isset($vphone['uid'])) {
                 Session::set('bind_phone_user', $res['member']);
                 return $this->response($res['ucresult']['username'], 'bind_phone');
-            }
+            } */
             // end
 
             $loginhash = !empty($_GET['loginhash']) && preg_match('/^\w+$/', $_GET['loginhash']) ? $_GET['loginhash'] : '';
@@ -145,7 +145,7 @@ class logging_ctl
                 if ($this->extrafile && file_exists($this->extrafile)) {
                     require_once $this->extrafile;
                 }
-                Session::set('isBind', true, 24 * 60 * 60 * 7);
+                Session::set('isBind', isset($vphone['uid']), 24 * 60 * 60 * 7);
                 setloginstatus($result['member'], $_GET['cookietime'] ? 2592000 : 0);
                 return $this->response('login_succeed', '', array(
                     'username' => $result['ucresult']['username'],

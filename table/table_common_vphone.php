@@ -95,8 +95,8 @@ class table_common_vphone extends discuz_table
         return $members;
     }
 
-    public function update_phone($uid, $phone) {
-		DB::query("UPDATE %t SET phone=%s WHERE uid=%d", array($this->_table, $phone, $uid));        
+    public function update_phone($uid, $phone, $country_code) {
+		DB::query("UPDATE %t SET phone=%s,country_code=%s WHERE uid=%d", array($this->_table, $phone, $country_code, $uid));        
     }
 
     public function fetch_all() {

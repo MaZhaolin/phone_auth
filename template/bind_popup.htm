@@ -7,7 +7,7 @@
         global $_G;
         $static_path  = get_static_path();
         $site_url  = get_site_url();
-        $bind_phone = Session::getValue('bind_phone_user');
+        $bind_phone = $_G['username'];
 }
 <!--{block return}-->
 <div id="fwin_login" class="fwinmask" style="position: fixed; z-index: 201;left:50%;top:50%;margin-left:-150px;margin-top:-150px;">
@@ -25,161 +25,65 @@
                         <em id="returnmessage_LwjSJ" fwin="login">绑定手机号</em>
                     </h3>
                     <div id="loginphone_$id" class="vaptcha-dz-form">
-                        <div class="vaptcha-dz-popup v-login-form none">
-                            <input type="hidden" name="formhash" value="{FORMHASH}" />
-                            <input type="hidden" name="referer" value="{$referer}" />
-                            <div class="dz-item-group">
-                                <span class="dz-intro">{lang phone_auth:account}:</span>
-                                <input tabindex="1" class="form-control dz-input" placeholder="{lang phone_auth:account_placeholder}" type="text" name="user"
-                                    value="" />
-                                <a class="dz-link" href="member.php?mod=register">&nbsp;&nbsp;{lang phone_auth:register_link}</a>
-                            </div>
-                            <div class="dz-item-group">
-                                <span class="dz-intro">{lang login_password}:</span>
-                                <input tabindex="1" class="form-control dz-input" placeholder="{lang login_password}" type="password" name="password" value=""
-                                />
-                                <a class="dz-link lost-password">&nbsp;&nbsp;{lang forgotpw}</a>
-                            </div>
-                            <div class="dz-item-group">
-                                <span class="dz-intro">{lang phone_auth:vaptcha}:</span>
-                                <input type="hidden" name="vaptcha_token">
-                                <input type="hidden" name="vaptcha_challenge">
-                                <div class="vaptcha_container">
-                                    <div class="vaptcha-init-main">
-                                        <div class="vaptcha-init-loading">
-                                            <a>
-                                                <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
-                                            </a>
-                                            <span class="vaptcha-text">
-                                                <a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a>{lang phone_auth:captcha_loading}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dz-item-group">
-                                <span class="dz-intro"></span>
-                                <input class="checkbox" id="cookieTime" placeholder="" type="checkbox" name="cookietime" value="2592000" />
-                                <label class="dz-item-text" for="cookieTime">{lang login_permanent}</label>
-                            </div>
-                            {if $params['qq_login'] == '1' || $params['wechat_login'] == '1' }
-                            <span class="dz-line"></span>
-                            <div class="dz-item-group mt10">
-                                <span class="dz-intro">&#24555;&#25463;&#30331;&#24405;:</span>
-                                {if $params['qq_login'] == '1' }
-                                <a class="dz-login-img dz-login-qq " target="_blank" href="{$params['qq_login_url']}">
-                                    <img src="{$static_path}/img/qq_login.gif" alt="">
-                                </a>
-                                {/if} {if $params['wechat_login'] == '1' }
-                                <a class="dz-login-img dz-login-wechat" target="_blank" href="{$params['wechat_login_url']}">
-                                    <img src="{$static_path}/img/wechat_login.png" alt="">
-                                </a>
-                                {/if}
-                            </div>
-                            {/if}
-                            <div class="dz-item-group">
-                                <span class="dz-intro"></span>
-                                <button class="btn dz-btn login-button" disabled>{lang phone_auth:login}</button>
-                            </div>
-                        </div>
-                        <div class="vaptcha-dz-popup lost-password-form none">
-                            <div class="vaptcha-dz-step">
-                                <div class="dz-step-cont dz-step-acitve">
-                                    <div class="dz-step">
-                                        <div class="dz-step-number">1</div>
-                                        <span class="dz-step-intro">{lang phone_auth:verify_code}</span>
-                                    </div>
-                                    <span class="dz-step-bar"></span>
-                                </div>
-                                <div class="dz-step-cont">
-                                    <div class="dz-step">
-                                        <div class="dz-step-number">2</div>
-                                        <span class="dz-step-intro">{lang phone_auth:password_reset}</span>
-                                    </div>
-                                    <span class="dz-step-bar"></span>
-                                </div>
-                                <div class="dz-step-cont">
-                                    <div class="dz-step">
-                                        <div class="dz-step-number">3</div>
-                                        <span class="dz-step-intro">{lang finished}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dz-item2-group">
-                                <input class="form-control dz-input" placeholder="{lang phone_auth:register_phone_pl}" type="text" name="phone" />
-                            </div>
-                            <div class="dz-item2-group clearfix none send-code-group">
-                                <input class="form-control dz-input dz-input-code" placeholder="{lang phone_auth:code_pl}" type="text" name="code" />
-                                <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
-                            </div>
-                            <div class="dz-item2-group">
-                                <input type="hidden" name="vaptcha_token">
-                                <input type="hidden" name="vaptcha_challenge">
-                                <div class="vaptcha_container">
-                                    <div class="vaptcha-init-main">
-                                        <div class="vaptcha-init-loading">
-                                            <a>
-                                                <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
-                                            </a>
-                                            <span class="vaptcha-text">
-                                                <a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a>{lang phone_auth:captcha_loading}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dz-item2-group">
-                                <button class="btn dz-btn next-step" disabled="disabled">{lang phone_auth:next_step}</button>
-                            </div>
-                        </div>
-                        <div class="vaptcha-dz-popup reset-password none">
-                            <div class="vaptcha-dz-step">
-                                <div class="dz-step-cont dz-step-acitve">
-                                    <div class="dz-step">
-                                        <div class="dz-step-number">1</div>
-                                        <span class="dz-step-intro">{lang phone_auth:verify_code}</span>
-                                    </div>
-                                    <span class="dz-step-bar"></span>
-                                </div>
-                                <div class="dz-step-cont">
-                                    <div class="dz-step">
-                                        <div class="dz-step-number">2</div>
-                                        <span class="dz-step-intro">{lang phone_auth:password_reset}</span>
-                                    </div>
-                                    <span class="dz-step-bar"></span>
-                                </div>
-                                <div class="dz-step-cont">
-                                    <div class="dz-step">
-                                        <div class="dz-step-number">3</div>
-                                        <span class="dz-step-intro">{lang finished}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dz-item2-group">
-                                <input class="form-control dz-input" placeholder="{lang phone_auth:new_pwd_pl}" type="password" name="new_password" />
-                                <div class="pw-strength">
-                                    <div class="pw-bar"></div>
-                                    <div class="pw-bar-on"></div>
-                                    <div class="pw-separate">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="dz-item2-group">
-                                <input class="form-control dz-input " placeholder="{lang phone_auth:new_pwd_confim}" type="password" name="verify_password"
-                                />
-                            </div>
-                            <div class="dz-item2-group">
-                                <button class="btn dz-btn submit-btn" disabled="disabled">{lang submit}</button>
-                            </div>
-                        </div>
+                        <div class="vaptcha-dz-popup v-login-form none"></div>
+                        <div class="vaptcha-dz-popup lost-password-form none"></div>
+                        <div class="vaptcha-dz-popup reset-password none"></div>
                         <div class="vaptcha-dz-popup bind-phone-form">
                             <h2 style="text-align: center; padding: 10px">{lang phone_auth:bind_phone_title}</h2>
+                            {if $params['enable_inter'] == '0'}
                             <div class="dz-item2-group">
-                                <input class="form-control dz-input" placeholder="{lang phone_auth:register_phone_pl}" type="text" name="phone" />
+                                <input type="hidden" value="86" name="country_code">                                
+                                <input maxlength="11"  class="form-control dz-input" placeholder="{lang phone_auth:register_phone_pl}" name="phone">
                             </div>
+                            {else}
+                            <div class="dz-item2-group">
+                                <span class="dz-intro">
+                                <div class="phonenumber">
+                                    <div class="area-code btn-group dropdown">
+                                        <div class="country-code active">
+                                            <span class="add">+</span>
+                                            <input type="text" class="form-control dz-input" value="86" name="country_code">
+                                        </div>
+                                        <button class="btn dropdown-toggle-split dropdown-toggle btn-down" type="button">
+                                            <img src="{$static_path}/img/dropdown.png" />
+                                        </button>
+                                        <ul class="dropdown-menu" style="display: none">
+                                            <li role="menuitem">
+                                                <a class="dropdown-item">
+                                                    CN +86
+                                                </a>
+                                            </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item">
+                                                    TW +886
+                                                </a>
+                                            </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item">
+                                                    HK +852
+                                                </a>
+                                            </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item">
+                                                    USA +1
+                                                </a>
+                                            </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item">
+                                                    JP +81
+                                                </a>
+                                            </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item">
+                                                    KP +850
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <input autocomplete="off" maxlength="11"  placeholder="{lang phone_auth:register_phone_pl}" class="form-control bg-c dz-input" type="tel" name="phone">         
+                                </div>
+                            </div>
+                            {/if}
                             <div class="dz-item2-group clearfix none send-code-group">
                                 <input class="form-control dz-input dz-input-code" placeholder="{lang phone_auth:code_pl}" type="text" name="code" />
                                 <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
@@ -225,7 +129,7 @@
         </tbody>
     </table>
 </div>
-<script src="{$static_path}/js/v-helper.min.js?v=1.7.0"></script>
+<script src="{$static_path}/js/v-helper.js?v=1.7.0"></script>
 <script>
     (function login_run() {
         if(window.v_helper) {
@@ -239,6 +143,7 @@
             }).login_run({
                 id: '$id',
                 islostpwd: $islostpwd,
+                enable_inter: $params["enable_inter"],
                 lang: {
                     login_member: '{lang phone_auth:login_member}',
                     verify_phone: '{lang phone_auth:verify_phone}',

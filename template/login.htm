@@ -9,7 +9,7 @@
         $site_url  = get_site_url();
         $bind_phone = Session::getValue('bind_phone_user');
         $login_captcha = get_params('login_captcha');
-        if(isset($bind_phone)) 
+        if(isset($bind_phone['username']))
             $bind_phone = $bind_phone['username'];
 }
 <!--{block return}-->

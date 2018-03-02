@@ -38,12 +38,12 @@
                     <div class="international-sms">
                         <div class="title">{lang phone_auth:inter_sms}</div>
                         <select name="enable_inter">
-                            <!-- <option value="1" {if '1' == $params['enable_inter']} selected {/if}>{lang phone_auth:enable}</option> -->
+                            <option value="1" {if '1' == $params['enable_inter']} selected {/if}>{lang phone_auth:enable}</option>
                             <option value="0" {if '0'==$params[ 'enable_inter']} selected {/if}>{lang phone_auth:disable}</option>
                         </select>
                     </div>
                     <div class="international-sms">
-                        <div class="title">&#30331;&#24405;&#39564;&#35777;<span style="display: inline-block;color:#ccc;margin: 0">(建议开启)</span></div>
+                        <div class="title">&#30331;&#24405;&#39564;&#35777;<span style="display: inline-block;color:#ccc;margin: 0">(&#24314;&#35758;&#24320;&#21551;)</span></div>
                         <select name="login_captcha">
                             <option value="1" {if '0' != $params['login_captcha']} selected {/if}>&#24320;&#21551;</option>
                             <option value="0" {if '0' == $params[ 'login_captcha']} selected {/if}>&#20851;&#38381;</option>

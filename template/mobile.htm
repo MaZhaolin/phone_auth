@@ -91,19 +91,74 @@
 				</div>
 			</div>
         </div>
-        
         <div class="m-dz m-dz-bind-phone none">
                 <div class="m-dz-top">
                     <span class="logo-img fl iconfont redirect-back ">&#xe7c2;</span>
                     <span class="logo-text">{lang phone_auth:bind_phone}</span>
                 </div>
                 <div class="m-dz-main">
+                        {if $params['enable_inter'] == '0'}
                         <div class="dz-item-group">
-                            <input maxlength="11" class="form-control dz-input dz-input-icon" type="text" name="phone" placeholder="{lang phone_auth:phone}" />
+                            <input type="hidden" value="86" name="country_code">
+                            <input class="form-control dz-input dz-input-icon" maxlength="11" type="text" name="phone" placeholder="{lang phone_auth:phone}" />
                             <span class="iconfont form-icon icon-phone">&#xe625;</span>
                         </div>
+                        {else}
+                        <div class="dz-item-group">
+                            <input maxlength="11" class="form-control dz-input dz-input-icon ti126" type="text" name="phone" placeholder="{lang phone_auth:phone}"
+                            />
+                            <span class="iconfont form-icon icon-phone">&#xe625;</span>
+                        
+                            <div id="phonePrefix" class="area-code btn-group dropdown">
+                                <div class="country-code active">
+                                    <span class="add">+</span>
+                                    <input type="text" class="form-control dz-input" value="86" name="country_code">
+                                </div>
+                                <button id="btn-down" class="btn btn-down dropdown-toggle" type="button">
+                                    CN +86
+                                </button>
+                                <button class="btn dropdown-toggle-split dropdown-toggle btn-down" type="button">
+                                    <img src="{$static_path}/img/dropdown.png" />
+                                </button>
+                                <ul class="dropdown-menu" style="display: none;">
+                                    <li role="menuitem">
+                                        <a class="dropdown-item">
+                                            CN +86
+                                        </a>
+                                    </li>
+                                    <li role="menuitem">
+                                        <a class="dropdown-item">
+                                            TW +886
+                                        </a>
+                                    </li>
+                                    <li role="menuitem">
+                                        <a class="dropdown-item">
+                                            HK +852
+                                        </a>
+                                    </li>
+                                    <li role="menuitem">
+                                        <a class="dropdown-item">
+                                            USA +1
+                                        </a>
+                                    </li>
+                                    <li role="menuitem">
+                                        <a class="dropdown-item">
+                                            JP +81
+                                        </a>
+                                    </li>
+                                    <li role="menuitem">
+                                        <a class="dropdown-item">
+                                            KP +850
+                                        </a>
+                                    </li>
+                        
+                                </ul>
+                            </div>
+                        
+                        </div>
+                        {/if}
                         <div class="dz-item2-group clearfix send-code-group none">
-                            <input class="form-control dz-input dz-input-code dz-input-icon" name="code"  placeholder="{lang phone_auth:captcha}" type="text" name="code" />
+                            <input class="form-control dz-input dz-input-code dz-input-icon" name="code"  placeholder="{lang phone_auth:code}" type="text" name="code" />
                             <span class="iconfont form-icon">&#xe65a;</span>
                             <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
                         </div>
@@ -171,12 +226,68 @@
 				<div class="pw-strength">
 	                <div class="pw-bar"></div>
 	                <div class="pw-bar-on"></div>
-	            </div>
+                </div>
+                {if $params['enable_inter'] == '0'}
 				<div class="dz-item-group">
+                    <input type="hidden" value="86" name="country_code">                    
 					<input class="form-control dz-input dz-input-icon" maxlength="11" type="text" name="phone" placeholder="{lang phone_auth:phone}" />
 					<span class="iconfont form-icon icon-phone">&#xe625;</span>
-				</div>
-				<div class="dz-item2-group clearfix dz-code-group none">
+                </div>
+                {else}
+                <div class="dz-item-group">
+                    <input maxlength="11" class="form-control dz-input dz-input-icon ti126" type="text" name="phone" placeholder="{lang phone_auth:phone}"
+                    />
+                    <span class="iconfont form-icon icon-phone">&#xe625;</span>
+                
+                    <div id="phonePrefix" class="area-code btn-group dropdown">
+                        <div class="country-code active">
+                            <span class="add">+</span>
+                            <input type="text" class="form-control dz-input" value="86" name="country_code">
+                        </div>
+                        <button id="btn-down" class="btn btn-down dropdown-toggle" type="button">
+                            CN +86
+                        </button>
+                        <button class="btn dropdown-toggle-split dropdown-toggle btn-down" type="button">
+                            <img src="{$static_path}/img/dropdown.png" />
+                        </button>
+                        <ul class="dropdown-menu" style="display: none;">
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    CN +86
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    TW +886
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    HK +852
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    USA +1
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    JP +81
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    KP +850
+                                </a>
+                            </li>
+                
+                        </ul>
+                    </div>
+                
+                </div>
+                {/if}
+                <div class="dz-item2-group clearfix dz-code-group none">
 	                <input class="form-control dz-input dz-input-code dz-input-icon" name="code"  placeholder="{lang phone_auth:code}" type="text" name="code" />
 	                <span class="iconfont form-icon">&#xe65a;</span>
 	                <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
@@ -217,7 +328,6 @@
 				</div>
 			</div> 
 		</div>
-
 		<div class="m-dz m-dz-forgetword none">
 			<div class="m-dz-top">
 				<span class="logo-img fl iconfont redirect-back ">&#xe7c2;</span>
@@ -265,7 +375,6 @@
 				</div>
 			</div>
 		</div>
-
         <div class="m-dz  m-dz-resetpwd none">
 			<div class="m-dz-top">
 				<span class="logo-img fl iconfont redirect-back ">&#xe7c2;</span>
@@ -311,20 +420,21 @@
             </div>
         </div>
     <script src="http://cdn.vaptcha.com/v.js"></script>
-    <script src="{$static_path}/js/mobile.min.js"></script>
+    <script src="{$static_path}/js/mobile.js"></script>
     <script>
         window.onload = function() {
             var v_helper =  new helper({
                 vaptcha_color: '#{$params["style_color"]}',
                 vaptcha_style: '{$params["btn_style"]}',
                 site_url: '{$site_url}',
-                login_captcha: {$params['login_captcha']},
+                login_captcha: $params['login_captcha'],
+                enable_inter: $params['enable_inter'],
                 lang: {
                     send_code: '{lang phone_auth:send_code}',
                     password_not_match: '{lang phone_auth:password_not_match}'
                 },
                 register: {
-                    has_email: {$params["register_email"]},
+                    has_email: $params["register_email"],
                     username: 'username',
                     email: 'email',
                     password: 'password',

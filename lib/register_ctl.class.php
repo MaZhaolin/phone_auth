@@ -545,7 +545,8 @@ class register_ctl {
             C::t('common_member')->insert($uid, $username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr);
             
             $phone = $_REQUEST["phone"];
-            C::t("#phone_auth#common_vphone")->save($uid, $phone);
+            $countrycode = Session::getValue($phone.'_country_code', '86');
+            C::t("#phone_auth#common_vphone")->save($uid, $phone, $countrycode);
 
             if($emailstatus) {
                 updatecreditbyaction('realemail', $uid);

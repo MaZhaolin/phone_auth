@@ -13,20 +13,21 @@ class sms {
             'vid' => get_params('vid'),
             'key' => get_params('key'),
             'label' => get_params('site_name'),
+            'api' => 'http://smsapi.vaptcha.com',
             'expiretime' => 10
         );
     }
 
     public function sendCode($data) {
-        $url = API_URL.'/sms/send';
         $config = $this->config;
+        $url = $config['api'].'/sms/send';
         $data = array(
             'vid' => $config['vid'],
             'token' => $data['token'],
             'label' => $config['label'],
             'code' => $data['code'],
             'expiretime' => $config['expiretime'],
-            'countrycode' => '86',
+            'countrycode' => $data['countrycode'],
             'phone' => $data['phone'],
         );
         $query = $this->createQuery($data);
@@ -41,6 +42,7 @@ class sms {
             'page' => $page
         );
         $url = $this->createSignatureUrl('/sms/sendrecord', $data);
+        return $url;
         $res = $this->readContentFormGet($url);
         $res = characet($res, CHARSET, 'utf-8');
         return $res;
@@ -95,7 +97,7 @@ class sms {
 
     public function createSignatureUrl($baseUrl, $data) {
         $query = $this->createQuery($data);
-        return API_URL.$baseUrl.'?'.$query;        
+        return $this->config['api'].$baseUrl.'?'.$query;        
     }
 
     public function createQuery($data) {

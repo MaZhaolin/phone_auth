@@ -51,10 +51,11 @@ class PhoneAuth {
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsgs($phone, $token, $type = 'default') {
+    private function sendCodeMsgs($phone, $token, $countrycode, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
+        $countrycode = get_params('enable_inter') == '1' ? $countrycode : '86';
         $key = $type.'_verify_code';
         $code = Session::getValue($key);
         if ($code) {
@@ -63,18 +64,21 @@ class PhoneAuth {
             if ($time && 60 * 2 > ($now - $time)) {
                 //2min not send code return valid time 
                 Session::set($type.'_phone', $phone);
+                Session::set($type.'_country_code', $countrycode);
                 return $this->response(301, 60 * 2 - ($now - $time), 'code');            
             } else {
                 //10min not change code 
                 $res = $this->sms->sendCode(array(
                     'phone' => $phone,
                     'code' => $code,
-                    'token' => $token
+                    'token' => $token,
+                    'countrycode' => $countrycode                    
                 ));
                 if ($res == 2001) {
                     Session::refresh($key);
                     Session::set($type.'_code_send_time', $now);
                     Session::set($type.'_phone', $phone);
+                    Session::set($type.'_country_code', $countrycode);
                 }
                 return $this->responseCodeMsg($res);
             }
@@ -84,21 +88,24 @@ class PhoneAuth {
         $res = $this->sms->sendCode(array(
             'phone' => $phone,
             'code' => $code,
-            'token' => $token
+            'token' => $token,
+            'countrycode' => $countrycode
         ));
         if ($res == 2001) {
             Session::set($key, $code);
             Session::set($type.'_code_send_time', time());
             Session::set($type.'_phone', $phone);
+            Session::set($type.'_country_code', $countrycode);
         }
         return $this->responseCodeMsg($res);
     }
     
     // test method
-    private function sendCodeMsg($phone, $token, $type = 'default') {
+    private function sendCodeMsg($phone, $token, $countrycode, $type = 'default') {
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
+        $countrycode = get_params('enable_inter') == '1' ? $countrycode : '86';        
         $key = $type.'_verify_code';
         $code = Session::getValue($key);
         if ($code) {
@@ -107,13 +114,15 @@ class PhoneAuth {
             if ($time && 60 * 2 > ($now - $time)) {
                 //2min not send code return valid time 
                 Session::set($type.'_phone', $phone);
-                return $this->response(301, 60 * 2 - ($now - $time), $code);            
+                Session::set($type.'_country_code', $countrycode);
+                return $this->response($countrycode, 60 * 2 - ($now - $time), $code);            
             } else {
                 //10min not change code 
                 Session::refresh($key);
                 Session::set($type.'_code_send_time', $now);
                 Session::set($type.'_phone', $phone);
-                return $this->response(200, $code);
+                Session::set($type.'_country_code', $countrycode);
+                return $this->response(200, $code, $countrycode);
             }
         } else {
             $code = rand(100000, 999999);
@@ -122,7 +131,8 @@ class PhoneAuth {
         Session::set($key, $code);
         Session::set($type.'_code_send_time', time());
         Session::set($type.'_phone', $phone);
-        return $this->response(200, $code);
+        Session::set($type.'_country_code', $countrycode);
+        return $this->response(200, $code, $countrycode);
     }
 
     public function responseCodeMsg($code) {
@@ -163,7 +173,7 @@ class PhoneAuth {
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if (!isset($member['uid'])) return $this->response(401, 'phone_not_register', 'phone');
-        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token']);
+        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $member['country_code']);
     }
 
     public function verifyCode() {
@@ -221,13 +231,13 @@ class PhoneAuth {
                 return $this->response(401, 'phone_is_register', 'phone');                
             }
         }
-        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $phone);
+        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $_REQUEST['country_code'], $phone);
     }
 
-    public function register() {
+    public function register() {        
         $phone = $_REQUEST['phone'];
         if (!$phone || $phone != Session::getValue($phone.'_phone')) {
-            return $this->response(401, 'code_is_error', 'code');
+            return $this->response(401, Session::getValue($phone.'_phone').'code_is_error', 'code');
         }
         $code = Session::get($phone.'_verify_code');
         if ($code['readcount'] > 3) {
@@ -248,7 +258,7 @@ class PhoneAuth {
         global $_G;
         $phone = $_REQUEST['phone'];        
         $member = Session::getValue('bind_phone_user');
-        if (!$member && !$_G['uid']) {
+        if (!isset($member['username']) && !$_G['uid']) {
             return $this->response(401, 'Access denied');
         }
         if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
@@ -256,14 +266,14 @@ class PhoneAuth {
         }
         $vphone_member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if (isset($vphone_member['uid'])) return $this->response(401, 'phone_is_bind', 'phone');
-        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], 'bind_phone');
+        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $_REQUEST['country_code'], 'bind_phone');
     }
 
     public function bindPhone(){
         global $_G;        
         $code = $_REQUEST['code'];
         $member = Session::getValue('bind_phone_user');
-        if (!$member && !$_G['uid']) {
+        if (!isset($member['username']) && !$_G['uid']) {
             return $this->response(401, 'Access denied');
         }
         $phone = Session::getValue('bind_phone_phone');
@@ -281,12 +291,13 @@ class PhoneAuth {
         Session::delete('bind_phone_phone');
         Session::delete('bind_phone_verify_code');
         Session::set('isBind', true);        
+        $countrycode = Session::getValue('bind_phone_country_code', '86');
         if(!isset($member['uid'])) {
             $member['uid'] = $_G['uid'];
-            C::t("#phone_auth#common_vphone")->save($member['uid'], $phone);
+            C::t("#phone_auth#common_vphone")->save($member['uid'], $phone, $countrycode);
             return $this->response(200, 'success');
         }
-        C::t("#phone_auth#common_vphone")->save($member['uid'], $phone);
+        C::t("#phone_auth#common_vphone")->save($member['uid'], $phone, $countrycode);
         setloginstatus($member, 2592000);
         return $this->response(200, 'success');
     }
@@ -303,7 +314,7 @@ class PhoneAuth {
         }
         $vphone_member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
         if (isset($vphone_member['uid'])) return $this->response(401, 'phone_is_bind', 'phone');
-        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], 'modify_phone');
+        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $_REQUEST['country_code'], 'modify_phone');
     }
 
     public function modifyPhone() {
@@ -327,17 +338,18 @@ class PhoneAuth {
         if ($code['value'] != $_REQUEST['code'] ) {
             return $this->response(401, 'code_is_error', 'code');            
         }
+        $countrycode = Session::getValue('modify_phone_country_code', '86');
         Session::delete('modify_phone_phone');
         Session::delete('modify_phone_verify_code');
         C::t("#phone_auth#common_vphone")->fetch_by_uid($_G['uid']) ? 
-        C::t("#phone_auth#common_vphone")->update_phone($_G['uid'], $phone) :
-        C::t("#phone_auth#common_vphone")->save($_G['uid'], $phone);
+        C::t("#phone_auth#common_vphone")->update_phone($_G['uid'], $phone, $countrycode) :
+        C::t("#phone_auth#common_vphone")->save($_G['uid'], $phone, $countrycode);
         return $this->response(200, 'modify_phone_success');
     }
 
     public function mobile() {
         global $_G;
-        if ($_G['uid']) {
+        if ($_G['uid'] && !$_REQUEST['bp']) {
             redirect(get_site_url('/forum.php?mobile=yes'));
         }
         include_once (DISCUZ_ROOT . '/source/discuz_version.php');

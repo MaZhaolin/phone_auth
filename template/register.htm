@@ -50,11 +50,64 @@
                 </div>
         </div>
         <div class="v-line"></div>
+        {if $params['enable_inter'] == '0'}
         <div class="dz-item-group">
+            <input type="hidden" value="86" name="country_code">            
             <span class="dz-intro"><sup>*</sup>{lang phone_auth:phone}:</span>
             <input maxlength="11"  class="form-control dz-input" name="phone">
             <span class="dz-title"></span>
         </div>
+        {else}
+        <div class="dz-item-group">
+            <span class="dz-intro">
+                <sup>*</sup>{lang phone_auth:phone}:</span>
+            <div class="phonenumber">
+                <div class="area-code btn-group dropdown">
+                    <div class="country-code active">
+                        <span class="add">+</span>
+                        <input type="text" class="form-control dz-input" value="86" name="country_code">
+                    </div>
+                    <button class="btn dropdown-toggle-split dropdown-toggle btn-down" type="button">
+                        <img src="{$static_path}/img/dropdown.png" />
+                    </button>
+                    <ul class="dropdown-menu" style="display: none">
+                        <li role="menuitem">
+                            <a class="dropdown-item">
+                                CN +86
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a class="dropdown-item">
+                                TW +886
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a class="dropdown-item">
+                                HK +852
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a class="dropdown-item">
+                                USA +1
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a class="dropdown-item">
+                                JP +81
+                            </a>
+                        </li>
+                        <li role="menuitem">
+                            <a class="dropdown-item">
+                                KP +850
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <input maxlength="11"  autocomplete="off"  class="form-control bg-c dz-input" type="tel" name="phone">
+                <span class="dz-title"></span>            
+            </div>
+        </div>
+        {/if}
         <div class="dz-item-group none dz-code-group">
             <span class="dz-intro"><sup>*</sup>{lang phone_auth:code}:</span>
             <input class="form-control dz-input dz-input-code" placeholder="{lang phone_auth:code_pl}" type="text" name="code"/>
@@ -98,7 +151,7 @@
         </div>
     </div>
 </div>
-<script src="{$static_path}/js/v-helper.min.js?v=1.7.0"></script>
+<script src="{$static_path}/js/v-helper.js?v=1.7.0"></script>
 <script>
     (function register_run() {
         if(window.v_helper) {
@@ -114,6 +167,7 @@
                 has_email: {$params["register_email"]},
                 has_qq: 0,
                 has_bbrules: {$setting['bbrules']},
+                enable_inter: {$params["enable_inter"]},
                 username: 'username',
                 email: 'email',
                 password: 'password',

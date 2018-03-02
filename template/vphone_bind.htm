@@ -102,7 +102,7 @@
             <tr>
                 <th>{lang phone_auth:old_phone}</th>
                 <td>
-                    {$vphone['phone']}
+                    +{$vphone['country_code']} {$vphone['phone']}
                 </td>
                 <td></td>
             </tr>
@@ -110,7 +110,8 @@
                 <th>
                     <span class="rq">*</span>{lang phone_auth:new_phone}</th>
                 <td>
-                    <input type="text" name="phone" class="px">
+                    + <input type="text" name="country_code" style="width: 50px" class="ps" placeholder="国别码" value="{$vphone['country_code']}">                    
+                    <input type="text" maxlength="11" name="phone" class="px" style="width: 180px" placeholder="手机号">
                 </td>
                 <td class="v-error-msg error-phone"></td>                
             </tr>

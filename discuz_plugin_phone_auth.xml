@@ -160,7 +160,7 @@
 				<item id="next_step"><![CDATA[下一步]]></item>
 				<item id="click_bind"><![CDATA[点击绑定]]></item>
 				<item id="captcha"><![CDATA[CAPTCHA]]></item>
-				<item id="captcha_loading"><![CDATA[is initializing..]]></item>
+				<item id="captcha_loading"><![CDATA[is initializing...]]></item>
 				<item id="setting_tips_1"><![CDATA[请输入你的手机号进行绑定，一个手机号只能绑定一个论坛账号。]]></item>
 				<item id="setting_tips_2"><![CDATA[绑定的手机号可以用于登录和找回密码。]]></item>
 				<item id="base_setting"><![CDATA[基础设置]]></item>
@@ -176,7 +176,7 @@
 				<item id="color_style"><![CDATA[颜色风格]]></item>
 				<item id="vaptcha_style"><![CDATA[VAPTCHA按钮风格]]></item>
 				<item id="inter_sms"><![CDATA[国际短信]]></item>
-				<item id="enbale"><![CDATA[允许]]></item>
+				<item id="enable"><![CDATA[允许]]></item>
 				<item id="disable"><![CDATA[不允许]]></item>
 				<item id="register_option"><![CDATA[注册填写选项]]></item>
 				<item id="email_desc"><![CDATA[邮箱不做验证，仅用于接受信息不会用于找回密码等操作]]></item>

@@ -70,6 +70,6 @@ class Response {
         return Response::json(array(
             'msg' => 'Not Found',
             'version' => VERSION
-        ), 404);
+        ), 401);
     }
 }
