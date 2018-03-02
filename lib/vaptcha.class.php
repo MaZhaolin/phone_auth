@@ -36,13 +36,13 @@ class Vaptcha
         if (!$this->isDown)
         {
             $challenge = self::readContentFormGet("$url?$query&signature=$signature");
-            if ($challenge === REQUEST_UESD_UP) {
-                $this->lastCheckdownTime = $now;
-                $this->isDown = true;
+            if ($challenge === REQUEST_USED_UP) {
+                // $this->lastCheckdownTime = $now;
+                // $this->isDown = true;
                 self::$passedSignatures = array();
                 return $this->getDownTimeCaptcha();
             }
-            if (!$challenge) {
+            if (empty($challenge)) {
                 if ($this->getIsDwon()) {
                     $this->lastCheckdownTime = $now;
                     $this->isDown = true;
@@ -58,7 +58,7 @@ class Vaptcha
         if ($now - $this->lastCheckdownTime > DOWNTIME_CHECK_TIME) {
                 $this->lastCheckdownTime = $now;
                 $challenge = self::readContentFormGet("$url?$query&signature=$signature");
-                if ($challenge && $challenge != REQUEST_UESD_UP){
+                if ($challenge && $challenge != REQUEST_USED_UP){
                     $this->isDown = false;
                     self::$passedSignatures = array();
                     return json_encode(array(

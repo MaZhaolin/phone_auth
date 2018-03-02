@@ -15,7 +15,7 @@ define("SDK_LANG", 'php');
 define("API_URL", 'http://api.vaptcha.com');
 define("GET_CHALLENGE_URL", '/challenge');
 define("VALIDATE_URL", '/validate');
-define("REQUEST_UESD_UP", '0209');
+define("REQUEST_USED_UP", '0209');
 define("DOWNTIME_CHECK_TIME", 185000);
 
 
