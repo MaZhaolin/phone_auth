@@ -23,7 +23,7 @@ class mobileplugin_phone_auth_member extends mobileplugin_phone_auth{
 
     public function connect_code() {
         if(CURMODULE == 'connect') {
-            showmessage('qq号未绑定账号请先注册', get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no#register'));
+            showmessage('&#113;&#113;&#21495;&#26410;&#32465;&#23450;&#36134;&#21495;&#35831;&#20808;&#27880;&#20876;', get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no#register'));
         }
     }
 }
@@ -35,10 +35,10 @@ class mobileplugin_phone_auth_forum extends mobileplugin_phone_auth {
         if(!isset($_G['uid']) || empty($_G['uid']) || Session::getValue('isBind', false)) return true;
         $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
         if(!isset($member['phone'])) {
-            Session::set('isBind', false, 24 * 60 * 60 * 7);
+            Session::set('isBind', false, 3 * 60 * 60);
             return false;
         }
-        Session::set('isBind', true, 24 * 60 * 60 * 7);
+        Session::set('isBind', true, 3 * 60 * 60);
         return true;
     }
 

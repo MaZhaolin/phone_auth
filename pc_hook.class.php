@@ -72,10 +72,10 @@ class plugin_phone_auth_forum extends plugin_phone_auth {
         if(!isset($_G['uid']) || empty($_G['uid']) || Session::getValue('isBind', false)) return true;
         $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
         if(!isset($member['phone'])) {
-            Session::set('isBind', false, 24 * 60 * 60 * 7);
+            Session::set('isBind', false, 3 * 60 * 60);
             return false;
         }
-        Session::set('isBind', true, 24 * 60 * 60 * 7);
+        Session::set('isBind', true, 3 * 60 * 60);
         return true;
     }
 
@@ -110,10 +110,10 @@ class plugin_phone_auth_home extends plugin_phone_auth {
         return <<<HTML
         <tbody>
             <tr>
-                <th>手机号</th>
+                <th>&#25163;&#26426;&#21495;</th>
                 <td>
                     $member[phone]
-                    (<a class="" href="{$site_url}/home.php?mod=spacecp&ac=plugin&id=phone_auth:vphone_bind">点击修改</a>)</td>
+                    (<a class="" href="{$site_url}/home.php?mod=spacecp&ac=plugin&id=phone_auth:vphone_bind">&#28857;&#20987;&#20462;&#25913;</a>)</td>
                 <td></td>
             </tr>
         </tbody>

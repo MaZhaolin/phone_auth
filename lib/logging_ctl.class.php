@@ -145,7 +145,7 @@ class logging_ctl
                 if ($this->extrafile && file_exists($this->extrafile)) {
                     require_once $this->extrafile;
                 }
-                Session::set('isBind', isset($vphone['uid']), 24 * 60 * 60 * 7);
+                Session::set('isBind', isset($vphone['uid']), 3 * 60 * 60);
                 setloginstatus($result['member'], $_GET['cookietime'] ? 2592000 : 0);
                 return $this->response('login_succeed', '', array(
                     'username' => $result['ucresult']['username'],

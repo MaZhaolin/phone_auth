@@ -14,7 +14,7 @@
 			<item id="datatables"><![CDATA[]]></item>z
 			<item id="directory"><![CDATA[phone_auth/]]></item>
 			<item id="copyright"><![CDATA[VAPTCHA]]></item>
-			<item id="version"><![CDATA[1.7.0]]></item>
+			<item id="version"><![CDATA[1.7.1]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[pc_hook]]></item>

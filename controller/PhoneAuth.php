@@ -51,8 +51,8 @@ class PhoneAuth {
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsgs($phone, $token, $countrycode, $type = 'default') {
-        if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
+    private function sendCodeMsg($phone, $token, $countrycode, $type = 'default') {
+        if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
         $countrycode = get_params('enable_inter') == '1' ? $countrycode : '86';
@@ -101,8 +101,8 @@ class PhoneAuth {
     }
     
     // test method
-    private function sendCodeMsg($phone, $token, $countrycode, $type = 'default') {
-        if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
+    private function sendCodeMsgs($phone, $token, $countrycode, $type = 'default') {
+        if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
         $countrycode = get_params('enable_inter') == '1' ? $countrycode : '86';        
@@ -168,7 +168,7 @@ class PhoneAuth {
     
     public function sendCode() {
         $phone = trim($_REQUEST['phone']);
-        if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
+        if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
@@ -220,7 +220,7 @@ class PhoneAuth {
 
     public function sendRegisterCode() {
         $phone = trim($_REQUEST['phone']);
-        if(!preg_match('/^1([0-9]{9})/',$phone)){
+        if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error', 'phone');
         }
         $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
@@ -261,7 +261,7 @@ class PhoneAuth {
         if (!isset($member['username']) && !$_G['uid']) {
             return $this->response(401, 'Access denied');
         }
-        if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
+        if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
         $vphone_member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
@@ -309,7 +309,7 @@ class PhoneAuth {
         if(!isset($result['member'])) {
             return $this->response(401, 'Access denied');
         }
-        if(!preg_match('/^1([0-9]{9})/',$phone) || strlen($phone) != 11){
+        if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
         $vphone_member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);

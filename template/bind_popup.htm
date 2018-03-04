@@ -10,7 +10,7 @@
         $bind_phone = $_G['username'];
 }
 <!--{block return}-->
-<div id="fwin_login" class="fwinmask" style="position: fixed; z-index: 201;left:50%;top:50%;margin-left:-150px;margin-top:-150px;">
+<div id="fwin_login" class="fwinmask" style="position: fixed; z-index: 100002;left:50%;top:50%;margin-left:-150px;margin-top:-150px;">
     <table class="fwin">
         <tbody>
             <tr>
@@ -129,7 +129,7 @@
         </tbody>
     </table>
 </div>
-<script src="{$static_path}/js/v-helper.js?v=1.7.0"></script>
+<script src="{$static_path}/js/v-helper.min.js?v=1.7.0"></script>
 <script>
     (function login_run() {
         if(window.v_helper) {

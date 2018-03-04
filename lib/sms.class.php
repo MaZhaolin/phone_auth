@@ -42,7 +42,6 @@ class sms {
             'page' => $page
         );
         $url = $this->createSignatureUrl('/sms/sendrecord', $data);
-        return $url;
         $res = $this->readContentFormGet($url);
         $res = characet($res, CHARSET, 'utf-8');
         return $res;

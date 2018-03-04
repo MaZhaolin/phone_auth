@@ -248,9 +248,10 @@
         }
       }
     },
-    isPhone: function (pone) {
+    isPhone: function (phone) {
+      return phone.trim().length > 5 
       var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
-      if (!myreg.test(pone)) {
+      if (!myreg.test(phone)) {
         return false;
       } else {
         return true;
@@ -423,17 +424,26 @@
     },
     initCountryCode: function (form) {
       var menu = form.ele('.dropdown-menu')[0];
-      form.getInput('country_code').addEvent('focus', function () {
+      form = form.ele('#phonePrefix');
+      var btn = form.ele('.btn-down')[0];
+      var show = function () {
         menu.style.display = 'block';
+        btn.addClass('open');
+      }
+      var hide = function () {
+        menu.style.display = 'none';
+        btn.removeClass('open');
+      }
+      form.getInput('country_code').addEvent('focus', show)
+      form.ele('.btn-down')[0].addEvent('click', function() {
+        menu.style.display = menu.style.display == 'block' ? hide() : show();
       })
       ele('body')[0].addEvent('click', function (e) {
         var elem = e.target;
-        if (!form.ele('.dropdown')[0].contains(elem)) {
-          menu.style.display = 'none';
-        }
+        !form.contains(elem) && hide();
       })
       menu.ele('.dropdown-item').call('addEvent', 'click', function (e) {
-        menu.style.display = 'none';
+        hide();
         form.getInput('country_code').value = e.target.innerHTML.split('+')[1].trim();
       })
     },
