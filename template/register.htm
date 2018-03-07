@@ -19,6 +19,56 @@
         <input type="hidden" name="hash" value="$_GET[hash]" />
     <!--{/if}-->
     <div class="content">
+        <!--{if $invite}-->
+            <!--{if $invite['uid']}-->
+            <div class="rfm">
+                <table>
+                    <tr>
+                        <th>{lang register_from}:</th>
+                        <td><a href="home.php?mod=space&uid=$invite[uid]" target="_blank">$invite[username]</a></td>
+                    </tr>
+                </table>
+            </div>
+            <!--{else}-->
+            <div class="rfm">
+                <table>
+                    <tr>
+                        <th><label for="invitecode">{lang invite_code}:</label></th>
+                        <td>$_GET[invitecode]<input type="hidden" id="invitecode" name="invitecode" value="$_GET[invitecode]" /></td>
+                    </tr>
+                </table>
+            </div>
+            <!--{eval $invitecode = 1;}-->
+            <!--{/if}-->
+        <!--{/if}-->
+        <!--{if empty($invite) && $_G['setting']['regstatus'] == 2 && !$invitestatus}-->
+        <div class="rfm">
+            <table>
+                <tr>
+                    <th><span class="rq">*</span><label for="invitecode">{lang invite_code}:</label></th>
+                    <td><input type="text" id="invitecode" name="invitecode" autocomplete="off" size="25" onblur="checkinvite()" tabindex="1" class="px" required /><!--{if $_G['setting']['inviteconfig']['buyinvitecode'] && $_G['setting']['inviteconfig']['invitecodeprice'] && ($_G['setting'][ec_tenpay_bargainor] || $_G['setting'][ec_tenpay_opentrans_chnid] || $_G['setting'][ec_account])}--><p><a href="misc.php?mod=buyinvitecode" target="_blank" class="xi2">{lang register_buyinvitecode}</a></p><!--{/if}--></td>
+                    <td class="tipcol"><i id="tip_invitecode" class="p_tip"><!--{if $_G['setting']['inviteconfig']['invitecodeprompt']}-->$_G['setting'][inviteconfig][invitecodeprompt]<!--{/if}--></i><kbd id="chk_invitecode" class="p_chk"></kbd></td>
+                </tr>
+            </table>
+        </div>
+        <!--{eval $invitecode = 1;}-->
+        <!--{/if}-->
+        <!--{if empty($invite) && $_G['setting']['regstatus'] == 3}-->
+        <div class="rfm">
+            <table>
+                <tr>
+                    <th><label for="invitecode">{lang invite_code}:</label></th>
+                    <td><input type="text" name="invitecode" autocomplete="off" size="25" id="invitecode"{if $_G['setting']['regstatus'] == 2} onblur="checkinvite()"{/if} tabindex="1" class="px" /></td>
+                </tr>
+            </table>
+        </div>
+        <!--{eval $invitecode = 1;}-->
+        <!--{/if}-->
+        <div class="dz-item-group">
+            <span class="dz-intro"><sup>*</sup>{lang invite_code}:</span>
+            <input class="form-control dz-input" type="text" name="username">
+            <span class="dz-title">{lang phone_auth:username_rule}</span>
+        </div>
         <div class="dz-item-group">
             <span class="dz-intro"><sup>*</sup>{lang username}:</span>
             <input class="form-control dz-input" type="text" name="username">

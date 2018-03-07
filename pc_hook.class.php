@@ -3,7 +3,7 @@ if(!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
 loadcache('plugin');
-
+// error_reporting(E_ALL);
 require_once dirname(__FILE__) . '/lib/function.php';
 require_once dirname(__FILE__) . '/lib/session.class.php';
 require_once dirname(__FILE__) . '/lib/response.class.php';
