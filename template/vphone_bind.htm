@@ -110,8 +110,10 @@
                 <th>
                     <span class="rq">*</span>{lang phone_auth:new_phone}</th>
                 <td>
-                    + <input type="text" name="country_code" style="width: 50px" class="ps" placeholder="国别码" value="{$vphone['country_code']}">                    
-                    <input type="text" maxlength="11" name="phone" class="px" style="width: 180px" placeholder="手机号">
+                    {if $params['enable_inter'] == '1'}
+                    + <input type="text" name="country_code" style="width: 50px" class="ps" placeholder="国别码" value="{$vphone['country_code']}">
+                    {/if}
+                    <input type="text" maxlength="11" name="phone" class="px" {if $params['enable_inter'] == '1'}style="width: 180px"{/if} placeholder="手机号">
                 </td>
                 <td class="v-error-msg error-phone"></td>                
             </tr>

@@ -282,7 +282,7 @@ class register_ctl {
             }
 
             if($this->setting['regstatus'] == 2 && empty($invite) && !$invitestatus) {
-                return $this->responseError('not_open_registration_invite');
+                return $this->responseError('not_open_registration_invite', 'invitecode');
             }
 
             if($bbrules && $bbrulehash != $_POST['agreebbrule']) {

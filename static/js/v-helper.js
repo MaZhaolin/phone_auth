@@ -927,16 +927,12 @@
           error: function (data) {
             var username = form.getInput(options.username);
             var email = form.getInput(options.email);
-            if (data.error_pos === 'username') {
-              username.addClass('error');
-              username.next().addClass('error');
-              username.next().html(data.msg);
-            } else if (data.error_pos === 'email') {
-              email.addClass('error');
-              email.next().addClass('error');
-              email.next().html(data.msg);
+            if(['username', 'email', 'invitecode'].indexOf(data.error_pos) > -1) {
+              form.getInput(data.error_pos).addClass('error');
+              form.getInput(data.error_pos).next().addClass('error');
+              form.getInput(data.error_pos).next().html(data.msg);
             } else {
-              self.showMsg(data.msg)
+              data.msg && self.showMsg(data.msg);
             }
           }
         })
