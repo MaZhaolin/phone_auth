@@ -102,6 +102,15 @@ class table_common_vphone extends discuz_table
     public function fetch_all() {
 		return DB::fetch_all("SELECT * FROM %t", array($this->_table));
     }
+
+    public function all() {
+        $members = DB::fetch_all("SELECT * FROM %t", array($this->_table));
+        foreach($members as $key => $member) {
+            $members[$key] = $this->getUser($member);
+            $members[$key]['regdate'] = date("Y-m-d H:i:s", $members[$key]['regdate'] / 1000);            
+        }
+        return $members;
+    }
 }
 
 ?>

@@ -10,7 +10,7 @@ def toUnicode(filepath, filename):
     f.write(s)
     f.close()
     fd.close()
-# toUnicode('/Users/insertsweat/Documents/workspace/discuz/source/plugin/phone_auth/static/js/set.min.js', 'set.min.js')
-for (root, dirs, files) in os.walk("/Users/insertsweat/Documents/workspace/discuz/source/plugin/phone_auth/static/app/dist/static/js/"):
-    for filename in files:
-        toUnicode(os.path.join(root, filename), filename)
+toUnicode('app.91968e99d1fc40d75e26.js', 'app.91968e99d1fc40d75e26.js')
+# for (root, dirs, files) in os.walk("./"):
+#     for filename in files:
+#         toUnicode(os.path.join(root, filename), filename)

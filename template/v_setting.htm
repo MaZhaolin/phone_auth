@@ -12,9 +12,8 @@
                 <input type="text" class="form-control" value="{$params['site_name']}" placeholder="{lang phone_auth:site_name_rule}" name="site_name">
                 <span class="right">{lang phone_auth:site_name_desc}</span>
                 <span>{lang phone_auth:vaptcha_setting}</span>
-                <input type="text" class="form-control" placeholder="ID" name="id" value="{$params['vid']}">
+                <input type="text" class="form-control" placeholder="VID" name="id" value="{$params['vid']}">
                 <span class="right">{lang phone_auth:vid_desc} </span>
-
                 <input type="text" class="form-control" placeholder="KEY" name="key" value="{$params['key']}">
                 <span class="right">{lang phone_auth:key_desc}</span>
             </div>
@@ -76,6 +75,9 @@
 
             <button class="v-btn btn-default">{lang phone_auth:save}</button>
         </form>
+    </div>
+    <div class="vaptcha-dz-tip message">
+        <span class="dz-tip-text"><i class="iconfont error">&#xe70d;</i>{{lang phone_auth:site_error_tip}}</span>
     </div>
     <div class="vaptcha-dz-tip please-finish-config">
         {lang phone_auth:tip_content}

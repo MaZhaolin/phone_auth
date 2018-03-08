@@ -14,7 +14,7 @@
 			<item id="datatables"><![CDATA[]]></item>z
 			<item id="directory"><![CDATA[phone_auth/]]></item>
 			<item id="copyright"><![CDATA[VAPTCHA]]></item>
-			<item id="version"><![CDATA[1.7.1]]></item>
+			<item id="version"><![CDATA[1.8.0]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[pc_hook]]></item>
@@ -155,7 +155,7 @@
 				<item id="finish_vaptcha"><![CDATA[请先完成人机验证!]]></item>
 				<item id="popup_vaptcha_title"><![CDATA[请绘制轨迹完成人机验证]]></item>
 				<item id="popup_vaptcha_link"><![CDATA[由vaptcha提供技术支持]]></item>
-				<item id="rulemessage"><![CDATA[网站服务条款]]></item>
+				<item id="rulemessage"><![CDATA[《网站服务条款》]]></item>
 				<item id="agree"><![CDATA[同意]]></item>
 				<item id="next_step"><![CDATA[下一步]]></item>
 				<item id="click_bind"><![CDATA[点击绑定]]></item>
@@ -165,10 +165,10 @@
 				<item id="setting_tips_2"><![CDATA[绑定的手机号可以用于登录和找回密码。]]></item>
 				<item id="base_setting"><![CDATA[基础设置]]></item>
 				<item id="site_name"><![CDATA[网站名称]]></item>
-				<item id="site_name_desc"><![CDATA[短信模板：你的<b>网站名称</b>验证码：123456,10分钟内有效]]></item>
+				<item id="site_name_desc"><![CDATA[名称包含敏感字将影响短信发送，如淘宝、金融、高利等；短信模板：你的<b>网站名称</b>验证码：123456,10分钟内有效]]></item>
 				<item id="site_name_rule"><![CDATA[不超过10个汉字]]></item>
 				<item id="site_error_tip"><![CDATA[网站名称不得多于10个汉字]]></item>
-				<item id="vaptcha_setting"><![CDATA[VAPTCHA验证单元配置</span><span class="title">（请到<a href="https://www.vaptcha.com/" target="_blank" title="了解VAPTCHA">VAPTCHA官网</a>注册并免费获取私有KEY及ID）]]></item>
+				<item id="vaptcha_setting"><![CDATA[VAPTCHA验证单元配置</span><span class="title">（请到<a href="https://www.vaptcha.com/" target="_blank" title="了解VAPTCHA">VAPTCHA官网</a>注册并免费获取私有KEY及VID）]]></item>
 				<item id="vid_desc"><![CDATA[ID所关联的VAPTCHA账号将作为短信充值关联账号，请使用同一账号下的验证单元]]></item>
 				<item id="key_desc"><![CDATA[用于验证过程数据传输加密，请勿泄露]]></item>
 				<item id="vip_setting"><![CDATA[<p>高级设置</p>]]></item>
