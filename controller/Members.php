@@ -28,7 +28,7 @@ class Members {
 
     public function export() {
         $data = C::t('#phone_auth#common_vphone')->all();
-        $this->export_csv($data,array('手机号', '用户id', '国别码', '用户名','邮箱', '注册时间'), 'a.csv');
+        $this->export_csv($data,array('手机号', '用户id', '国别码', '用户名','邮箱', '注册时间'), '用户数据.csv');
     }
 
     public function import(){
