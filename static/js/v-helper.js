@@ -241,7 +241,8 @@
       xmlHttp.onreadystatechange = function (result) {
         if ((xmlHttp.readyState === 4)) {
           var data = JSON.parse(xmlHttp.responseText);
-          if (xmlHttp.status === 200) {
+          console.log(data);
+          if (xmlHttp.status === 200 && data.status === 200) {
             callback && callback(data);
           } else {
             errorCb && errorCb(data);
@@ -268,6 +269,7 @@
         self.ajax({
           url: '/plugin.php?id=phone_auth&action=getChallenge&scene=' + options.scene + '&t=' + (new Date()).getTime(),
           success: function (data) {
+            data = data.data;
             var config = {
               vid: data.vid,
               challenge: data.challenge,

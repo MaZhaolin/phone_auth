@@ -50,10 +50,10 @@ class Vaptcha
                 }
                 return $this->getDownTimeCaptcha();
             } 
-            return json_encode(array(
+            return array(
                 "vid" =>  $this->vid,
                 "challenge" => $challenge
-            ));
+            );
         } else {
         if ($now - $this->lastCheckdownTime > DOWNTIME_CHECK_TIME) {
                 $this->lastCheckdownTime = $now;
@@ -61,10 +61,10 @@ class Vaptcha
                 if ($challenge && $challenge != REQUEST_USED_UP){
                     $this->isDown = false;
                     self::$passedSignatures = array();
-                    return json_encode(array(
+                    return array(
                         "vid" =>  $this->vid,
                         "challenge" => $challenge
-                    ));
+                    );
                 }
             }
             return $this->getDownTimeCaptcha();
@@ -225,10 +225,10 @@ class Vaptcha
             $this->publicKey = $this->getPublicKey();
         $url = md5($captcha.$verificationKey.$this->publicKey).PIC_POST_FIX;
         $url = DOWN_TIME_PATH.$url;
-        return json_encode(array(
+        return array(
             "time" => $time,
             "url" => $url
-        ));
+        );
     }
 
     private static function postValidate($url, $data)

@@ -33,11 +33,11 @@ class PhoneAuth {
 
     public function getChallenge() {
         $scene = get_request('scene'); 
-        return $this->vaptcha->getChallenge($scene);
+        return Response::success($this->vaptcha->getChallenge($scene));
     }
 
     public function downtime() {
-        return $this->vaptcha->downTime($_GET['data']);
+        return json_encode($this->vaptcha->downTime($_GET['data']));
     }
 
     private function validate($scene = '') {
