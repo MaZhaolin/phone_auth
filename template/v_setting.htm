@@ -83,11 +83,12 @@
         {lang phone_auth:tip_content}
     </div>
 </div>
-<script src="{$static_path}/js/set.min.js?v=1.7.0"></script>
+<script src="{$static_path}/js/set.min.js?v=$params['version']"></script>
 <script>
     $(document).ready(function() {
         new helper({
             site_url: '{$site_url}',
+            active: $plugin['available'],
             lang: {
                 alipay: '{lang phone_auth:alipay}',
                 wepay: '{lang phone_auth:wechat}',
