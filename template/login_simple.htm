@@ -2,6 +2,7 @@
     function login_simple_template() {
         $static_path  = get_static_path();
         $site_url = get_site_url();
+        $params = get_params();
         $login_captcha = get_params('login_captcha');        
 }
 <!--{block return}-->
@@ -136,7 +137,7 @@
     </div>
 </div>
 {/if}
-<script src="{$static_path}/js/v-helper.min.js?v=1.7.0"></script>
+<script src="{$static_path}/js/v-helper.min.js?v=$params['version']"></script>
 <script>
      (function login_run() {
         if(window.v_helper) {

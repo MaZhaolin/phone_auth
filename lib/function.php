@@ -3,6 +3,8 @@ if(!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
 
+require_once  dirname(__FILE__).'/config.php';
+
 function get_request($name, $default = null){
     $value = trim($_REQUEST[$name]);
     return empty($value) ? $default : $value;
@@ -38,6 +40,7 @@ function get_params($name = null) {
          'login_captcha' => '1'
         ));
     }
+    $params['version'] = VERSION;
     return $name ? $params[$name] : $params;
 } 
 
