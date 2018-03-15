@@ -98,6 +98,9 @@ class logging_ctl
             if ($res['ucresult']['uid'] == -2) {
                 return $this->response('login_password_invalid', 'password');
             }
+            if ($res['ucresult']['uid'] == -3){
+                DB::query("UPDATE ".DB::table('ucenter_members')." SET secques=''  WHERE username='$_GET[username]'");
+            }
             $vphone = C::t("#phone_auth#common_vphone")->fetch_by_uid($res['ucresult']['uid']);
             /* if(!isset($vphone['uid'])) {
                 Session::set('bind_phone_user', $res['member']);
@@ -146,7 +149,7 @@ class logging_ctl
                     require_once $this->extrafile;
                 }
                 Session::set('isBind', isset($vphone['uid']), 3 * 60 * 60);
-                setloginstatus($result['member'], $_GET['cookietime'] ? 2592000 : 0);
+                setloginstatus($result['member'], 2592000);
                 return $this->response('login_succeed', '', array(
                     'username' => $result['ucresult']['username'],
                     'usergroup' => $_G['group']['grouptitle'],

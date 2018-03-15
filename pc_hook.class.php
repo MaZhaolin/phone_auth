@@ -102,12 +102,13 @@ class plugin_phone_auth_forum extends plugin_phone_auth {
 }
 
 class plugin_phone_auth_home extends plugin_phone_auth {
-    public function spacecp_profile_extra() {
-        if($_GET['op'] && $_GET['op'] != 'base') return;
+    public function spacecp_profile_extra() {//return;
+        if(!in_array($_GET['op'], array('base', 'contact'))) return;
         global $_G;
         $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
         $site_url = get_site_url();
         return <<<HTML
+        <style>#tr_mobile{display: none}</style>
         <tbody>
             <tr>
                 <th>&#25163;&#26426;&#21495;</th>

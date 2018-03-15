@@ -179,7 +179,7 @@
       this.modalTimer = setTimeout(function () {
         box.addClass('none')
         modal.addClass('none');
-      }, 1000)
+      }, 1500)
     },
     getFormData: function (form) {
       var inputs = form.ele('input');
@@ -437,6 +437,7 @@
                 bindPhoneAction();
                 return;
               } */
+              data.msg && self.showMsg(data.msg);
               options.login_captcha && loginVaptcha.refresh();
               form.ele('.login-button')[0].setAttribute('disabled', 'disabled');
             }
