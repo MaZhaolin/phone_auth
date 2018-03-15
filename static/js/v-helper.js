@@ -319,6 +319,11 @@
       }
       return _v;
     },
+    resetSendCodeBtn: function(sendCodeBtn) {
+      this.countDownTimer && clearTimeout(this.countDownTimer);
+      sendCodeBtn.innerText = this.options.lang.send_code;
+      sendCodeBtn.removeAttribute('disabled');
+    },
     buttonCountDown: function (sendCodeBtn, time) {
       var self = this;
       time = time || 120;
@@ -507,6 +512,9 @@
             }
           })
         })
+        form.getInput('phone').addEvent('keydown', function(){ 
+          self.resetSendCodeBtn(sendCodeBtn)
+        })
         var isSending = false;
         sendCodeBtn.addEvent('click', function () {
           if (isSending) return;
@@ -525,7 +533,6 @@
               self.showMsg(data.msg, true);
               isSend = true;
               sendCodeBtn.setAttribute('disabled', 'disabled');
-              form.getInput('phone').setAttribute('disabled', 'disabled');
               self.buttonCountDown(sendCodeBtn, 120);
             },
             error: function (data) {
@@ -633,6 +640,9 @@
             it.removeClass('error');
           }
         })
+        form.getInput('phone').addEvent('keydown', function(){ 
+          self.resetSendCodeBtn(sendCodeBtn)
+        })
         var isSending = false;
         sendCodeBtn.addEvent('click', function (e) {
           self.stopDefault(e);
@@ -646,7 +656,6 @@
               isSending = false;
               self.showMsg(data.msg, true);
               sendCodeBtn.setAttribute('disabled', 'disabled');
-              form.getInput('phone').setAttribute('disabled', 'disabled');
               self.buttonCountDown(sendCodeBtn, 120);
             },
             error: function (data) {
@@ -835,6 +844,7 @@
         var it = e.target;
         !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
         inputsValidate.phone = self.isPhone(it.value);
+        self.resetSendCodeBtn(sendCodeBtn)
       })
       
       form.getInput('phone').addEvent('blur', function (e) {
@@ -887,7 +897,6 @@
           success: function (data) {
             isSending = false;
             sendCodeBtn.setAttribute('disabled', 'disabled');
-            form.getInput('phone').setAttribute('disabled', 'disabled');
             self.buttonCountDown(sendCodeBtn, 120);
           },
           error: function (data) {
