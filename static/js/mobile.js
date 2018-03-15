@@ -419,7 +419,7 @@
       (function () {
         self.modalTimer = setTimeout(function () {
           modal && modal.parentNode.removeChild(modal);
-        }, 1000)
+        }, 1500)
       })(modal)
     },
     initCountryCode: function (form) {

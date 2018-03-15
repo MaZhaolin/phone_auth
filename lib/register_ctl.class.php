@@ -282,6 +282,7 @@ class register_ctl {
             }
 
             if($this->setting['regstatus'] == 2 && empty($invite) && !$invitestatus) {
+                return $this->responseError('&#35831;&#22635;&#20889;&#27491;&#30830;&#30340;&#36992;&#35831;&#30721;', 'invitecode');
                 return $this->responseError('not_open_registration_invite', 'invitecode');
             }
 

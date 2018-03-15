@@ -208,10 +208,27 @@
 				<span class="logo-img fl iconfont redirect-back ">&#xe7c2;</span>
 			</div>
 			<div class="m-dz-main">
+                <!--{if $invite}-->
+                <div class="dz-item-group">
+                    <input maxlength="15" class="form-control dz-input dz-input-icon" name="invitecode"  type="text" placeholder="&#36992;&#35831;&#30721;" />
+                    <span class="iconfont form-icon">&#xe65a;</span>
+                </div>
+                <!--{/if}-->
+                <!--{if empty($invite) && $_G['setting']['regstatus'] == 2 && !$invitestatus}-->
+                <div class="dz-item-group">
+                    <input maxlength="15" class="form-control dz-input dz-input-icon" name="invitecode"  type="text" placeholder="&#36992;&#35831;&#30721;" />
+                    <span class="iconfont form-icon">&#xe65a;</span>
+                </div>
+                <!--{/if}-->
+                <!--{if empty($invite) && $_G['setting']['regstatus'] == 3}-->
+                <div class="dz-item-group">
+                    <input maxlength="15" class="form-control dz-input dz-input-icon" name="invitecode"  type="text" placeholder="&#36992;&#35831;&#30721;" />
+                    <span class="iconfont form-icon">&#xe65a;</span>
+                </div>
+                <!--{/if}-->
 				<div class="dz-item-group">
 					<input maxlength="15" class="form-control dz-input dz-input-icon" name="username"  type="text" placeholder="{lang phone_auth:username_rule}" />
 					<span class="iconfont form-icon">&#xecc8;</span>
-                    
                 </div>
                 <!--{if $params['register_email'] == '1'}-->
 				<div class="dz-item-group">
