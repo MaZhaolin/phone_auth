@@ -241,7 +241,6 @@
       xmlHttp.onreadystatechange = function (result) {
         if ((xmlHttp.readyState === 4)) {
           var data = JSON.parse(xmlHttp.responseText);
-          console.log(data);
           if (xmlHttp.status === 200 && data.status === 200) {
             callback && callback(data);
           } else {
