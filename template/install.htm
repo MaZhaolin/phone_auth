@@ -3,28 +3,28 @@
 </style>
 <div class="installation">
     <div class="step {if !$error_msg} active {/if}">
-        <div class="title">请选择安装方式</div>
+        <div class="title">&#35831;&#36873;&#25321;&#23433;&#35013;&#26041;&#24335;</div>
         <div class="search">
             <form action="" method="post" style="display: inline-block">
                 <input type="hidden" name="skip" value="1">
-                <button class="btn blue">我是新站或老用户未绑定手机号</button>
+                <button class="btn blue">&#25105;&#26159;&#26032;&#31449;&#25110;&#32769;&#29992;&#25143;&#26410;&#32465;&#23450;&#25163;&#26426;&#21495;</button>
             </form>
-            <button class="btn yellow migration right">老用户已绑定手机号</button>
+            <button class="btn yellow migration right">&#25105;&#26159;&#26032;&#31449;&#25110;&#32769;&#29992;&#25143;&#26410;&#32465;&#23450;&#25163;&#26426;&#21495;</button>
         </div>
     </div>
     <!-- 2、 -->
     <form action="" method="post" class="step animation {if $error_msg} active {/if}">
-        <div class="title">数据导入..</div>
+        <div class="title">&#25968;&#25454;&#23548;&#20837;..</div>
         <div class="info">
-            <div class="padtop">请完善原手机号数据表信息便于导入数据。</div>
+            <div class="padtop">&#35831;&#23436;&#21892;&#21407;&#25163;&#26426;&#21495;&#25968;&#25454;&#34920;&#20449;&#24687;&#20415;&#20110;&#23548;&#20837;&#25968;&#25454;&#12290;</div>
             <p class="error">{$error_msg}</p>
             <input name='table[name]' class="form-control" value="{$data['name']}" type="text" placeholder="&#25968;&#25454;&#34920;&#21517;&#31216;&#65292;&#19981;&#24102;&#21069;&#32512;">
             <input name='table[phone_key]' class="form-control" value="{$data['phone_key']}" type="text" placeholder="&#25163;&#26426;&#23383;&#27573;&#21517;">
-            <div class="padtop">以下信息至少填一项</div>
+            <div class="padtop">&#20197;&#19979;&#20449;&#24687;&#33267;&#23569;&#22635;&#19968;&#39033;</div>
             <input class="form-control min" name='table[name_key]' value="{$data['name_key']}" type="text" placeholder="&#29992;&#25143;&#21517;&#30340;&#23383;&#27573;&#21517;">
             <input class="form-control min right" name='table[id_key]' value="{$data['id_key']}" type="text" placeholder="&#29992;&#25143;&#105;&#100;&#30340;&#23383;&#27573;&#21517;">
             <div class="padtop options">
-                <span class="link"><< 返回重新选择</span> <button class="btn right">下一步</button>
+                <span class="link"><< &#36820;&#22238;&#37325;&#26032;&#36873;&#25321;</span> <button class="btn right">&#19979;&#19968;&#27493;</button>
             </div>
         </div>
     </form>

@@ -911,4 +911,4 @@
     }
   }
   window.helper = Helper;
-})(document.body)
+})(document.getElementById('app'))
