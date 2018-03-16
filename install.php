@@ -58,17 +58,18 @@ class Install {
                 return $e->getMessage();
             }
         } else {
-            return 'success';      
+            return '&#35831;&#22635;&#20889;&#34920;&#21517;&#31216;';      
         }
     }
 }
 
 Install::createTables();
 
+$static_path = rtrim($_G['siteurl'], '/').'/source/plugin/phone_auth/static';
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data = $_POST['table'];
     $res = Install::migrationData($data);
-    if($res == 'success') {
+    if($res == 'success' || $_POST['skip'] == '1') {
         $finish = TRUE;
     } else {
         $error_msg = $res;

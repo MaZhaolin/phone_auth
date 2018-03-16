@@ -107,7 +107,7 @@ function get_site_url($url = '')
 }
 
 function get_static_path($path = '') {
-    return get_site_url().'/source/plugin/phone_auth/static'.$path;
+    return get_site_url('/source/plugin/phone_auth/static'.$path);
 }
 
 function redirect($url) {
