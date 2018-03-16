@@ -2,9 +2,10 @@
 if(!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
-define("VALIDATE_PASS_TIME", 600000);
-define("REQUEST_ABATE_TIME", 250000);
-define("VALIDATE_WAIT_TIME", 2000);
+
+define("VALIDATE_PASS_TIME", 600);
+define("REQUEST_ABATE_TIME", 250);
+define("VALIDATE_WAIT_TIME", 2);
 define("MAX_LENGTH", 50000);
 define("PIC_POST_FIX", ".png");
 define("PUBLIC_KEY_PATH", "http://down.vaptcha.com/publickey");
