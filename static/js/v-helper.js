@@ -757,6 +757,7 @@
         var isTrue = inputsValidate.username && inputsValidate.email && inputsValidate.password && inputsValidate.phone;
         (isTrue && inputsValidate.code && inputsValidate.agreebbrule) ?
           ele('#register_btn').removeAttribute('disabled') : ele('#register_btn').setAttribute('disabled', 'disabled');
+        console.log(isTrue);
         return isTrue;
       }
       if(options.enable_inter) {

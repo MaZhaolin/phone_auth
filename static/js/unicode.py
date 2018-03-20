@@ -5,9 +5,8 @@ def toUnicode(input, output = False):
     output = input
   fd = open(input, 'r')
   s = fd.read()
-  s = s.replace('\n', '')
   s = s.encode('unicode_escape').decode('ascii')
-  # s = s.replace('\\n', '\n')
+  s = s.replace("\\\\", "\\") # \\ => \
   f = open(output, 'w')
   f.write(s)
   f.close()

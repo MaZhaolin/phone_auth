@@ -11,3 +11,11 @@ uglifyjs v-helper.js -c -m -o v-helper.min.js
 python3 unicode.py v-helper.min.js
 echo 'v-helper.js => v-helper.min.js'
 
+uglifyjs app.js -c -m -o app.min.js
+python3 unicode.py app.min.js
+echo 'app.js => app.min.js'
+
+uglifyjs member.js -c -m -o member.min.js
+python3 unicode.py member.min.js
+echo 'member.js => member.min.js'
+

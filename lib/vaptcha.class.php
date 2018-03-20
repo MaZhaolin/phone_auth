@@ -34,7 +34,7 @@ class Vaptcha
 
     private function createSignatureUrl($url, $data)
     {
-        $query = $this->createSignatureQuery($data, $replace);
+        $query = $this->createSignatureQuery($data);
         return "$url?$query";
     }
 
@@ -66,7 +66,7 @@ class Vaptcha
                     self::$passedSignatures = array();
                 }
                 return $this->getDownTimeCaptcha();
-            }
+            } 
             return array(
                 "vid" => $this->vid,
                 "challenge" => $challenge,
