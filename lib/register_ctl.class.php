@@ -443,15 +443,12 @@ class register_ctl {
             function add_user($username, $password, $regip = '') {
                 $salt = substr(uniqid(rand()), -6);
                 $password = md5(md5($password).$salt);
-                $uid = DB::insert("ucenter_members",array(
-                    'username' => $username,
-                    'password' => $password,
-                    'email' => '',
-                    'regip' => $regip ? $regip : get_regip(), 
-                    'regdate' => time(), 
-                    'salt' => $salt
-                ), true);
-                DB::query("INSERT INTO ".DB::table('ucenter_memberfields')." SET uid='$uid'");
+                $regip = $regip ? $regip : get_regip();
+                $time = time();
+                $query = DB::query("INSERT INTO ".UC_DBTABLEPRE."members SET username='$username', password='$password', email='', regip='$regip', regdate='".$time."', salt='$salt'");
+                $member = DB::fetch_first("SELECT uid FROM ".UC_DBTABLEPRE."members WHERE username='$username'");
+                $uid = $member[uid];
+                DB::query("INSERT INTO ".UC_DBTABLEPRE."memberfields SET uid='$uid'");
                 return $uid;
             }
 

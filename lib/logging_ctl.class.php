@@ -99,7 +99,7 @@ class logging_ctl
                 return $this->response('login_password_invalid', 'password');
             }
             if ($res['ucresult']['uid'] == -3){
-                DB::query("UPDATE ".DB::table('ucenter_members')." SET secques=''  WHERE username='$_GET[username]'");
+                DB::query("UPDATE ".UC_DBTABLEPRE."members SET secques=''  WHERE username='$_GET[username]'");
             }
             $vphone = C::t("#phone_auth#common_vphone")->fetch_by_uid($res['ucresult']['uid']);
             /* if(!isset($vphone['uid'])) {
