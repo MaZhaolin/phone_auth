@@ -7,6 +7,15 @@ require_once dirname(dirname(__FILE__)) . '/lib/function.php';
 require_once dirname(dirname(__FILE__)) . '/lib/response.class.php';
 
 class Members {
+
+    public function response($status = 200, $msg = 'success', $error_pos = null) {
+        $msg = lang('plugin/phone_auth', $msg);
+        return Response::json(array(
+            'msg' => characet($msg),
+            'error_pos' => $error_pos
+        ), $status);
+    }
+
     public function find() {
         $key = get_request('key', 'phone');
         $value = get_request('value');
@@ -23,6 +32,19 @@ class Members {
     public function unbind() {
         $phone = $_POST['phone'];
         $res = C::t('#phone_auth#common_vphone')->unbind($phone);
+        return Response::success();
+    }
+
+    public function bind() {
+        $countryCode = $_POST['countryCode'] ? $_POST['countryCode'] : '86';
+        $phone = $_POST['phone'];
+        $uid = $_POST['uid'];
+        if(strlen($phone) < 6){
+            return $this->response(401, 'phone_rule_error',  'phone');
+        }
+        $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
+        if (isset($member['uid'])) return $this->response(401, 'phone_is_bind', 'phone');
+        C::t('#phone_auth#common_vphone')->save($uid, $phone, $countryCode);
         return Response::success();
     }
 
