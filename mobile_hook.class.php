@@ -7,7 +7,22 @@ loadcache('plugin');
 require_once dirname(__FILE__) . '/lib/function.php';
 require_once dirname(__FILE__) . '/lib/session.class.php';
 class mobileplugin_phone_auth {
+    function isbind() {
+        global $_G;
+        if(!isset($_G['uid']) || empty($_G['uid']) || Session::getValue('isBind', false)) return true;
+        $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
+        if(!isset($member['phone'])) {
+            Session::set('isBind', false, 3 * 60 * 60);
+            return false;
+        }
+        Session::set('isBind', true, 3 * 60 * 60);
+        return true;
+    }
 
+    function common() {
+        if(!$this->isbind()) 
+        return redirect(get_site_url("/plugin.php?id=phone_auth&action=mobile&bp=yes&mobile=no#bindphone"));
+    }
 }
 
 class mobileplugin_phone_auth_member extends mobileplugin_phone_auth{
@@ -29,27 +44,6 @@ class mobileplugin_phone_auth_member extends mobileplugin_phone_auth{
 }
 
 class mobileplugin_phone_auth_forum extends mobileplugin_phone_auth {
-    
-    function isbind() {
-        global $_G;
-        if(!isset($_G['uid']) || empty($_G['uid']) || Session::getValue('isBind', false)) return true;
-        $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
-        if(!isset($member['phone'])) {
-            Session::set('isBind', false, 3 * 60 * 60);
-            return false;
-        }
-        Session::set('isBind', true, 3 * 60 * 60);
-        return true;
-    }
-
-    function forumdisplay_bottom_mobile() {
-        if(!$this->isbind()) 
-        return '<script>location.href="/plugin.php?id=phone_auth&action=mobile&bp=yes&mobile=no#bindphone";</script>';
-	}
-	function viewthread_bottom_mobile() {
-        if(!$this->isbind()) 
-        return '<script>location.href="/plugin.php?id=phone_auth&action=mobile&bp=yes&mobile=no#bindphone";</script>';
-	}
     
     public function post_recode() {
         global $_G;

@@ -27,6 +27,23 @@ if(array_key_exists('vaptcha', $_G['setting'])) {
 }
 
 class plugin_phone_auth {
+
+    function isbind() {
+        global $_G;
+        if(!isset($_G['uid']) || empty($_G['uid']) || Session::getValue('isBind', false)) return true;
+        $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
+        if(!isset($member['phone'])) {
+            Session::set('isBind', false, 3 * 60 * 60);
+            return false;
+        }
+        Session::set('isBind', true, 3 * 60 * 60);
+        return true;
+    }
+
+    public function global_header() {
+        if(!$this->isbind()) return bind_popup();
+    }
+
     public function global_login_extra() {
         return login_simple_template();
     }
@@ -66,29 +83,6 @@ class plugin_phone_auth_member extends plugin_phone_auth{
 }
 
 class plugin_phone_auth_forum extends plugin_phone_auth {
-    
-    function isbind() {
-        global $_G;
-        if(!isset($_G['uid']) || empty($_G['uid']) || Session::getValue('isBind', false)) return true;
-        $member = C::t('#phone_auth#common_vphone')->fetch_by_uid($_G['uid']);
-        if(!isset($member['phone'])) {
-            Session::set('isBind', false, 3 * 60 * 60);
-            return false;
-        }
-        Session::set('isBind', true, 3 * 60 * 60);
-        return true;
-    }
-
-    function viewthread_fastpost_btn_extra() {
-		if(!$this->isbind()) return bind_popup();
-	}
-	function post_btn_extra() {
-		if(!$this->isbind()) return bind_popup();
-	}
-	
-	function forumdisplay_fastpost_btn_extra() {
-		if(!$this->isbind()) return bind_popup();
-    }
     
     public function post_recode() {
         global $_G;
