@@ -40,6 +40,11 @@ function get_params($name = null) {
          'login_captcha' => '1'
         ));
     }
+    if (!isset($params['code_login'])) {
+        $params = array_merge($params, array(
+         'login_captcha' => '0'
+        ));
+    }
     $params['version'] = VERSION;
     return $name ? $params[$name] : $params;
 } 
@@ -78,10 +83,10 @@ function get_theme_style() {
             -webkit-box-shadow:0 0 4px 2px rgba($rgbaColor, 0.2);
             -o-box-shadow:0 0 4px 2px rgba($rgbaColor, 0.2);
         }
-        .dz-input:focus,.dz-select:focus, .m-dz .dz-input:focus, .m-dz .dz-select:focus{
+        .dz-input:focus,.dz-select:focus, .m-dz .dz-input:focus, .m-dz .dz-select:focus,.login-way .dz-tabs{
             border-color: #$color;
         }
-        .dz-btn, .m-dz .dz-btn, .m-dz .m-dz-top {
+        .dz-btn, .m-dz .dz-btn, .m-dz .m-dz-top, .login-way .dz-tab.active{
             background: #$color;
         }
         .dz-item-group .dz-link{

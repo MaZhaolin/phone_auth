@@ -160,6 +160,7 @@
     this.options = options || {};
     this.views = {
       login: ele('.m-dz-login')[0],
+      smslogin: ele('.m-dz-sms-login')[0],
       register: ele('.m-dz-register')[0],
       forgetword: ele('.m-dz-forgetword')[0],
       resetpwd: ele('.m-dz-resetpwd')[0],
@@ -172,6 +173,10 @@
       login: function (router) {
         body.appendChild(self.views.login);
         self.run_login();
+      },
+      smslogin: function(router) {
+        body.appendChild(self.views.smslogin);
+        self.run_sms_login();
       },
       register: function (router) {
         body.appendChild(self.views.register);
@@ -504,6 +509,96 @@
               self.router.redirect('bindphone');
             }
             self.options.login_captcha && _vaptcha.refresh();
+            loginBtn.setAttribute('disabled', 'disabled');
+          }
+        })
+      })
+    },
+    smslogin_loaded: false,
+    run_sms_login: function() {
+      if (this.smslogin_loaded) return;
+      this.smslogin_loaded = true;
+      var self = this,
+        form = ele('.m-dz-sms-login')[0],
+        vaptcha = form.ele('.vaptcha_container')[0],
+        sendCodeBtn = form.ele('.dz-btn-code')[0],
+        loginBtn = form.ele('.login-btn')[0],
+        inputs = form.ele('input');
+      var validate = function() {
+        var data = self.getFormData(form);
+        if (self.isPhone(data.phone) && /^\d{6}$/.test(data.code)) {
+          loginBtn.removeAttribute('disabled');
+        } else {
+          loginBtn.setAttribute('disabled', 'disabled');
+        }
+      }
+      var _vaptcha = self.initVaptcha({
+        scene: '01',
+        form: form,
+        element: vaptcha,
+        success: function () {
+          validate();
+          sendCodeBtn.click();
+          form.ele('.send-code-group')[0].removeClass('none');
+        }
+      });
+      form.getInput('phone').addEvent('keyup', function (e) {
+        var it = e.target;
+        !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
+      })
+      var isSending = false;
+      sendCodeBtn.addEvent('click', function () {
+        if (isSending) return;
+        validate();
+        isSending = true;
+        self.ajax({
+          url: '/plugin.php?id=phone_auth&action=sendlogincode',
+          type: 'POST',
+          data: {
+            'phone': form.getInput('phone').value,
+            'vaptcha_token': form.getInput('vaptcha_token').value,
+            'vaptcha_challenge': form.getInput('vaptcha_challenge').value
+          },
+          success: function (data) {
+            isSending = false;
+            self.showMsg(data.msg, true);
+            self.buttonCountDown(sendCodeBtn);
+          },
+          error: function (data) {
+            isSending = false;
+            if (data.error_pos === 'vaptcha') {
+              _vaptcha.refresh();
+            }
+            if (data.error_pos === 'phone') {
+              form.getInput('phone').addClass('error')
+            }
+            if (data.status === 301) {
+              self.buttonCountDown(sendCodeBtn, data.msg);
+            } else {
+              self.showMsg(data.msg);
+            }
+          }
+        })
+      })
+      inputs.call('addEvent', 'keyup', validate)
+      inputs.call('addEvent', 'blur', validate)
+      inputs.call('addEvent', 'focus', function (e) {
+        e.target.removeClass('error');
+      })
+      loginBtn.addEvent('click', function () {
+        self.ajax({
+          url: '/plugin.php?id=phone_auth&mod=logging&action=smslogin&loginsubmit=yes',
+          type: 'POST',
+          data: self.getFormData(form),
+          success: function (data) {
+            window.location.href = self.options.site_url + '/forum.php?mobile=yes';
+          },
+          error: function (data) {
+            if (['phone', 'code'].indexOf(data.error_pos) >= 0) {
+              form.getInput(data.error_pos) && form.getInput(data.error_pos).addClass('error');
+              self.showMsg(data.msg);
+            }
+            data.error_pos == 'vaptcha' && _vaptcha.refresh();
             loginBtn.setAttribute('disabled', 'disabled');
           }
         })

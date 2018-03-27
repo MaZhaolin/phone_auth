@@ -393,6 +393,7 @@
       this.form = wrapper;
       discuzForm && discuzForm.parentNode.removeChild(discuzForm);
       var loginLoaded = false;
+      var smsLoginLoaded = false;
       var lostpasswordLoaded = false;
       var resetPasswordLoaded = false;
       var loginVaptcha;
@@ -425,7 +426,14 @@
         }))
         inputs.call('addEvent', 'keyup', validate)
         inputs.call('addEvent', 'blur', validate)
-        ele('.login-button')[0].addEvent('click', function (e) {
+        if (options.code_login) {
+          form.ele('.sms-login-tab')[0].addEvent('click', function(e) {
+            form.addClass('none');
+            ele('.v-sms-login-form')[0].removeClass('none');
+            smsLoginAction();
+          })
+        }
+        form.ele('.login-button')[0].addEvent('click', function (e) {
           self.ajax({
             url: '/plugin.php?id=phone_auth&mod=logging&action=login&loginsubmit=yes',
             type: 'POST',
@@ -448,6 +456,106 @@
               form.ele('.login-button')[0].setAttribute('disabled', 'disabled');
             }
           })
+        })
+      }
+      function smsLoginAction() {
+        var form = wrapper.ele('.v-sms-login-form')[0];
+        var vaptchaContainer = form.ele('.vaptcha_container');
+        var sendCodeBtn = form.ele('.dz-btn-code')[0];
+        var inputs = form.ele('input');
+        var loginBtn = form.ele('.login-button')[0];
+        if (smsLoginLoaded) {
+          return;
+        }
+        var validate = function () {
+          var data = self.getFormData(form);
+          if (self.isPhone(data.phone) && /^\d{6}$/.test(data.code)) {
+            loginBtn.removeAttribute('disabled');
+          } else {
+            loginBtn.setAttribute('disabled', 'disabled');
+          }
+        }
+        form.getInput('phone').addEvent('keyup', function (e) {
+          var it = e.target;
+          !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
+          self.resetSendCodeBtn(sendCodeBtn)
+        })
+        inputs.call('addEvent', 'focus', function(e) {
+          var it = e.target;
+          it.removeClass('error');          
+        })
+        inputs.call('addEvent', 'keyup', validate);
+        inputs.call('addEvent', 'focus', validate);
+        smsLoginLoaded = true;
+        var _captcha = self.initVaptcha({
+          scene: '01',
+          element: vaptchaContainer,
+          form: form,
+          success: function () {
+            sendCodeBtn.click();
+            form.ele('.send-code-group')[0].removeClass('none');
+          }
+        })
+        var isSending = false;
+        sendCodeBtn.addEvent('click', function () {
+          if (isSending) return;
+          if (!self.isPhone(form.getInput('phone').value)) {
+            form.getInput('phone').addClass('error');
+            return ;
+          }
+          isSending = true;
+          self.ajax({
+            url: '/plugin.php?id=phone_auth&action=sendlogincode',
+            type: 'POST',
+            data: {
+              'phone': form.getInput('phone').value,
+              'vaptcha_token': form.getInput('vaptcha_token').value,
+              'vaptcha_challenge': form.getInput('vaptcha_challenge').value
+            },
+            success: function (data) {
+              isSending = false;
+              self.showMsg(data.msg, true);
+              isSend = true;
+              sendCodeBtn.setAttribute('disabled', 'disabled');
+              self.buttonCountDown(sendCodeBtn, 120);
+            },
+            error: function (data) {
+              isSending = false;
+              if (data.error_pos === 'vaptcha') {
+                _captcha.refresh();
+              }
+              if (data.error_pos === 'phone') {
+                form.getInput('phone').addClass('error')
+              }
+              if (data.status === 301) {
+                self.buttonCountDown(sendCodeBtn, data.msg);
+              } else {
+                self.showMsg(data.msg);
+              }
+            }
+          })
+        })
+        loginBtn.addEvent('click', function (e) {
+          self.ajax({
+            url: '/plugin.php?id=phone_auth&mod=logging&action=smslogin&loginsubmit=yes',
+            type: 'POST',
+            data: self.getFormData(form),
+            success: function (data) {
+              window.location.reload();
+            },
+            error: function (data) {
+              if (['user', 'password', 'vaptcha'].indexOf(data.error_pos) >= 0) {
+                form.getInput(data.error_pos) && form.getInput(data.error_pos).addClass('error');
+                data.msg && self.showMsg(data.msg);
+              }
+              data.msg && self.showMsg(data.msg);
+              form.ele('.login-button')[0].setAttribute('disabled', 'disabled');
+            }
+          })
+        })
+        form.ele('.login-tab')[0].addEvent('click', function(e) {
+          form.addClass('none');
+          ele('.v-login-form')[0].removeClass('none');
         })
       }
       function lostpasswordAction() {
@@ -702,6 +810,7 @@
         wrapper.ele('.lost-password-form')[0].removeClass('none');
         lostpasswordAction();
       }
+      // smsLoginAction(); return ;
       ele('.lost-password')[0] && ele('.lost-password')[0].addEvent('click', showLostPasswordView)
       if (options.islostpwd) {
         showLostPasswordView();

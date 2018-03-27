@@ -15,6 +15,14 @@
 <!--{block return}-->
 <div id="loginphone_$id" class="vaptcha-dz-form">
     <div class="vaptcha-dz-popup v-login-form">
+        {if $params['code_login'] == '1'}
+        <div class="login-way">
+            <div class="dz-tabs">
+                <button class="dz-tab active">&#36134;&#21495;&#23494;&#30721;&#30331;&#24405;</button>
+                <button class="dz-tab sms-login-tab">&#30701;&#20449;&#39564;&#35777;&#30331;&#24405;</button>
+            </div>
+        </div>
+        {/if}
         <input type="hidden" name="formhash" value="{FORMHASH}" />
         <input type="hidden" name="referer" value="{$referer}" />
         <div class="dz-item-group">
@@ -70,6 +78,49 @@
             <button class="btn dz-btn login-button" disabled>{lang phone_auth:login}</button>
         </div>
     </div>
+    {if $params['code_login'] == '1'}
+    <div class="vaptcha-dz-popup v-sms-login-form none">
+        <div class="login-way">
+            <div class="dz-tabs">
+                <button class="dz-tab login-tab">&#36134;&#21495;&#23494;&#30721;&#30331;&#24405;</button>
+                <button class="dz-tab active">&#30701;&#20449;&#39564;&#35777;&#30331;&#24405;</button>
+            </div>
+        </div>
+        <input type="hidden" name="formhash" value="{FORMHASH}" />
+        <input type="hidden" name="referer" value="{$referer}" />
+        <div class="dz-item-group">
+            <input type="hidden" value="86" name="country_code">            
+            <span class="dz-intro">{lang phone_auth:phone}:</span>
+            <input maxlength="11" placeholder="&#35831;&#36755;&#20837;&#24050;&#27880;&#20876;&#25163;&#26426;&#21495;"  class="form-control dz-input" name="phone">
+            <span class="dz-title"></span>
+        </div>
+        <div class="dz-item-group send-code-group none">
+            <span class="dz-intro">{lang phone_auth:code}:</span>
+            <input class="form-control dz-input dz-input-code" placeholder="{lang phone_auth:code_pl}" type="text" name="code"/>
+            <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
+        </div>
+        <div class="dz-item-group">
+            <span class="dz-intro">{lang phone_auth:vaptcha}:</span>
+            <input type="hidden" name="vaptcha_token">
+            <input type="hidden" name="vaptcha_challenge">
+            <div class="vaptcha_container">
+                <div class="vaptcha-init-main">
+                    <div class="vaptcha-init-loading">
+                        <a>
+                            <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
+                        </a>
+                        <span class="vaptcha-text">
+                            <a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a>{lang phone_auth:captcha_loading}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dz-item-group">
+            <span class="dz-intro"></span>
+            <button class="btn dz-btn login-button" disabled>{lang phone_auth:login}</button>
+        </div>
+    </div>
+    {/if}
     <div class="vaptcha-dz-popup lost-password-form none">
         <div class="vaptcha-dz-step">
             <div class="dz-step-cont dz-step-acitve">
@@ -218,6 +269,7 @@
                 id: '$id',
                 islostpwd: $islostpwd,
                 login_captcha: {$login_captcha},
+                code_login: $params['code_login'],
                 lang: {
                     login_member: '{lang phone_auth:login_member}',
                     verify_phone: '{lang phone_auth:verify_phone}',

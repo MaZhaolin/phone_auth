@@ -18,6 +18,7 @@ if (isset($_REQUEST['site_name'])) {
         'register_email' => get_request('register_email', '0'),
         'qq_login' => get_request('qq_login', '0'), //open international sms
         'wechat_login' => get_request('wechat_login', '0'),
+        'code_login' => get_request('code_login', '0'),
         'qq_login_url' => get_request('qq_login_url', get_site_url().'/connect.php?mod=login&op=init&referer=forum.php&statfrom=login_simple'),
         'wechat_login_url' => get_request('wechat_login_url', get_site_url().'/plugin.php?id=wechat:login')
     );

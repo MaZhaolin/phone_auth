@@ -153,6 +153,37 @@ class PhoneAuth {
                 return $this->response(401, 'error code '.$code);                
         }
     }
+
+    public function sendLoginCode() {
+        $phone = trim($_REQUEST['phone']);
+        if(strlen($phone) < 6){
+            return $this->response(401, 'phone_rule_error',  'phone');
+        }
+        $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
+        if (!isset($member['uid'])) return $this->response(401, 'phone_not_register', 'phone');
+        return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $member['country_code'], 'login');
+    }
+
+    public function smslogin() {
+        $phone = Session::getValue('login_phone');
+        $code = Session::get('login_verify_code');
+        if (!$phone || $phone != trim($_REQUEST['phone'])) {
+            return $this->response(401, 'code_is_error', 'code');
+        }
+        if ($code['readcount'] > 3) {
+            return $this->response(401, 'code_is_expire', 'code');            
+        }
+        if ($code['value'] != trim($_REQUEST['code'])) {
+            return $this->response(401, 'code_is_error', 'code');
+        }
+        Session::set('isBind', true, 3 * 60 * 60);
+        require_once libfile('function/member');
+        $member = C::t("#phone_auth#common_vphone")->fetch_by_phone($phone);
+        setloginstatus(getuserbyuid($member['uid']), 2592000);
+        Session::delete('login_phone');
+        Session::delete('login_verify_code');
+        return $this->response();
+    }
     
     public function login() {
         global $_G;
@@ -163,6 +194,7 @@ class PhoneAuth {
         $ctl_obj = new logging_ctl();
         $ctl_obj->setting = $_G['setting'];
         $ctl_obj->template = 'member/login';
+        $ctl_obj->login_type = 'default_login';
         return $ctl_obj->on_login();
     }
     
@@ -189,6 +221,8 @@ class PhoneAuth {
             return $this->response(401, 'code_is_error', 'code');
         }
         Session::set('validate_phone', $phone);
+        Session::delete('default_phone');
+        Session::delete('default_verify_code');
         return $this->response();
     }
 
