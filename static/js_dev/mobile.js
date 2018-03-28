@@ -376,7 +376,7 @@
       return res;
     },
     passwordLevel: function (oPass, oLevel) {
-      oPass.addEvent('keyup', function (e) {
+      oPass.addEvent('input', function (e) {
         e = e || window.event;
         var strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
         var mediumRegex = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
@@ -542,7 +542,7 @@
           form.ele('.send-code-group')[0].removeClass('none');
         }
       });
-      form.getInput('phone').addEvent('keyup', function (e) {
+      form.getInput('phone').addEvent('input', function (e) {
         var it = e.target;
         !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
       })
@@ -580,7 +580,7 @@
           }
         })
       })
-      inputs.call('addEvent', 'keyup', validate)
+      inputs.call('addEvent', 'input', validate)
       inputs.call('addEvent', 'blur', validate)
       inputs.call('addEvent', 'focus', function (e) {
         e.target.removeClass('error');
@@ -624,6 +624,10 @@
           form.ele('.next-step')[0].setAttribute('disabled', 'disabled');
         }
       }
+      form.getInput('phone').addEvent('input', function (e) {
+        var it = e.target;
+        !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
+      })
       var _vaptcha = self.initVaptcha({
         element: form.ele('.vaptcha_container')[0],
         form: form,
@@ -667,7 +671,7 @@
           }
         })
       })
-      inputs.call('addEvent', 'keyup', validate)
+      inputs.call('addEvent', 'input', validate)
       inputs.call('addEvent', 'blur', validate)
       inputs.call('addEvent', 'focus', function (e) {
         e.target.removeClass('error');
@@ -706,7 +710,7 @@
         return;
       }
       this.resetpwd_loaded = true;
-      inputs.call('addEvent', 'keyup', function () {
+      inputs.call('addEvent', 'input', function () {
         if (form.getInput('new_password').value == form.getInput('verify_password').value &&
           form.getInput('new_password').value.length > 5 && form.getInput('new_password').value.length < 21) {
           form.ele('.submit-btn')[0].removeAttribute('disabled');
@@ -762,7 +766,7 @@
       }
       if (this.options.enable_inter) {
         this.initCountryCode(form);
-        form.getInput('country_code').addEvent('keyup', function (e) {
+        form.getInput('country_code').addEvent('input', function (e) {
           var it = e.target;
           !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
           inputsValidate.phone = self.isPhone(it.value);
@@ -779,7 +783,7 @@
         }
       })
       self.passwordLevel(form.getInput(options.password), form.ele('.pw-strength')[0]);
-      form.getInput(options.password).addEvent('keyup', function (e) {
+      form.getInput(options.password).addEvent('input', function (e) {
         var it = e.target;
         inputsValidate.password = it.value.length >= 6 && it.value.length <= 20;
       })
@@ -795,7 +799,7 @@
           inputsValidate.password = true;
         }
       })
-      form.getInput(options.username).addEvent('keyup', function (e) {
+      form.getInput(options.username).addEvent('input', function (e) {
         var it = e.target;
         it.value = it.value.trim();
         inputsValidate.username = (it.value.length < 3 || it.value.length > 15) ? false : true;
@@ -810,7 +814,7 @@
         }
       })
       if (options.has_email) {
-        form.getInput(options.email).addEvent('keyup', function (e) {
+        form.getInput(options.email).addEvent('input', function (e) {
           var it = e.target;
           it.value = it.value.trim();
           inputsValidate.email = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/.test(it.value);
@@ -822,27 +826,27 @@
           }
         })
       }
-      form.getInput('phone').addEvent('keyup', function (e) {
+      form.getInput('phone').addEvent('input', function (e) {
         var it = e.target;
         !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
         inputsValidate.phone = self.isPhone(it.value);
       })
       form.getInput('phone').addEvent('blur', function (e) {
         var it = e.target;
-        it.target('keyup');
+        it.target('input');
         if (!inputsValidate.phone) {
           it.addClass('error');
           self.showMsg('&#35831;&#36755;&#20837;&#27491;&#30830;&#30340;&#25163;&#26426;&#21495;');
         }
       })
-      form.getInput('code').addEvent('keyup', function (e) {
+      form.getInput('code').addEvent('input', function (e) {
         var it = e.target;
         it.value = it.value.trim();
         inputsValidate.code = /^\d{6}$/.test(it.value)
       })
       form.getInput('code').addEvent('blur', function (e) {
         var it = e.target;
-        it.target('keyup');
+        it.target('input');
         !inputsValidate.code && it.addClass('error');
       })
       var isSending = false;
@@ -901,7 +905,7 @@
           }
         })
       })
-      form.ele('input').call('addEvent', 'keyup', formValidate);
+      form.ele('input').call('addEvent', 'input', formValidate);
       form.ele('input').call('addEvent', 'focus', function (e) {
         e.target.removeClass('error');
       });
@@ -928,7 +932,7 @@
       }
       if (this.options.enable_inter) {
         this.initCountryCode(form);
-        form.getInput('country_code').addEvent('keyup', function (e) {
+        form.getInput('country_code').addEvent('input', function (e) {
           var it = e.target;
           !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
           inputsValidate.phone = self.isPhone(it.value);
@@ -978,7 +982,7 @@
           }
         })
       })
-      inputs.call('addEvent', 'keyup', validate)
+      inputs.call('addEvent', 'input', validate)
       inputs.call('addEvent', 'focus', function (e) {
         e.target.removeClass('error');
       })
