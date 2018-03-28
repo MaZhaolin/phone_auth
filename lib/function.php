@@ -42,7 +42,7 @@ function get_params($name = null) {
     }
     if (!isset($params['code_login'])) {
         $params = array_merge($params, array(
-         'login_captcha' => '0'
+         'code_login' => '0'
         ));
     }
     $params['version'] = VERSION;
