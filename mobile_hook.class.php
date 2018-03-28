@@ -30,10 +30,12 @@ class mobileplugin_phone_auth_member extends mobileplugin_phone_auth{
         if(CURMODULE != 'logging' || $_GET['action'] == "logout") return;
         if(Session::getValue('bind_phone_user')) $route = '#bindphone';
         redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no'.$route));
+        die();
     }
 
     public function register_code() {
         redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no#register'));
+        die();
     }
 
     public function connect_code() {
