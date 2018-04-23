@@ -32,7 +32,7 @@ class PhoneAuth {
     }
 
     public function getChallenge() {
-        $scene = get_request('scene'); 
+        $scene = get_request('scene');
         return Response::success($this->vaptcha->getChallenge($scene));
     }
 
@@ -62,17 +62,17 @@ class PhoneAuth {
             $now = time();
             $time =  Session::getValue($type.'_code_send_time');
             if ($time && 60 * 2 > ($now - $time)) {
-                //2min not send code return valid time 
+                //2min not send code return valid time
                 Session::set($type.'_phone', $phone);
                 Session::set($type.'_country_code', $countrycode);
-                return $this->response(301, 60 * 2 - ($now - $time), 'code');            
+                return $this->response(301, 60 * 2 - ($now - $time), 'code');
             } else {
-                //10min not change code 
+                //10min not change code
                 $res = $this->sms->sendCode(array(
                     'phone' => $phone,
                     'code' => $code,
                     'token' => $token,
-                    'countrycode' => $countrycode                    
+                    'countrycode' => $countrycode
                 ));
                 if ($res == 2001) {
                     Session::refresh($key);
@@ -99,25 +99,25 @@ class PhoneAuth {
         }
         return $this->responseCodeMsg($res);
     }
-    
+
     // test method
     private function sendCodeMsg($phone, $token, $countrycode, $type = 'default') {
         if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
-        $countrycode = get_params('enable_inter') == '1' ? $countrycode : '86';        
+        $countrycode = get_params('enable_inter') == '1' ? $countrycode : '86';
         $key = $type.'_verify_code';
         $code = Session::getValue($key);
         if ($code) {
             $now = time();
             $time =  Session::getValue($type.'_code_send_time');
             if ($time && 60 * 2 > ($now - $time)) {
-                //2min not send code return valid time 
+                //2min not send code return valid time
                 Session::set($type.'_phone', $phone);
                 Session::set($type.'_country_code', $countrycode);
-                return $this->response($countrycode, 60 * 2 - ($now - $time), $code);            
+                return $this->response($countrycode, 60 * 2 - ($now - $time), $code);
             } else {
-                //10min not change code 
+                //10min not change code
                 Session::refresh($key);
                 Session::set($type.'_code_send_time', $now);
                 Session::set($type.'_phone', $phone);
@@ -127,7 +127,7 @@ class PhoneAuth {
         } else {
             $code = rand(100000, 999999);
         }
-        
+
         Session::set($key, $code);
         Session::set($type.'_code_send_time', time());
         Session::set($type.'_phone', $phone);
@@ -139,18 +139,18 @@ class PhoneAuth {
         switch($code) {
             case 2001: //send success
                 return $this->response(200, 'send_success');
-            case 2007: 
+            case 2007:
                 return $this->response(401, 'phone_rule_error', 'phone');
             case 2002: // token empty
             case 2010: // token error
             case 2021: // token use limit 3
                 return $this->response(401, 'validate_failure', 'vaptcha');
-            case 2012: 
+            case 2012:
                 return $this->response(401, 'not_sms');
-            case 2018: 
+            case 2018:
                 return $this->response(401, 'send_too_fast');
             default:
-                return $this->response(401, 'error code '.$code);                
+                return $this->response(401, 'error code '.$code);
         }
     }
 
@@ -171,7 +171,7 @@ class PhoneAuth {
             return $this->response(401, 'code_is_error', 'code');
         }
         if ($code['readcount'] > 3) {
-            return $this->response(401, 'code_is_expire', 'code');            
+            return $this->response(401, 'code_is_expire', 'code');
         }
         if ($code['value'] != trim($_REQUEST['code'])) {
             return $this->response(401, 'code_is_error', 'code');
@@ -184,7 +184,7 @@ class PhoneAuth {
         Session::delete('login_verify_code');
         return $this->response();
     }
-    
+
     public function login() {
         global $_G;
         if (get_params('login_captcha') != '0' && !$this->validate('01')) {
@@ -197,7 +197,7 @@ class PhoneAuth {
         $ctl_obj->login_type = 'default_login';
         return $ctl_obj->on_login();
     }
-    
+
     public function sendCode() {
         $phone = trim($_REQUEST['phone']);
         if(strlen($phone) < 6){
@@ -215,7 +215,7 @@ class PhoneAuth {
             return $this->response(401, 'code_is_error', 'code');
         }
         if ($code['readcount'] > 3) {
-            return $this->response(401, 'code_is_expire', 'code');            
+            return $this->response(401, 'code_is_expire', 'code');
         }
         if ($code['value'] != trim($_REQUEST['code'])) {
             return $this->response(401, 'code_is_error', 'code');
@@ -262,23 +262,23 @@ class PhoneAuth {
             if(is_null($member['username'])) {
                 C::t('#phone_auth#common_vphone')->unbind($phone);
             } else {
-                return $this->response(401, 'phone_is_register', 'phone');                
+                return $this->response(401, 'phone_is_register', 'phone');
             }
         }
         return $this->sendCodeMsg($phone, $_REQUEST['vaptcha_token'], $_REQUEST['country_code'], $phone);
     }
 
-    public function register() {        
+    public function register() {
         $phone = $_REQUEST['phone'];
         if (!$phone || $phone != Session::getValue($phone.'_phone')) {
             return $this->response(401, Session::getValue($phone.'_phone').'code_is_error', 'code');
         }
         $code = Session::get($phone.'_verify_code');
         if ($code['readcount'] > 3) {
-            return $this->response(401, 'code_is_expire', 'code');            
+            return $this->response(401, 'code_is_expire', 'code');
         }
         if ($code['value'] != $_REQUEST['code'] ) {
-            return $this->response(401, 'code_is_error', 'code');            
+            return $this->response(401, 'code_is_error', 'code');
         }
         global $_G;
         require_once dirname(dirname(__FILE__))."/lib/register_ctl.class.php";
@@ -290,7 +290,7 @@ class PhoneAuth {
 
     public function bindPhoneCode() {
         global $_G;
-        $phone = $_REQUEST['phone'];        
+        $phone = $_REQUEST['phone'];
         $member = Session::getValue('bind_phone_user');
         if (!isset($member['username']) && !$_G['uid']) {
             return $this->response(401, 'Access denied');
@@ -304,7 +304,7 @@ class PhoneAuth {
     }
 
     public function bindPhone(){
-        global $_G;        
+        global $_G;
         $code = $_REQUEST['code'];
         $member = Session::getValue('bind_phone_user');
         if (!isset($member['username']) && !$_G['uid']) {
@@ -316,15 +316,15 @@ class PhoneAuth {
         }
         $code = Session::get('bind_phone_verify_code');
         if ($code['readcount'] > 3) {
-            return $this->response(401, 'code_is_expire', 'code');            
+            return $this->response(401, 'code_is_expire', 'code');
         }
         if ($code['value'] != $_REQUEST['code'] ) {
-            return $this->response(401, 'code_is_error', 'code');            
+            return $this->response(401, 'code_is_error', 'code');
         }
         Session::delete('bind_phone_user');
         Session::delete('bind_phone_phone');
         Session::delete('bind_phone_verify_code');
-        Session::set('isBind', true);        
+        Session::set('isBind', true);
         $countrycode = Session::getValue('bind_phone_country_code', '86');
         if(!isset($member['uid'])) {
             $member['uid'] = $_G['uid'];
@@ -338,7 +338,7 @@ class PhoneAuth {
 
     public function modifyPhoneCode() {
         global $_G;
-        $phone = trim($_REQUEST['phone']);        
+        $phone = trim($_REQUEST['phone']);
         $result = userlogin($_G['username'], $_REQUEST['password'], '', '');
         if(!isset($result['member'])) {
             return $this->response(401, 'Access denied');
@@ -367,27 +367,31 @@ class PhoneAuth {
         }
         $code = Session::get('modify_phone_verify_code');
         if ($code['readcount'] > 3) {
-            return $this->response(401, 'code_is_expire', 'code');            
+            return $this->response(401, 'code_is_expire', 'code');
         }
         if ($code['value'] != $_REQUEST['code'] ) {
-            return $this->response(401, 'code_is_error', 'code');            
+            return $this->response(401, 'code_is_error', 'code');
         }
         $countrycode = Session::getValue('modify_phone_country_code', '86');
         Session::delete('modify_phone_phone');
         Session::delete('modify_phone_verify_code');
-        C::t("#phone_auth#common_vphone")->fetch_by_uid($_G['uid']) ? 
+        C::t("#phone_auth#common_vphone")->fetch_by_uid($_G['uid']) ?
         C::t("#phone_auth#common_vphone")->update_phone($_G['uid'], $phone, $countrycode) :
         C::t("#phone_auth#common_vphone")->save($_G['uid'], $phone, $countrycode);
         return $this->response(200, 'modify_phone_success');
     }
 
-    public function mobile() {
-        global $_G;
-        if ($_G['uid'] && !$_REQUEST['bp']) {
-            redirect(get_site_url('/forum.php?mobile=yes'));
-        }
+    public function tpl() {
         include_once (DISCUZ_ROOT . '/source/discuz_version.php');
         include template('phone_auth:mobile');
+    }
+
+    public function mobile() {
+        global $_G;
+        if ($_G['uid'] && $_REQUEST['bp'] != 'yes') {
+            redirect(get_site_url('/forum.php?mobile=yes'));
+        }
+        return file_get_contents(get_site_url('/plugin.php?id=phone_auth&action=tpl&mobile=no#login'));
     }
 
     public function smsData() {
@@ -395,7 +399,7 @@ class PhoneAuth {
         if ($_G['adminid'] != '1') {
             exit('Access Denied');
         }
-        $type = $_REQUEST['type']; 
+        $type = $_REQUEST['type'];
         $page = $_REQUEST['page'];
         if ($type == 'order') {
             return $this->sms->getOrders($page);
@@ -404,8 +408,8 @@ class PhoneAuth {
         }
     }
 
-    public function payCheck() {		
-        $token = $_REQUEST['token'];		
+    public function payCheck() {
+        $token = $_REQUEST['token'];
         return $this->sms->getOrderState($token);
     }
 

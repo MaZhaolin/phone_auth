@@ -20,8 +20,8 @@ class mobileplugin_phone_auth {
     }
 
     function common() {
-        if(!$this->isbind()) 
-        return redirect(get_site_url("/plugin.php?id=phone_auth&action=mobile&bp=yes&mobile=no#bindphone"));
+        if(!$this->isbind() && $_GET['id'] != 'phone_auth')
+        return redirect(get_site_url("/plugin.php?id=phone_auth&action=mobile&bp=yes#bindphone"));
     }
 }
 
@@ -29,24 +29,24 @@ class mobileplugin_phone_auth_member extends mobileplugin_phone_auth{
     public function logging_code() {
         if(CURMODULE != 'logging' || $_GET['action'] == "logout") return;
         if(Session::getValue('bind_phone_user')) $route = '#bindphone';
-        redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no'.$route));
+        redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile'.$route));
         die();
     }
 
     public function register_code() {
-        redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no#register'));
+        redirect(get_site_url('/plugin.php?id=phone_auth&action=mobile#register'));
         die();
     }
 
     public function connect_code() {
         if(CURMODULE == 'connect') {
-            showmessage('&#113;&#113;&#21495;&#26410;&#32465;&#23450;&#36134;&#21495;&#35831;&#20808;&#27880;&#20876;', get_site_url('/plugin.php?id=phone_auth&action=mobile&mobile=no#register'));
+            showmessage('&#113;&#113;&#21495;&#26410;&#32465;&#23450;&#36134;&#21495;&#35831;&#20808;&#27880;&#20876;', get_site_url('/plugin.php?id=phone_auth&action=mobile#register'));
         }
     }
 }
 
 class mobileplugin_phone_auth_forum extends mobileplugin_phone_auth {
-    
+
     public function post_recode() {
         global $_G;
         if($this->isbind()) return;
