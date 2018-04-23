@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
                 {/if}
                 <div class="dz-item-group">
                     <button class="btn dz-btn login-btn" disabled>{lang phone_auth:login}</button>
@@ -161,7 +161,7 @@
                             <input maxlength="11" class="form-control dz-input dz-input-icon ti126" type="text" name="phone" placeholder="{lang phone_auth:phone}"
                             />
                             <span class="iconfont form-icon icon-phone">&#xe625;</span>
-                        
+
                             <div id="phonePrefix" class="area-code btn-group dropdown">
                                 <div class="country-code active">
                                     <span class="add">+</span>
@@ -204,10 +204,20 @@
                                             KP +850
                                         </a>
                                     </li>
-                        
+                                    <li role="menuitem">
+                                        <a class="dropdown-item">
+                                            GER +49
+                                        </a>
+                                    </li>
+                                    <li role="menuitem">
+                                        <a class="dropdown-item">
+                                            UK +44
+                                        </a>
+                                    </li>
+
                                 </ul>
                             </div>
-                        
+
                         </div>
                         {/if}
                         <div class="dz-item2-group clearfix send-code-group none">
@@ -247,7 +257,7 @@
                     </div>
                 </div>
             </div>
-        
+
         <div class="m-dz m-dz-register none">
             <input type="hidden" name="regsubmit" value="yes" />
             <input type="hidden" name="formhash" value="{FORMHASH}" />
@@ -299,7 +309,7 @@
                 </div>
                 {if $params['enable_inter'] == '0'}
                 <div class="dz-item-group">
-                    <input type="hidden" value="86" name="country_code">                    
+                    <input type="hidden" value="86" name="country_code">
                     <input class="form-control dz-input dz-input-icon" maxlength="11" type="text" name="phone" placeholder="{lang phone_auth:phone}" />
                     <span class="iconfont form-icon icon-phone">&#xe625;</span>
                 </div>
@@ -308,7 +318,7 @@
                     <input maxlength="11" class="form-control dz-input dz-input-icon ti126" type="text" name="phone" placeholder="{lang phone_auth:phone}"
                     />
                     <span class="iconfont form-icon icon-phone">&#xe625;</span>
-                
+
                     <div id="phonePrefix" class="area-code btn-group dropdown">
                         <div class="country-code active">
                             <span class="add">+</span>
@@ -351,10 +361,20 @@
                                     KP +850
                                 </a>
                             </li>
-                
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    GER +49
+                                </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item">
+                                    UK +44
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
-                
+
                 </div>
                 {/if}
                 <div class="dz-item2-group clearfix dz-code-group none">
@@ -396,7 +416,7 @@
                         <span class="way-text way-copy" disabled>Copyright © 2017 VAPTCHA All Rights Reserved</span>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
         <div class="m-dz m-dz-forgetword none">
             <div class="m-dz-top">
@@ -511,7 +531,7 @@
                     agreebbrule: '$bbrulehash'
                 },
             });
-        }                  
+        }
     </script>
 	</body>
 </html>

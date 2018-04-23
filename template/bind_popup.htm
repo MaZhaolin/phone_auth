@@ -1,4 +1,4 @@
-{eval 
+{eval
     function bind_popup() {
         $id = L.random(4);
         $referer = dreferer();
@@ -32,7 +32,7 @@
                             <h2 style="text-align: center; padding: 10px">{lang phone_auth:bind_phone_title}</h2>
                             {if $params['enable_inter'] == '0'}
                             <div class="dz-item2-group">
-                                <input type="hidden" value="86" name="country_code">                                
+                                <input type="hidden" value="86" name="country_code">
                                 <input maxlength="11"  class="form-control dz-input" placeholder="{lang phone_auth:register_phone_pl}" name="phone">
                             </div>
                             {else}
@@ -78,9 +78,19 @@
                                                     KP +850
                                                 </a>
                                             </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item">
+                                                    GER +49
+                                                </a>
+                                            </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item">
+                                                    UK +44
+                                                </a>
+                                            </li>
                                         </ul>
                                     </div>
-                                    <input autocomplete="off" maxlength="11"  placeholder="{lang phone_auth:register_phone_pl}" class="form-control bg-c dz-input" type="tel" name="phone">         
+                                    <input autocomplete="off" maxlength="11"  placeholder="{lang phone_auth:register_phone_pl}" class="form-control bg-c dz-input" type="tel" name="phone">
                                 </div>
                             </div>
                             {/if}
