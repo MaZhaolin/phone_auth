@@ -254,7 +254,7 @@
       }
     },
     isPhone: function (phone) {
-      return phone.trim().length > 5 
+      return phone.trim().length > 5
       var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
       if (!myreg.test(phone)) {
         return false;
@@ -333,7 +333,7 @@
       return _v;
     },
     formValidate: function (rules, form) {
-      /* 
+      /*
       rule => {
           name: 'username',
           validate: Function
@@ -793,7 +793,7 @@
       form.getInput(options.password).addEvent('blur', function (e) {
         var it = e.target;
         if (it.value.length < 6 || it.value.length > 20) {
-          inputsValidate.password = false;
+          // inputsValidate.password = false;
           form.ele('.pw-strength')[0].addClass('error');
         } else {
           inputsValidate.password = true;
@@ -801,11 +801,12 @@
       })
       form.getInput(options.username).addEvent('input', function (e) {
         var it = e.target;
-        it.value = it.value.trim();
-        inputsValidate.username = (it.value.length < 3 || it.value.length > 15) ? false : true;
+        var length = it.value.replace(/[\u0391-\uFFE5]/g,"aa").length
+        inputsValidate.username = length >= 3 &&  length <= 15;
       })
       form.getInput(options.username).addEvent('blur', function (e) {
         var it = e.target;
+        it.value = it.value.trim();
         if (!inputsValidate.username) {
           inputsValidate.username = false;
           it.addClass('error')
