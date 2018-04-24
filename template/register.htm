@@ -1,4 +1,4 @@
-{eval 
+{eval
     function register_template() {
         $id = L.random(4);
         global $_G;
@@ -26,7 +26,7 @@
                 <span class="dz-intro">&#25512;&#33616;&#20154;:</span>
                 <a class="dz-link"  href="home.php?mod=space&uid=$invite[uid]" target="_blank">$invite[username]</a>
             </div>
-            <div class="v-line"></div> 
+            <div class="v-line"></div>
             <!--{else}-->
             <div class="dz-item-group">
                 <span class="dz-intro">&#36992;&#35831;&#30721;:</span>
@@ -34,7 +34,7 @@
                 <span class="dz-title">$_G['setting'][inviteconfig][invitecodeprompt]</span>
             </div>
             <div class="v-line"></div>
-            <!--{eval $invitecode = 1;}-->
+            
             <!--{/if}-->
         <!--{/if}-->
         <!--{if empty($invite) && $_G['setting']['regstatus'] == 2 && !$invitestatus}-->
@@ -45,11 +45,11 @@
                     <!--{if $_G['setting']['inviteconfig']['buyinvitecode'] && $_G['setting']['inviteconfig']['invitecodeprice'] && ($_G['setting'][ec_tenpay_bargainor] || $_G['setting'][ec_tenpay_opentrans_chnid] || $_G['setting'][ec_account])}-->
                     <a href="misc.php?mod=buyinvitecode" target="_blank" class="dz-link">&#36824;&#27809;&#26377;&#36992;&#35831;&#30721;&#65311;&#28857;&#20987;&#27492;&#22788;&#33719;&#21462;</a>
                     <!--{/if}-->
-                    $_G['setting'][inviteconfig][invitecodeprompt]                    
+                    $_G['setting'][inviteconfig][invitecodeprompt]
             </span>
         </div>
         <div class="v-line"></div>
-        <!--{eval $invitecode = 1;}-->
+
         <!--{/if}-->
         <!--{if empty($invite) && $_G['setting']['regstatus'] == 3}-->
         <div class="dz-item-group">
@@ -58,21 +58,21 @@
             <span class="dz-title">$_G['setting'][inviteconfig][invitecodeprompt]</span>
         </div>
         <div class="v-line"></div>
-        <!--{eval $invitecode = 1;}-->
+
         <!--{/if}-->
         <div class="dz-item-group">
             <span class="dz-intro"><sup>*</sup>{lang username}:</span>
             <input class="form-control dz-input" type="text" name="username">
             <span class="dz-title">{lang phone_auth:username_rule}</span>
         </div>
-        <div class="v-line"></div> 
+        <div class="v-line"></div>
         <!--{if $params['register_email'] == '1'}-->
         <div class="dz-item-group">
             <span class="dz-intro"><sup>*</sup>{lang phone_auth:email}:</span>
             <input class="form-control dz-input" type="text" name="email">
             <span class="dz-title">{lang phone_auth:email_rule}</span>
         </div>
-        <div class="v-line"></div> 
+        <div class="v-line"></div>
         <!--{/if}-->
         <div class="dz-item-group">
             <span class="dz-intro"><sup>*</sup>{lang panel_login_password}:</span>
@@ -93,7 +93,7 @@
         <div class="v-line"></div>
         {if $params['enable_inter'] == '0'}
         <div class="dz-item-group">
-            <input type="hidden" value="86" name="country_code">            
+            <input type="hidden" value="86" name="country_code">
             <span class="dz-intro"><sup>*</sup>{lang phone_auth:phone}:</span>
             <input maxlength="11"  class="form-control dz-input" name="phone">
             <span class="dz-title"></span>
@@ -145,7 +145,7 @@
                     </ul>
                 </div>
                 <input maxlength="11"  autocomplete="off"  class="form-control bg-c dz-input" type="tel" name="phone">
-                <span class="dz-title"></span>            
+                <span class="dz-title"></span>
             </div>
         </div>
         {/if}
@@ -160,7 +160,7 @@
             <input type="hidden" name="vaptcha_challenge">
             <div class="vaptcha_container">
                 <div class="vaptcha-init-main">
-                    <div class="vaptcha-init-loading"> 
+                    <div class="vaptcha-init-loading">
                         <a><img src="https://cdn.vaptcha.com/vaptcha-loading.gif"/></a>
                         <span class="vaptcha-text"><a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a>{lang phone_auth:captcha_loading}</span>
                     </div>
@@ -174,7 +174,7 @@
             <span class="dz-intro"></span>
             <input type="checkbox" class='checkbox' name="agreebbrule" value="$bbrulehash" checked id="agreebbrule">
             <label for="agreebbrule" class="dz-item-text">{lang phone_auth:agree}<a class="dz-link protocal-link" href="javascript:;">{lang phone_auth:rulemessage}</a></label>
-        </div> 
+        </div>
         <!--{/if}-->
         <div class="dz-item-group  clearfix">
             <span class="dz-intro"></span>
@@ -225,7 +225,7 @@
         } else {
             setTimeout(register_run);
         }
-    })()     
+    })()
 </script>
 <!--{/block}-->
 {eval return $return;}
