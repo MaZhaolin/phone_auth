@@ -381,17 +381,13 @@ class PhoneAuth {
         return $this->response(200, 'modify_phone_success');
     }
 
-    public function tpl() {
-        include_once (DISCUZ_ROOT . '/source/discuz_version.php');
-        include template('phone_auth:mobile');
-    }
-
     public function mobile() {
         global $_G;
         if ($_G['uid'] && $_REQUEST['bp'] != 'yes') {
             redirect(get_site_url('/forum.php?mobile=yes'));
         }
-        return file_get_contents(get_site_url('/plugin.php?id=phone_auth&action=tpl&mobile=no#login'));
+        include_once (DISCUZ_ROOT . '/source/discuz_version.php');
+        include template('phone_auth:mobile');
     }
 
     public function smsData() {
