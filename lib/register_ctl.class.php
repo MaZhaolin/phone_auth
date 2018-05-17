@@ -20,7 +20,7 @@ class register_ctl {
 
     function vcheckemail($email) {
         global $_G;
-    
+
         $email = strtolower(trim($email));
         if(strlen($email) > 32) {
             return $this->responseError('profile_email_illegal', '', array(), array('handle' => false));
@@ -33,10 +33,10 @@ class register_ctl {
                 return $this->responseError('profile_email_domain_illegal', '', array(), array('handle' => false));
             }
         }
-    
+
         loaducenter();
         $ucresult = uc_user_checkemail($email);
-    
+
         if($ucresult == -4) {
             return $this->responseError('profile_email_illegal', '', array(), array('handle' => false));
         } elseif($ucresult == -5) {
@@ -72,7 +72,7 @@ class register_ctl {
         // $_GET['password2'] = $_GET[''.$this->setting['reginput']['password2']];
         // $_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
 
-        $_GET['username'] = characet($_GET['username'], CHARSET, 'utf-8');
+        $_GET['username'] = characet($_GET['username'], CHARSET, mb_detect_encoding($_GET['username'] , array('UTF-8', "GBK")));
         $_GET['password'] = $_GET['password'];
         $_GET['password2'] = $_GET['password2'];
         $_GET['email'] = $_GET['email'];
@@ -454,11 +454,11 @@ class register_ctl {
 
             if(!$activation) {
                 if (is_numeric(addslashes($username))) {
-                    return $this->responseError(lang('plugin/phone_auth', 'username_not_number'), 'username');            
+                    return $this->responseError(lang('plugin/phone_auth', 'username_not_number'), 'username');
                 }
                 $uid = uc_user_register(addslashes($username), $password, $email, $questionid, $answer, $_G['clientip']);
                 if ($uid <= -4 && $uid >= -6 && get_params('register_email') == '0') {
-                    $uid = add_user(addslashes($username), $password, 0, $questionid, $answer, $_G['clientip']);                        
+                    $uid = add_user(addslashes($username), $password, 0, $questionid, $answer, $_G['clientip']);
                 } else if($uid <= 0) {
                     if($uid == -1) {
                         return $this->responseError('profile_username_illegal', 'username');
@@ -539,9 +539,9 @@ class register_ctl {
             }
 
             $init_arr = array('credits' => explode(',', $this->setting['initcredits']), 'profile'=>$profile, 'emailstatus' => $emailstatus);
-            
+
             C::t('common_member')->insert($uid, $username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr);
-            
+
             $phone = $_REQUEST["phone"];
             $countrycode = Session::getValue($phone.'_country_code', '86');
             C::t("#phone_auth#common_vphone")->save($uid, $phone, $countrycode);
