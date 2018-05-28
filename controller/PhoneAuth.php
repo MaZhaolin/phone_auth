@@ -287,6 +287,15 @@ class PhoneAuth {
         $ctl_obj->template = 'member/register';
         return $ctl_obj->on_register();
     }
+    
+    public function activation() {
+        global $_G;
+        require_once dirname(dirname(__FILE__))."/lib/register_ctl.class.php";
+        $ctl_obj = new register_ctl();
+        $ctl_obj->setting = $_G['setting'];
+        $ctl_obj->template = 'member/register';
+        return $ctl_obj->on_register();
+    }
 
     public function bindPhoneCode() {
         global $_G;

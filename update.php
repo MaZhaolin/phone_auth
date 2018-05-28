@@ -14,4 +14,6 @@ $sql = "CREATE TABLE IF NOT EXISTS `" . DB::table('sessions') . "` (" .
 
 runquery($sql);
 
+$sql = "ALTER TABLE " . DB::table('common_vphone') . " MODIFY COLUMN phone varchar(20)  CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;";
+
 $finish = TRUE;
