@@ -11,7 +11,7 @@
 			<item id="name"><![CDATA[手机注册]]></item>
 			<item id="identifier"><![CDATA[phone_auth]]></item>
 			<item id="description"><![CDATA[V-SMS是由智能人机验证服务商VAPTCHA开发的普惠短信接口。由运营商网关直接发送，极速到达；价格补贴后低至2分以内每条，远远低于市场价；整合VAPTCHA智能人机验证技术，防止短信被盗刷。]]></item>
-			<item id="datatables"><![CDATA[]]></item>z
+			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[phone_auth/]]></item>
 			<item id="copyright"><![CDATA[VAPTCHA]]></item>
 			<item id="version"><![CDATA[1.11.0]]></item>
