@@ -278,7 +278,7 @@
               https: options.https || false,
               color: self.options.vaptcha_color || '#3c8aff',
               lang: 'zh-CN',
-              outage: '/plugin.php?id=phone_auth&action=downtime',
+              outage: self.options.site_url + '/plugin.php?id=phone_auth&action=downtime',
               success: function (token, challenge) {
                 if (form) {
                   var inputs = form.getElementsByTagName('input');
@@ -445,6 +445,9 @@
               if (['user', 'password', 'vaptcha'].indexOf(data.error_pos) >= 0) {
                 form.getInput(data.error_pos) && form.getInput(data.error_pos).addClass('error');
                 data.msg && self.showMsg(data.msg);
+              }
+              if (data.error_pos === 'location_activation') {
+                return window.location.href = data.msg;
               }
               /* if (data.error_pos == 'bind_phone') {
                 wrapper.ele('.bind-phone-form')[0].ele('.user-name')[0].html(data.msg);
@@ -1097,6 +1100,9 @@
                 container.style.display = 'none';
                 if (data.error_pos == 'bind_phone') {
                   return showWindow('login', 'member.php?mod=logging&action=login');
+                } 
+                if (data.error_pos == 'location_activation') {
+                  return window.location.href = data.msg;
                 }
                 data.msg && errorhandle_ls(data.msg, { 'loginperm': '4' })
               }
@@ -1130,6 +1136,7 @@
                 window.location.reload();
               },
               error: function (data) {
+                console.log(data);
                 if (data.error_pos == 'bind_phone') {
                   return showWindow('login', 'member.php?mod=logging&action=login');
                 }
@@ -1141,6 +1148,25 @@
         }
       })
       // self.popup_captcha(form)
+    },
+    activation: function() {
+      var form = ele('#registerform'),
+          submitBtn = form.ele('#registerformsubmit'),
+          self = this;
+      submitBtn.addEvent('click', function(e) {
+        e.preventDefault();
+        self.ajax({
+          type: 'POST',
+          url: '/plugin.php?id=phone_auth&action=activation',
+          data: self.getFormData(form), 
+          success: function() {
+            window.location.reload();
+          },
+          error: function(data) {
+            errorhandle_ls(data.msg, '');
+          }
+        });
+    })
     }
   }
   window.v_helper = Helper;

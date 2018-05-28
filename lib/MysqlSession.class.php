@@ -20,7 +20,7 @@ class MysqlSession
         $this->IS_MYSQLI = false;
         //session_write_close();
         $this->SESS_LIFE = get_cfg_var("session.gc_maxlifetime");
-        session_module_name('user');
+        // session_module_name('user');
         session_set_save_handler(
             array(&$this, 'sess_open'),
             array(&$this, 'sess_close'),

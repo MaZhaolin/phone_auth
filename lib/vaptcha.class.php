@@ -8,9 +8,9 @@ class Vaptcha
 {
     private $vid;
     private $key;
-    private $publicKey;
-    private $lastCheckdownTime = 0;
-    private $isDown = false;
+    private static $publicKey;
+    private static $lastCheckdownTime = 0;
+    private static $isDown = false;
 
     //宕机模式通过签证
     private static $passedSignatures = array();
@@ -53,7 +53,7 @@ class Vaptcha
             'scene' => $sceneId,
             'time' => $now . '000',
         ));
-        if (!$this->isDown) {
+        if (!self::$isDown) {
             $challenge = self::readContentFormGet($url);
             if ($challenge === REQUEST_USED_UP) {
                 self::$passedSignatures = array();
@@ -61,8 +61,8 @@ class Vaptcha
             }
             if (empty($challenge)) {
                 if ($this->getIsDwon()) {
-                    $this->lastCheckdownTime = $now;
-                    $this->isDown = true;
+                    self::$lastCheckdownTime = $now;
+                    self::$isDown = true;
                     self::$passedSignatures = array();
                 }
                 return $this->getDownTimeCaptcha();
@@ -72,11 +72,11 @@ class Vaptcha
                 "challenge" => $challenge,
             );
         } else {
-            if ($now - $this->lastCheckdownTime > DOWNTIME_CHECK_TIME) {
-                $this->lastCheckdownTime = $now;
+            if ($now - self::$lastCheckdownTime > DOWNTIME_CHECK_TIME) {
+                self::$lastCheckdownTime = $now;
                 $challenge = self::readContentFormGet($url);
                 if ($challenge && $challenge != REQUEST_USED_UP) {
-                    $this->isDown = false;
+                    self::$isDown = false;
                     self::$passedSignatures = array();
                     return array(
                         "vid" => $this->vid,
@@ -99,7 +99,7 @@ class Vaptcha
     public function validate($challenge, $token, $sceneId = "")
     {
         if(empty($sceneId)) $sceneId = '';
-        if ($this->isDown || !$challenge) {
+        if (self::$isDown || !$challenge) {
             return $this->downTimeValidate($token);
         } else {
             return $this->normalValidate($challenge, $token, $sceneId);
@@ -261,11 +261,11 @@ class Vaptcha
         $md5 = md5($time . $this->key);
         $captcha = substr($md5, 0, 3);
         $verificationKey = substr($md5, 30);
-        if (!$this->publicKey) {
-            $this->publicKey = $this->getPublicKey();
+        if (!self::$publicKey) {
+            self::$publicKey = $this->getPublicKey();
         }
 
-        $url = md5($captcha . $verificationKey . $this->publicKey) . PIC_POST_FIX;
+        $url = md5($captcha . $verificationKey . self::$publicKey) . PIC_POST_FIX;
         $url = DOWN_TIME_PATH . $url;
         return array(
             "time" => $time,
