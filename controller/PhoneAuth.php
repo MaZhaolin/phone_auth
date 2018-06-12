@@ -368,8 +368,8 @@ class PhoneAuth {
             return $this->response(401, 'Access denied');
         }
         $phone = Session::getValue('modify_phone_phone');
-        if(!preg_match('/^1([0-9]{9})/', $phone)){
-            return $this->response(401, 'phone_rule_error');
+        if(strlen($phone) < 6){
+            return $this->response(401, 'phone_rule_error', 'phone');
         }
         if (!$phone || $phone != $_REQUEST['phone']) {
             return $this->response(401, 'code_is_error', 'code');
@@ -384,7 +384,8 @@ class PhoneAuth {
         $countrycode = Session::getValue('modify_phone_country_code', '86');
         Session::delete('modify_phone_phone');
         Session::delete('modify_phone_verify_code');
-        C::t("#phone_auth#common_vphone")->fetch_by_uid($_G['uid']) ?
+        $member = C::t("#phone_auth#common_vphone")->fetch_by_uid($_G['uid']);
+        $member['uid'] ?
         C::t("#phone_auth#common_vphone")->update_phone($_G['uid'], $phone, $countrycode) :
         C::t("#phone_auth#common_vphone")->save($_G['uid'], $phone, $countrycode);
         return $this->response(200, 'modify_phone_success');
