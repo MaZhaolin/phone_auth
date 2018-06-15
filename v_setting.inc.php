@@ -19,6 +19,8 @@ if (isset($_REQUEST['site_name'])) {
         'qq_login' => get_request('qq_login', '0'), //open international sms
         'wechat_login' => get_request('wechat_login', '0'),
         'code_login' => get_request('code_login', '0'),
+        'custom_style_pc' => get_request('custom_style_pc', ''),
+        'custom_style_mobile' => get_request('custom_style_mobile', ''),
         'qq_login_url' => get_request('qq_login_url', get_site_url().'/connect.php?mod=login&op=init&referer=forum.php&statfrom=login_simple'),
         'wechat_login_url' => get_request('wechat_login_url', get_site_url().'/plugin.php?id=wechat:login')
     );
@@ -31,6 +33,8 @@ if (isset($_REQUEST['site_name'])) {
 $params = get_params();
 $params['site_url'] = characet($params['site_url'], CHARSET, 'utf-8');
 $params['site_name'] = characet($params['site_name'], 'utf-8', CHARSET);
+$params['custom_style_pc'] = get_custom_style('pc');
+$params['custom_style_mobile'] = get_custom_style('mobile');
 $static_path  = rtrim($_G['siteurl'], '/').'/source/plugin/phone_auth/static';
 $site_url = get_site_url();
 $plugin = C::t('common_plugin')->fetch_by_identifier('phone_auth');

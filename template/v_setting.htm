@@ -5,6 +5,25 @@
 <div id="app"></div>
 <script>
     var params = JSON.parse('{eval echo json_encode($params)}');
+    function CSSdecode(code){ 
+        code = code.replace(/(\s){2,}/ig,'$1'); 
+        code = code.replace(/(\S)\s*\{/ig,'$1 {'); 
+        code = code.replace(/\*\/(.[^\}\{]*)}/ig,'\*\/\n$1}'); 
+        code = code.replace(/\/\*/ig,'\n\/\*'); 
+        code = code.replace(/;\s*(\S)/ig,';\n\t$1'); 
+        code = code.replace(/\}\s*(\S)/ig,'\}\n$1'); 
+        code = code.replace(/\n\s*\}/ig,'\n\}'); 
+        code = code.replace(/\{\s*(\S)/ig,'\{\n\t$1'); 
+        code = code.replace(/(\S)\s*\*\//ig,'$1\*\/'); 
+        code = code.replace(/\*\/\s*([^\}\{]\S)/ig,'\*\/\n\t$1'); 
+        code = code.replace(/(\S)\}/ig,'$1\n\}'); 
+        code = code.replace(/(\n){2,}/ig,'\n'); 
+        code = code.replace(/:/ig,':'); 
+        code = code.replace(/  /ig,' '); 
+        return code; 
+    } 
+    params['custom_style_pc'] = CSSdecode(params['custom_style_pc']);
+    params['custom_style_mobile'] = CSSdecode(params['custom_style_mobile']);
 </script>
 <script src="{$static_path}/js/app.min.js?v=$params['version']"></script>
-<!-- <script src="http://localhost:8080/app.js"></script> -->
+<!-- <script src="http://localhost:8080/app.js?v={eval echo time()}"></script> -->

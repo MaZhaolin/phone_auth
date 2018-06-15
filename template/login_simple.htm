@@ -3,6 +3,7 @@
         $static_path  = get_static_path();
         $site_url = get_site_url();
         $params = get_params();
+        $custom_style = get_custom_style('pc');
         $login_captcha = get_params('login_captcha');        
 }
 <!--{block return}-->
@@ -84,6 +85,7 @@
     padding-right: 10px;
     color: #404955;
 }
+{$custom_style}
 </style>
 <div class="y v-login-simple">
     <table cellspacing="0" cellpadding="0">

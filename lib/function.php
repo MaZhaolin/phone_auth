@@ -71,8 +71,9 @@ function hex2rgb($hexColor) {
     return $rgb;
 }
 
-function get_theme_style() {
+function get_theme_style($type = 'pc') {
     $color = get_params('style_color');
+    $custom_style = get_custom_style($type);
     $rgbaColor = implode(hex2rgb($color), ',');
     return <<<STYLE
     <style>
@@ -92,9 +93,19 @@ function get_theme_style() {
         .dz-item-group .dz-link{
             color: #$color;
         }
+        $custom_style
     </style>
 STYLE;
 }
+
+function get_custom_style($type) {
+    $custom_style = get_params('custom_style_'.$type);
+    $custom_style = str_replace('right-bracket', ')', $custom_style);
+    $custom_style = str_replace('left-bracket', '(', $custom_style);
+    $custom_style = str_replace('right-jbracket', '>', $custom_style);
+    $custom_style = str_replace('left-jbracket', '<', $custom_style);
+    return $custom_style;
+} 
 
 function characet($data, $charset = 'utf-8', $fromCharset = CHARSET){
     if( !empty($data) ){
