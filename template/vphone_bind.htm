@@ -62,11 +62,12 @@
 </div>
 <h5>{lang phone_auth:bind_phone}</h5>
     <!--{if !$rebind}-->
-<form action="{$site_url}/home.php?mod=spacecp&ac=plugin&id=phone_auth:vphone_bind" method="POST">
+<form id="phoneForm" action="{$site_url}/home.php?mod=spacecp&ac=plugin&id=phone_auth:vphone_bind" method="POST">
+    <input type="hidden" id="vFormType" name="type" value="bind">
     <table>
             <tbody class="tfm vphone-setting">
                 <tr>
-                    <!--{if $vphone}-->
+                    <!--{if $vphone['phone']}-->
                     <th>{lang phone_auth:binded_phone}</th>
                     <!--{else}-->
                     <th>{lang phone_auth:unbinded_phone}</th>
@@ -91,6 +92,30 @@
                         <button class="pn pnc" id="bindPhone">
                             <strong>{lang phone_auth:click_rebind_phone}</strong>
                         </button>
+                        <!--{if $vphone['phone']}-->
+                        <button type="button" class="pn pnc" id="unbindPhone">
+                            <strong>点击解绑手机号</strong>
+                        </button>
+                        <script>
+                            (function() {
+                                function addEvent(el, type, cb) {
+                                    if (el.addEventListener) {
+                                        el.addEventListener(type, cb);
+                                    } else if (el.attachEvent) {
+                                        el.attachEvent('on' + type, function (e) {
+                                        e = e || window.event;
+                                        e.target = e.target || e.srcElement;
+                                        cb(e);
+                                        });
+                                    }
+                                }
+                                addEvent(document.getElementById('unbindPhone'),'click', function(e) {
+                                    document.getElementById('vFormType').value = 'unbind';
+                                    document.getElementById('phoneForm').submit();
+                                })
+                            })()
+                        </script>
+                        <!--{/if}-->
                     </td>
                 </tr>
             </tbody>
@@ -99,6 +124,7 @@
     <table>
         <tbody class="tfm vphone-setting">
             <input type="hidden" name="password" value="{$password}">
+            {if $vphone['phone']}
             <tr>
                 <th>{lang phone_auth:old_phone}</th>
                 <td>
@@ -106,6 +132,7 @@
                 </td>
                 <td></td>
             </tr>
+            {/if}
             <tr>
                 <th>
                     <span class="rq">*</span>{lang phone_auth:new_phone}</th>

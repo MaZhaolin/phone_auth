@@ -15,8 +15,13 @@ $vphone = C::t("#phone_auth#common_vphone")->fetch_by_uid($_G['uid']);
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $result = userlogin($_G['username'], $_REQUEST['password'], '', '');
     if($result['member']) {
-        $rebind = true;
-        $password = $_REQUEST['password'];
+        if($_REQUEST['type'] == 'unbind') {
+            C::t('#phone_auth#common_vphone')->unbind($vphone['phone']);      
+            $vphone['phone'] = '';      
+        } else {
+            $rebind = true;
+            $password = $_REQUEST['password'];
+        }
     } else {
         $rebind = false;
         $error_msg = '&#23494;&#30721;&#38169;&#35823;';
