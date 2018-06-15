@@ -94,7 +94,7 @@
                         </button>
                         <!--{if $vphone['phone']}-->
                         <button type="button" class="pn pnc" id="unbindPhone">
-                            <strong>点击解绑手机号</strong>
+                            <strong>&#28857;&#20987;&#35299;&#32465;&#25163;&#26426;&#21495;</strong>
                         </button>
                         <script>
                             (function() {
@@ -138,9 +138,9 @@
                     <span class="rq">*</span>{lang phone_auth:new_phone}</th>
                 <td>
                     {if $params['enable_inter'] == '1'}
-                    + <input type="text" name="country_code" style="width: 50px" class="ps" placeholder="国别码" value="{$vphone['country_code']}">
+                    + <input type="text" name="country_code" style="width: 50px" class="ps" placeholder="&#22269;&#21035;&#30721;" value="{$vphone['country_code']}">
                     {/if}
-                    <input type="text" maxlength="11" name="phone" class="px" {if $params['enable_inter'] == '1'}style="width: 180px"{/if} placeholder="手机号">
+                    <input type="text" maxlength="11" name="phone" class="px" {if $params['enable_inter'] == '1'}style="width: 180px"{/if} placeholder="&#25163;&#26426;&#21495;">
                 </td>
                 <td class="v-error-msg error-phone"></td>                
             </tr>
