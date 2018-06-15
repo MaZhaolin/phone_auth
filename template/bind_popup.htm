@@ -23,13 +23,24 @@
                 <td class="m_c">
                     <h3 class="flb" id="fctrl_login" style="cursor: move;">
                         <em id="returnmessage_LwjSJ" fwin="login">&#32465;&#23450;&#25163;&#26426;&#21495;</em>
+                        <span><a href="javascript:;" onclick="document.getElementById('fwin_login').style.display = 'none'" class="flbc" title="关闭">关闭</a></span>
                     </h3>
+                    <style>
+                        .vaptcha-bind-title {
+                            text-align: center; 
+                            padding: 10px;
+                            font-weight: normal;
+                        }
+                        .vaptcha-bind-title .user-name {
+                            font-weight: bold;
+                        }
+                    </style>
                     <div id="loginphone_$id" class="vaptcha-dz-form">
                         <div class="vaptcha-dz-popup v-login-form none"></div>
                         <div class="vaptcha-dz-popup lost-password-form none"></div>
                         <div class="vaptcha-dz-popup reset-password none"></div>
                         <div class="vaptcha-dz-popup bind-phone-form">
-                            <h2 style="text-align: center; padding: 10px">{lang phone_auth:bind_phone_title}</h2>
+                            <h2 class="vaptcha-bind-title">{lang phone_auth:bind_phone_title}</h2>
                             {if $params['enable_inter'] == '0'}
                             <div class="dz-item2-group">
                                 <input type="hidden" value="86" name="country_code">
