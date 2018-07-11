@@ -45,6 +45,108 @@
       return -1;
     };
   }
+  if (!Array.prototype.forEach) {
+
+    Array.prototype.forEach = function (callback, thisArg) {
+
+      var T, k;
+
+      if (this == null) {
+        throw new TypeError(' this is null or not defined');
+      }
+
+      // 1. Let O be the result of calling toObject() passing the
+      // |this| value as the argument.
+      var O = Object(this);
+
+      // 2. Let lenValue be the result of calling the Get() internal
+      // method of O with the argument "length".
+      // 3. Let len be toUint32(lenValue).
+      var len = O.length >>> 0;
+
+      // 4. If isCallable(callback) is false, throw a TypeError exception. 
+      // See: http://es5.github.com/#x9.11
+      if (typeof callback !== "function") {
+        throw new TypeError(callback + ' is not a function');
+      }
+
+      // 5. If thisArg was supplied, let T be thisArg; else let
+      // T be undefined.
+      if (arguments.length > 1) {
+        T = thisArg;
+      }
+
+      // 6. Let k be 0
+      k = 0;
+
+      // 7. Repeat, while k < len
+      while (k < len) {
+
+        var kValue;
+
+        // a. Let Pk be ToString(k).
+        //    This is implicit for LHS operands of the in operator
+        // b. Let kPresent be the result of calling the HasProperty
+        //    internal method of O with argument Pk.
+        //    This step can be combined with c
+        // c. If kPresent is true, then
+        if (k in O) {
+
+          // i. Let kValue be the result of calling the Get internal
+          // method of O with argument Pk.
+          kValue = O[k];
+
+          // ii. Call the Call internal method of callback with T as
+          // the this value and argument list containing kValue, k, and O.
+          callback.call(T, kValue, k, O);
+        }
+        // d. Increase k by 1.
+        k++;
+      }
+      // 8. return undefined
+    };
+  }
+
+  function Validator() {
+    this.rules = []
+    this.ruleFuns = {
+      require: function (value, msg) {
+        if (!value || value.length === 0) {
+          return msg
+        }
+      }
+    }
+  }
+
+  Validator.prototype = {
+    constructor: Validator,
+    addRule: function (el, ruleString, errMsg) {
+      el.addEvent('focus', function () {
+        el.removeClass('error')
+      })
+      var _this = this
+      this.rules.push(function () {
+        var arr = ruleString.split(':')
+        var ruleFun = _this.ruleFuns[arr.shift()]
+        arr.unshift(el.value)
+        arr.push(errMsg) 
+        var msg = ruleFun.apply(this, arr)
+        if (msg) {
+          el.addClass('error')
+          return msg
+        }
+      })
+    },
+    validate: function () {
+      for (var i = 0, fun; fun = this.rules[i++];) {
+        var msg = fun();
+        if (msg) {
+          return msg
+        }
+      }
+    }
+  }
+
   var ele = function (selector, parent) {
     if (!selector) return selector;
     if (typeof selector !== 'string' && selector instanceof Element) {
@@ -57,6 +159,7 @@
     } else {
       element = parent.querySelectorAll(selector);
     }
+
     function factory(el) {
       if (el.isEle) return el;
       el.isEle = true;
@@ -160,7 +263,7 @@
   Helper.prototype = {
     constructor: Helper,
     isPhone: function (phone) {
-      return phone.trim().length > 5 
+      return phone.trim().length > 5
       var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
       if (!myreg.test(phone)) {
         return false;
@@ -175,7 +278,7 @@
       modal = this.form.ele(klass)[0];
       modal.removeClass('none');
       box.removeClass('none');
-      modal.ele('.dz-tip-text')[0].innerText = msg
+      modal.ele('.dz-tip-text')[0].innerHTML = msg
       this.modalTimer = setTimeout(function () {
         box.addClass('none')
         modal.addClass('none');
@@ -205,6 +308,7 @@
         type = options.type || 'GET',
         data = options.data || null,
         xmlHttp;
+
       function createxmlHttpRequest() {
         if (window.ActiveXObject) {
           xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
@@ -212,6 +316,7 @@
           xmlHttp = new XMLHttpRequest();
         }
       }
+
       function postDataFormat(obj) {
         if (typeof obj != "object") {
           return obj;
@@ -240,7 +345,15 @@
       xmlHttp.send(postDataFormat(data));
       xmlHttp.onreadystatechange = function (result) {
         if ((xmlHttp.readyState === 4)) {
-          var data = JSON.parse(xmlHttp.responseText);
+          var data = xmlHttp.responseText
+          try {
+            data = JSON.parse(data);
+          } catch(err) {
+            var arr = data.split("'")
+            arr.forEach(function (v) {
+              /^[\u4e00-\u9fa5]+/g.test(v) && (data = v)
+            })
+          }
           if (xmlHttp.status === 200 && data.status === 200) {
             callback && callback(data);
           } else {
@@ -258,10 +371,13 @@
         this.isPass = false;
         this.vaptcha = null;
         this.refresh = function () {
-          if (this.isPass) {
-            this.vaptcha.destroy();
-            self.initVaptcha(options);
-          }
+          this.vaptcha.reset()
+          form.querySelector('input[name=vaptcha_challenge]').value = '';
+          form.querySelector('input[name=vaptcha_token]').value = '';
+          // if (this.isPass) {
+          //   this.vaptcha.destroy();
+          //   self.initVaptcha(options);
+          // }
         }
       }()
       var init = function () {
@@ -306,9 +422,10 @@
         init();
       } else {
         script = document.createElement('script');
-        protocol = 'https';//options.https ? 'https' : 'http';
+        protocol = 'https'; //options.https ? 'https' : 'http';
         script.src = protocol + '://cdn.vaptcha.com/v.js';
         script.id = 'vaptcha_v_js';
+        script.async = true
         script.onload = script.onreadystatechange = function () {
           if (!this.readyState || this.readyState == 'loaded' || this.readyState == 'complete') {
             init();
@@ -320,7 +437,7 @@
       }
       return _v;
     },
-    resetSendCodeBtn: function(sendCodeBtn) {
+    resetSendCodeBtn: function (sendCodeBtn) {
       this.countDownTimer && clearTimeout(this.countDownTimer);
       sendCodeBtn.innerText = this.options.lang.send_code;
       sendCodeBtn.removeAttribute('disabled');
@@ -398,6 +515,7 @@
       var resetPasswordLoaded = false;
       var loginVaptcha;
       var lostpwdVaptcha;
+
       function loginAction() {
         var form = wrapper.ele('.v-login-form')[0];
         var vaptchaContainer = form.ele('.vaptcha_container');
@@ -427,7 +545,7 @@
         inputs.call('addEvent', 'keyup', validate)
         inputs.call('addEvent', 'blur', validate)
         if (options.code_login) {
-          form.ele('.sms-login-tab')[0].addEvent('click', function(e) {
+          form.ele('.sms-login-tab')[0].addEvent('click', function (e) {
             form.addClass('none');
             ele('.v-sms-login-form')[0].removeClass('none');
             smsLoginAction();
@@ -461,6 +579,7 @@
           })
         })
       }
+
       function smsLoginAction() {
         var form = wrapper.ele('.v-sms-login-form')[0];
         var vaptchaContainer = form.ele('.vaptcha_container');
@@ -483,9 +602,9 @@
           !Number(it.value) && (it.value = parseInt(it.value) ? parseInt(it.value) : '');
           self.resetSendCodeBtn(sendCodeBtn)
         })
-        inputs.call('addEvent', 'focus', function(e) {
+        inputs.call('addEvent', 'focus', function (e) {
           var it = e.target;
-          it.removeClass('error');          
+          it.removeClass('error');
         })
         inputs.call('addEvent', 'keyup', validate);
         inputs.call('addEvent', 'focus', validate);
@@ -504,7 +623,7 @@
           if (isSending) return;
           if (!self.isPhone(form.getInput('phone').value)) {
             form.getInput('phone').addClass('error');
-            return ;
+            return;
           }
           isSending = true;
           self.ajax({
@@ -556,16 +675,62 @@
             }
           })
         })
-        form.ele('.login-tab')[0].addEvent('click', function(e) {
+        form.ele('.login-tab')[0].addEvent('click', function (e) {
           form.addClass('none');
           ele('.v-login-form')[0].removeClass('none');
         })
       }
+
       function lostpasswordAction() {
         var form = wrapper.ele('.lost-password-form')[0];
         var vaptchaContainer = form.ele('.vaptcha_container');
+        var emailForm = form.ele('.find-password-email')[0]
         var inputs = form.ele('input');
         var sendCodeBtn = form.ele('.dz-btn-code')[0];
+        if (emailForm) {
+          // 切换找回方式
+          var emailValidator = new Validator()
+          emailValidator.addRule(emailForm.getInput('email'), 'require', '邮箱不能为空')
+          emailValidator.addRule(emailForm.getInput('username'), 'require', '用户名不能为空');
+          emailValidator.addRule(emailForm.getInput('vaptcha_token'), 'require', '请进行人机验证');
+          ['email', 'phone'].forEach(function (k) {
+            form.ele('.' + k + '-tab')[0].addEvent('click', function () {
+              Array.prototype.forEach.call(form.ele('.find-panel'), function (el) {
+                el.style.display = 'none'
+              })
+              Array.prototype.forEach.call(form.ele('.dz-tab'), function (el) {
+                el.removeClass('active')
+              })
+              form.ele('.' + k + '-tab')[0].addClass('active')
+              form.ele('.find-password-' + k)[0].style.display = 'block'
+            })
+          })
+
+          emailVaptcha = self.initVaptcha({
+            element: emailForm.ele('.vaptcha_container'),
+            form: emailForm,
+            success: function () {}
+          });
+
+          form.ele('.send-email')[0].addEvent('click', function () {
+            var msg = emailValidator.validate()
+            if (msg) return self.showMsg(msg)
+            self.ajax({
+              url: '/member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes&inajax=1',
+              type: 'POST',
+              data: self.getFormData(form.ele('.find-password-email')[0]),
+              success: function (data) {
+                emailVaptcha.refresh()
+                self.showMsg(data)
+              },
+              error: function (data) {
+                emailVaptcha.refresh()
+                self.showMsg(data)
+              }
+            })
+          })
+        }
+
         self.setTitle(options.lang.password_reset);
         if (lostpasswordLoaded) {
           inputs.call('val', '');
@@ -624,7 +789,7 @@
             }
           })
         })
-        form.getInput('phone').addEvent('keydown', function(){ 
+        form.getInput('phone').addEvent('keydown', function () {
           self.resetSendCodeBtn(sendCodeBtn)
         })
         var isSending = false;
@@ -656,6 +821,7 @@
                 form.getInput('phone').addClass('error')
               }
               if (data.status === 301) {
+                isSend = true;
                 self.buttonCountDown(sendCodeBtn, data.msg);
               } else {
                 self.showMsg(data.msg);
@@ -663,7 +829,9 @@
             }
           })
         })
+
       }
+
       function resetPasswordAction() {
         var form = wrapper.ele('.reset-password')[0];
         var inputs = form.ele('input');
@@ -704,6 +872,7 @@
           })
         })
       }
+
       function bindPhoneAction() {
         var form = wrapper.ele('.bind-phone-form')[0];
         wrapper.ele('.vaptcha-dz-popup').call('addClass', 'none')
@@ -716,12 +885,12 @@
             return;
           } else {
             form.getInput('phone').removeClass('error');
-           ( _vaptcha.isPass && form.getInput('code').value.length === 6) ?
-            form.ele('.bind-phone-btn')[0].removeAttribute('disabled') :
-            form.ele('.bind-phone-btn')[0].setAttribute('disabled');
+            (_vaptcha.isPass && form.getInput('code').value.length === 6) ?
+            form.ele('.bind-phone-btn')[0].removeAttribute('disabled'):
+              form.ele('.bind-phone-btn')[0].setAttribute('disabled');
           }
         }
-        if(options.enable_inter) {
+        if (options.enable_inter) {
           self.initCountryCode(form);
           form.getInput('country_code').addEvent('keyup', function (e) {
             var it = e.target;
@@ -740,7 +909,7 @@
         form.ele('input').call('addEvent', 'focus', function (e) {
           e.target.removeClass('error');
         });
-        form.getInput('code').addEvent('blur', function(e) {
+        form.getInput('code').addEvent('blur', function (e) {
           e.target.target('keyup')
         })
         form.getInput('code').addEvent('keyup', function (e) {
@@ -752,7 +921,7 @@
             it.removeClass('error');
           }
         })
-        form.getInput('phone').addEvent('keydown', function(){ 
+        form.getInput('phone').addEvent('keydown', function () {
           self.resetSendCodeBtn(sendCodeBtn)
         })
         var isSending = false;
@@ -823,7 +992,7 @@
         loginAction();
       }
     },
-    initCountryCode: function(form) {
+    initCountryCode: function (form) {
       var menu = form.ele('.dropdown-menu')[0];
       var btn = form.ele('.btn-down')[0];
       var show = function () {
@@ -834,15 +1003,15 @@
         menu.style.display = 'none';
         btn.removeClass('open');
       }
-      form.getInput('country_code').addEvent('focus',show)
-      btn.addEvent('click', function() {
+      form.getInput('country_code').addEvent('focus', show)
+      btn.addEvent('click', function () {
         menu.style.display = menu.style.display == 'block' ? hide() : show();
       })
-      ele('body')[0].addEvent('click', function(e) {
+      ele('body')[0].addEvent('click', function (e) {
         var elem = e.target;
         !form.ele('.dropdown')[0].contains(elem) && hide()
       })
-      menu.ele('.dropdown-item').call('addEvent', 'click', function(e) {
+      menu.ele('.dropdown-item').call('addEvent', 'click', function (e) {
         hide();
         form.getInput('country_code').value = e.target.innerHTML.split('+')[1].trim();
       })
@@ -865,13 +1034,14 @@
       discuzForm.html('');
       //form input rule validate
       var sendCodeBtn = ele('.dz-btn-code')[0];
+
       function formValidate() {
         var isTrue = inputsValidate.username && inputsValidate.email && inputsValidate.password && inputsValidate.phone;
         (isTrue && inputsValidate.code && inputsValidate.agreebbrule) ?
-          ele('#register_btn').removeAttribute('disabled') : ele('#register_btn').setAttribute('disabled', 'disabled');
+        ele('#register_btn').removeAttribute('disabled'): ele('#register_btn').setAttribute('disabled', 'disabled');
         return isTrue;
       }
-      if(options.enable_inter) {
+      if (options.enable_inter) {
         this.initCountryCode(form);
         form.getInput('country_code').addEvent('keyup', function (e) {
           var it = e.target;
@@ -895,6 +1065,7 @@
       form.getInput(options.username).addEvent('blur', function (e) {
         var it = e.target;
         it.target('keyup');
+        inputsValidate.username = inputsValidate.username && !/^\d+$/.test(it.value)
         if (!inputsValidate.username) {
           inputsValidate.username = false;
           it.addClass('error')
@@ -959,7 +1130,7 @@
         inputsValidate.phone = self.isPhone(it.value);
         self.resetSendCodeBtn(sendCodeBtn)
       })
-      
+
       form.getInput('phone').addEvent('blur', function (e) {
         var it = e.target;
         it.target('keyup');
@@ -996,7 +1167,9 @@
       var isSending = false;
       sendCodeBtn.addEvent('click', function () {
         form.getInput('phone').target('blur');
-        if (!inputsValidate.phone || isSending) { return false; }
+        if (!inputsValidate.phone || isSending) {
+          return false;
+        }
         isSending = true;
         self.ajax({
           url: '/plugin.php?id=phone_auth&action=sendRegisterCode',
@@ -1050,7 +1223,7 @@
           error: function (data) {
             var username = form.getInput(options.username);
             var email = form.getInput(options.email);
-            if(['username', 'email', 'invitecode'].indexOf(data.error_pos) > -1) {
+            if (['username', 'email', 'invitecode'].indexOf(data.error_pos) > -1) {
               form.getInput(data.error_pos).addClass('error');
               form.getInput(data.error_pos).next().addClass('error');
               form.getInput(data.error_pos).next().html(data.msg);
@@ -1063,6 +1236,7 @@
       self.initVaptcha({
         element: form.ele('.vaptcha_container'),
         form: form,
+        type: 'popup',
         success: function () {
           inputsValidate.vaptcha = true;
           form.ele('.dz-code-group')[0].removeClass('none');
@@ -1075,12 +1249,13 @@
     popup_captcha: function (form, container) {
       var self = this;
       container = container || ele('#popup_vaptcha');
-      container.ele('.vp-header')[0].style.marginTop = ((window.innerHeight || document.documentElement.clientHeight)
-        - 230) / 2 + 'px';
+      container.ele('.vp-header')[0].style.marginTop = ((window.innerHeight || document.documentElement.clientHeight) -
+        230) / 2 + 'px';
       container.style.display = 'block';
       container.ele('.vp-mask')[0].addEvent('click', function (e) {
         container.style.display = 'none';
       });
+
       function loadVaptcha() {
         self.initVaptcha({
           scene: '01',
@@ -1100,11 +1275,13 @@
                 container.style.display = 'none';
                 if (data.error_pos == 'bind_phone') {
                   return showWindow('login', 'member.php?mod=logging&action=login');
-                } 
+                }
                 if (data.error_pos == 'location_activation') {
                   return window.location.href = data.msg;
                 }
-                data.msg && errorhandle_ls(data.msg, { 'loginperm': '4' })
+                data.msg && errorhandle_ls(data.msg, {
+                  'loginperm': '4'
+                })
               }
             })
           }
@@ -1140,7 +1317,9 @@
                 if (data.error_pos == 'bind_phone') {
                   return showWindow('login', 'member.php?mod=logging&action=login');
                 }
-                data.msg && errorhandle_ls(data.msg, { 'loginperm': '4' })
+                data.msg && errorhandle_ls(data.msg, {
+                  'loginperm': '4'
+                })
               }
             });
         } else {
@@ -1149,24 +1328,24 @@
       })
       // self.popup_captcha(form)
     },
-    activation: function() {
+    activation: function () {
       var form = ele('#registerform'),
-          submitBtn = form.ele('#registerformsubmit'),
-          self = this;
-      submitBtn.addEvent('click', function(e) {
+        submitBtn = form.ele('#registerformsubmit'),
+        self = this;
+      submitBtn.addEvent('click', function (e) {
         e.preventDefault();
         self.ajax({
           type: 'POST',
           url: '/plugin.php?id=phone_auth&action=activation',
-          data: self.getFormData(form), 
-          success: function() {
+          data: self.getFormData(form),
+          success: function () {
             window.location.reload();
           },
-          error: function(data) {
+          error: function (data) {
             errorhandle_ls(data.msg, '');
           }
         });
-    })
+      })
     }
   }
   window.v_helper = Helper;

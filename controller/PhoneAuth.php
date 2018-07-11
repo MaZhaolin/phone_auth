@@ -368,7 +368,7 @@ class PhoneAuth {
             return $this->response(401, 'Access denied');
         }
         $phone = Session::getValue('modify_phone_phone');
-        if(strlen($phone) < 6){
+        if($phone && strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error', 'phone');
         }
         if (!$phone || $phone != $_REQUEST['phone']) {

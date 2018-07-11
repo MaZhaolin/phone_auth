@@ -14,7 +14,7 @@
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[phone_auth/]]></item>
 			<item id="copyright"><![CDATA[VAPTCHA]]></item>
-			<item id="version"><![CDATA[2.1.0]]></item>
+			<item id="version"><![CDATA[2.2.0]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[pc_hook]]></item>
@@ -132,7 +132,7 @@
 				<item id="forgot_password"><![CDATA[忘记密码]]></item>
 				<item id="new_pwd_pl"><![CDATA[请填新密码，6-20个字符]]></item>
 				<item id="new_pwd_confim"><![CDATA[请填新密码，6-20个字符]]></item>
-				<item id="username_rule"><![CDATA[用户名由3-15个字符组成]]></item>
+				<item id="username_rule"><![CDATA[用户名由3-15个字符和数字组成]]></item>
 				<item id="email"><![CDATA[邮箱]]></item>
 				<item id="email_rule"><![CDATA[请填写常用邮箱，用于接收系统通知!]]></item>
 				<item id="email_error"><![CDATA[邮箱格式错误!]]></item>

@@ -122,53 +122,94 @@
     </div>
     {/if}
     <div class="vaptcha-dz-popup lost-password-form none">
-        <div class="vaptcha-dz-step">
-            <div class="dz-step-cont dz-step-acitve">
-                <div class="dz-step">
-                    <div class="dz-step-number">1</div>
-                    <span class="dz-step-intro">{lang phone_auth:verify_code}</span>
-                </div>
-                <span class="dz-step-bar"></span>
-            </div>
-            <div class="dz-step-cont">
-                <div class="dz-step">
-                    <div class="dz-step-number">2</div>
-                    <span class="dz-step-intro">{lang phone_auth:password_reset}</span>
-                </div>
-                <span class="dz-step-bar"></span>
-            </div>
-            <div class="dz-step-cont">
-                <div class="dz-step">
-                    <div class="dz-step-number">3</div>
-                    <span class="dz-step-intro">{lang finished}</span>
-                </div>
+        <!--{if $params['register_email'] == '1'}-->
+        <div class="login-way">
+            <div class="dz-tabs">
+                <button class="dz-tab phone-tab active">&#25163;&#26426;&#25214;&#22238;&#23494;&#30721;</button>
+                <button class="dz-tab email-tab">&#37038;&#31665;&#25214;&#22238;&#23494;&#30721;</button>
             </div>
         </div>
-        <div class="dz-item2-group">
-            <input class="form-control dz-input" placeholder="{lang phone_auth:register_phone_pl}" type="text" name="phone" />
-        </div>
-        <div class="dz-item2-group clearfix none send-code-group">
-            <input class="form-control dz-input dz-input-code" placeholder="{lang phone_auth:code_pl}" type="text" name="code" />
-            <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
-        </div>
-        <div class="dz-item2-group">
-            <input type="hidden" name="vaptcha_token">
-            <input type="hidden" name="vaptcha_challenge">
-            <div class="vaptcha_container">
-                <div class="vaptcha-init-main">
-                    <div class="vaptcha-init-loading">
-                        <a>
-                            <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
-                        </a>
-                        <span class="vaptcha-text">
-                            <a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a>{lang phone_auth:captcha_loading}</span>
+        <!--{else}-->
+            <div class="vaptcha-dz-step">
+                <div class="dz-step-cont dz-step-acitve">
+                    <div class="dz-step">
+                        <div class="dz-step-number">1</div>
+                        <span class="dz-step-intro">{lang phone_auth:verify_code}</span>
+                    </div>
+                    <span class="dz-step-bar"></span>
+                </div>
+                <div class="dz-step-cont">
+                    <div class="dz-step">
+                        <div class="dz-step-number">2</div>
+                        <span class="dz-step-intro">{lang phone_auth:password_reset}</span>
+                    </div>
+                    <span class="dz-step-bar"></span>
+                </div>
+                <div class="dz-step-cont">
+                    <div class="dz-step">
+                        <div class="dz-step-number">3</div>
+                        <span class="dz-step-intro">{lang finished}</span>
                     </div>
                 </div>
             </div>
+        <!--{/if}-->
+        <div class="find-panel find-password-phone">
+            <div class="dz-item2-group">
+                <input class="form-control dz-input" maxlength="11" placeholder="{lang phone_auth:register_phone_pl}" type="text" name="phone" />
+            </div>
+            <div class="dz-item2-group clearfix none send-code-group">
+                <input class="form-control dz-input dz-input-code" placeholder="{lang phone_auth:code_pl}" type="text" name="code" />
+                <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
+            </div>
+            <div class="dz-item2-group">
+                <input type="hidden" name="vaptcha_token">
+                <input type="hidden" name="vaptcha_challenge">
+                <div class="vaptcha_container">
+                    <div class="vaptcha-init-main">
+                        <div class="vaptcha-init-loading">
+                            <a>
+                                <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
+                            </a>
+                            <span class="vaptcha-text">
+                                <a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a>{lang phone_auth:captcha_loading}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dz-item2-group">
+                <button class="btn dz-btn next-step" disabled="disabled">{lang phone_auth:next_step}</button>
+            </div>
         </div>
-        <div class="dz-item2-group">
-            <button class="btn dz-btn next-step" disabled="disabled">{lang phone_auth:next_step}</button>
+        <!--{if $params['register_email'] == '1'}-->
+        <div class="find-panel find-password-email" style="display: none">
+            <input type="hidden" name="formhash" value="{FORMHASH}" />
+            <input type="hidden" name="handlekey" value="lostpwform" />
+            <div class="dz-item2-group">
+                <input class="form-control dz-input"  placeholder="Email" type="text" name="email" />
+            </div>
+            <div class="dz-item2-group">
+                <input class="form-control dz-input"  placeholder="{lang username}" type="text" name="username" />
+            </div>
+            <div class="dz-item2-group">
+                <input type="hidden" name="vaptcha_token">
+                <input type="hidden" name="vaptcha_challenge">
+                <div class="vaptcha_container">
+                    <div class="vaptcha-init-main">
+                        <div class="vaptcha-init-loading">
+                            <a>
+                                <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
+                            </a>
+                            <span class="vaptcha-text">
+                                <a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a>{lang phone_auth:captcha_loading}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dz-item2-group">
+                <button class="btn dz-btn send-email">&#21457;&#36865;&#37038;&#20214;</button>
+            </div>
         </div>
+        <!--{/if}-->
     </div>
     <div class="vaptcha-dz-popup reset-password none">
         <div class="vaptcha-dz-step">
@@ -179,8 +220,8 @@
                 </div>
                 <span class="dz-step-bar"></span>
             </div>
-            <div class="dz-step-cont">
-                <div class="dz-step">
+            <div class="dz-step-cont dz-step-acitve">
+                <div class="dz-step ">
                     <div class="dz-step-number">2</div>
                     <span class="dz-step-intro">{lang phone_auth:password_reset}</span>
                 </div>
@@ -243,7 +284,7 @@
             <button class="btn dz-btn bind-phone-btn" disabled="disabled">{lang phone_auth:click_bind}</button>
         </div>
     </div>
-    <div class="vaptcha-tip-cont none">
+    <div class="vaptcha-tip-cont none" >
         <div class="vaptcha-dz-tip vaptcha-tip-warn none">
             <img class="dz-tip-icon" src="{$static_path}/img/vaptcha-dz-warning.png" />
             <span class="dz-tip-text"></span>
@@ -255,6 +296,7 @@
     </div>
 </div>
 <script src="{$static_path}/js/v-helper.min.js?v=$params['version']"></script>
+<!-- <script src="{$static_path}/js_dev/v-helper.js?v=$params['version']"></script> -->
 <script>
     (function login_run() {
         if(window.v_helper) {
