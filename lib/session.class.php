@@ -5,8 +5,10 @@ if (!defined('IN_DISCUZ')) {
 
 require_once dirname(__FILE__) . '/MysqlSession.class.php';
 
-$session = new MysqlSession();
-
+session_start();
+if (!isset($_SESSION)) { 
+    $session = new MysqlSession();
+}
 class Session
 {
 
