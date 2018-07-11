@@ -13,7 +13,7 @@
 <!--{block return}-->
 {if $_GET['action'] == 'activation' }
 <style>#registerform{display: block}</style>
-<script src="{$static_path}/js/v-helper.min.js?v=$params['version']"></script>
+<script src="{$static_path}/js/v-helper.min.js?v=$params['version']" async></script>
 <script>
     (function () {
         if(window.v_helper) {
@@ -104,6 +104,14 @@
                 </div>
         </div>
         <div class="v-line"></div>
+        <!--{if $_G['setting']['regverify'] == 2}-->
+        <div class="dz-item-group">
+            <span class="dz-intro"><sup>*</sup>注册原因:</span>
+            <input class="form-control dz-input" type="text" name="regmessage">
+            <span class="dz-title">您填写的注册原因会被当作申请注册的重要参考依据，请认真填写。</span>
+        </div>
+        <div class="v-line"></div>
+        <!--{/if}-->
         {if $params['enable_inter'] == '0'}
         <div class="dz-item-group">
             <input type="hidden" value="86" name="country_code">
@@ -205,7 +213,7 @@
         </div>
     </div>
 </div>
-<script src="{$static_path}/js/v-helper.min.js?v=$params['version']"></script>
+<script src="{$static_path}/js/v-helper.min.js?v=$params['version']" async></script>
 <script>
     (function register_run() {
         if(window.v_helper) {
