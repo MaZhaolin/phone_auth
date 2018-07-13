@@ -498,7 +498,7 @@
           type: 'POST',
           data: self.getFormData(form),
           success: function (data) {
-            window.location.href = self.options.site_url + '/forum.php?mobile=yes';
+            window.location.href = document.referrer || self.options.site_url + '/forum.php?mobile=yes';
           },
           error: function (data) {
             if (['user', 'password', 'vaptcha'].indexOf(data.error_pos) >= 0) {
@@ -893,7 +893,7 @@
           type: 'POST',
           success: function (data) {
             if (data.status === 200) {
-              location.href = self.options.site_url + '/forum.php?mobile=yes';
+              window.location.href = document.referrer || self.options.site_url + '/forum.php?mobile=yes';
             }
           },
           error: function (data) {

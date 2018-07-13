@@ -557,7 +557,7 @@
             type: 'POST',
             data: self.getFormData(form),
             success: function (data) {
-              window.location.reload();
+              document.referrer ? (window.location.href = document.referrer) : window.location.reload()
             },
             error: function (data) {
               if (['user', 'password', 'vaptcha'].indexOf(data.error_pos) >= 0) {
@@ -1217,7 +1217,8 @@
           type: 'POST',
           success: function (data) {
             if (data.status === 200) {
-              window.location.reload();
+              document.referrer ? (window.location.href = document.referrer) : 
+              window.location.reload()
             }
           },
           error: function (data) {
