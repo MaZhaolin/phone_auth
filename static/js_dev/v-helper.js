@@ -557,7 +557,7 @@
             type: 'POST',
             data: self.getFormData(form),
             success: function (data) {
-              document.referrer ? (window.location.href = document.referrer) : window.location.reload()
+              window.location.href = window.location.href
             },
             error: function (data) {
               if (['user', 'password', 'vaptcha'].indexOf(data.error_pos) >= 0) {
