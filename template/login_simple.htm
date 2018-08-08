@@ -115,8 +115,6 @@
                     <input type="password" placeholder="{lang login_password}" name="password" id="ls_password" class="px vm" autocomplete="off" tabindex="902">
                 </td>
                 <td class="fastlg_l">
-                    <input type="hidden" name="vaptcha_challenge">
-                    <input type="hidden" name="vaptcha_token">
                     <button type="submit" class="pn vm login-btn" tabindex="904" style="width: 75px;">
                         <em>{lang phone_auth:login}</em>
                     </button>
@@ -140,11 +138,11 @@
 </div>
 {/if}
 <script src="{$static_path}/js/v-helper.min.js?v=$params['version']"></script>
-<!-- <script src="{$static_path}/js_dev/v-helper.js?v=$params['version']"></script> -->
 <script>
      (function login_run() {
         if(window.v_helper) {
             new v_helper({
+                'vid': "$params['vid']",
                 site_url: '{$site_url}'
             }).login_simple_run({
                 id: '$id',

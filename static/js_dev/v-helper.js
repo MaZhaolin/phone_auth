@@ -275,6 +275,7 @@
       var klass = success ? '.vaptcha-tip-success' : '.vaptcha-tip-warn';
       this.modalTimer && clearTimeout(this.modalTimer);
       box = this.form.ele('.vaptcha-tip-cont')[0];
+      box.style.zIndex = "10000"
       modal = this.form.ele(klass)[0];
       modal.removeClass('none');
       box.removeClass('none');
@@ -372,8 +373,8 @@
         this.vaptcha = null;
         this.refresh = function () {
           this.vaptcha.reset()
-          form.querySelector('input[name=vaptcha_challenge]').value = '';
-          form.querySelector('input[name=vaptcha_token]').value = '';
+          // form.querySelector('input[name=vaptcha_challenge]').value = '';
+          // form.querySelector('input[name=vaptcha_token]').value = '';
           // if (this.isPass) {
           //   this.vaptcha.destroy();
           //   self.initVaptcha(options);
@@ -381,41 +382,28 @@
         }
       }()
       var init = function () {
-        self.ajax({
-          url: '/plugin.php?id=phone_auth&action=getChallenge&scene=' + options.scene + '&t=' + (new Date()).getTime(),
-          success: function (data) {
-            data = data.data;
-            var config = {
-              vid: data.vid,
-              challenge: data.challenge,
-              container: options.element,
-              type: options.type || 'float',
-              style: self.options.vaptcha_style || 'dark',
-              https: options.https || false,
-              color: self.options.vaptcha_color || '#3c8aff',
-              lang: 'zh-CN',
-              outage: self.options.site_url + '/plugin.php?id=phone_auth&action=downtime',
-              success: function (token, challenge) {
-                if (form) {
-                  var inputs = form.getElementsByTagName('input');
-                  form.querySelector('input[name=vaptcha_challenge]').value = challenge;
-                  form.querySelector('input[name=vaptcha_token]').value = token;
-                }
-                _v.isPass = true;
-                successCallback && successCallback(token, challenge);
-              }
-            }
-            window.vaptcha(config, function (obj) {
-              if (form) {
-                var inputs = form.getElementsByTagName('input');
-                form.querySelector('input[name=vaptcha_challenge]').value = '';
-                form.querySelector('input[name=vaptcha_token]').value = '';
-              }
-              _v.vaptcha = obj;
-              _v.vaptcha.init();
-            });
-          }
-        })
+        var config = {
+          vid: self.options.vid,
+          container: options.element,
+          type: options.type || 'float',
+          style: self.options.vaptcha_style || 'dark',
+          https: options.https || false,
+          color: self.options.vaptcha_color || '#3c8aff',
+          lang: 'zh-CN',
+          scene: options.scene,
+          // outage: self.options.site_url + '/plugin.php?id=phone_auth&action=downtime',
+        }
+        window.vaptcha(config).then(function (obj) {
+          obj.listen('pass', function() {
+            _v.isPass = true
+            successCallback && successCallback()
+          })
+          obj.listen('mounted', function () {
+            obj.renderTokenInput()
+          })
+          _v.vaptcha = obj;
+          _v.vaptcha.render();
+        });
       }
       var script = document.getElementById('vaptcha_v_js');
       if (script && window.vaptcha && script.loaded) {
@@ -423,7 +411,7 @@
       } else {
         script = document.createElement('script');
         protocol = 'https'; //options.https ? 'https' : 'http';
-        script.src = protocol + '://cdn.vaptcha.com/v.js';
+        script.src = protocol + '://cdn.vaptcha.com/v2.js';
         script.id = 'vaptcha_v_js';
         script.async = true
         script.onload = script.onreadystatechange = function () {
@@ -631,8 +619,7 @@
             type: 'POST',
             data: {
               'phone': form.getInput('phone').value,
-              'vaptcha_token': form.getInput('vaptcha_token').value,
-              'vaptcha_challenge': form.getInput('vaptcha_challenge').value
+              'vaptcha_token': form.getInput('vaptcha_token').value
             },
             success: function (data) {
               isSending = false;
@@ -692,7 +679,7 @@
           var emailValidator = new Validator()
           emailValidator.addRule(emailForm.getInput('email'), 'require', '邮箱不能为空')
           emailValidator.addRule(emailForm.getInput('username'), 'require', '用户名不能为空');
-          emailValidator.addRule(emailForm.getInput('vaptcha_token'), 'require', '请进行人机验证');
+          // emailValidator.addRule(emailForm.getInput('vaptcha_token'), 'require', '请进行人机验证');
           ['email', 'phone'].forEach(function (k) {
             form.ele('.' + k + '-tab')[0].addEvent('click', function () {
               Array.prototype.forEach.call(form.ele('.find-panel'), function (el) {
@@ -803,7 +790,6 @@
             data: {
               'phone': form.getInput('phone').value,
               'vaptcha_token': form.getInput('vaptcha_token').value,
-              'vaptcha_challenge': form.getInput('vaptcha_challenge').value
             },
             success: function (data) {
               isSending = false;
@@ -887,7 +873,7 @@
             form.getInput('phone').removeClass('error');
             (_vaptcha.isPass && form.getInput('code').value.length === 6) ?
             form.ele('.bind-phone-btn')[0].removeAttribute('disabled'):
-              form.ele('.bind-phone-btn')[0].setAttribute('disabled');
+              form.ele('.bind-phone-btn')[0].setAttribute('disabled', 'disabled');
           }
         }
         if (options.enable_inter) {
@@ -969,7 +955,9 @@
               if (data.error_pos === 'phone') {
                 form.getInput('phone').addClass('error');
               }
-              _vaptcha.refresh();
+              if (data.error_pos === 'vaptcha') {
+                _vaptcha.refresh();
+              }
               form.ele('.bind-phone-btn')[0].setAttribute('disabled', 'disabled');
               self.showMsg(data.msg);
             }
@@ -1177,8 +1165,7 @@
           data: {
             'phone': form.getInput('phone').value,
             'country_code': form.getInput('country_code').value.trim(),
-            'vaptcha_token': form.getInput('vaptcha_token').value,
-            'vaptcha_challenge': form.getInput('vaptcha_challenge').value
+            'vaptcha_token': form.getInput('vaptcha_token').value
           },
           success: function (data) {
             isSending = false;
@@ -1258,17 +1245,19 @@
       });
 
       function loadVaptcha() {
-        self.initVaptcha({
+        var vp = self.initVaptcha({
           scene: '01',
           element: container.ele('.vp-content'),
           type: 'embed',
           form: form,
           success: function login() {
             container['is_pass'] = true;
+            var data = self.getFormData(form)
+            data.vaptcha_token = vp.vaptcha.getToken()
             self.ajax({
               url: '/plugin.php?id=phone_auth&mod=logging&action=login&loginsubmit=yes',
               type: 'POST',
-              data: self.getFormData(form),
+              data: data,
               success: function (data) {
                 window.location.reload();
               },

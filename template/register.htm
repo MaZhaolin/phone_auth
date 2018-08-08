@@ -177,8 +177,6 @@
         </div>
         <div class="dz-item-group">
             <span class="dz-intro"><sup>*</sup>{lang phone_auth:vaptcha}:</span>
-            <input type="hidden" name="vaptcha_token">
-            <input type="hidden" name="vaptcha_challenge">
             <div class="vaptcha_container">
                 <div class="vaptcha-init-main">
                     <div class="vaptcha-init-loading">
@@ -218,6 +216,7 @@
     (function register_run() {
         if(window.v_helper) {
             new v_helper({
+                'vid': "$params['vid']",
                 'vaptcha_color': '#{$params["style_color"]}',
                 'vaptcha_style': '{$params["btn_style"]}',
                 'site_url': '{$site_url}',

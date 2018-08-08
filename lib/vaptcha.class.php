@@ -99,7 +99,7 @@ class Vaptcha
     public function validate($challenge, $token, $sceneId = "")
     {
         if(empty($sceneId)) $sceneId = '';
-        if (self::$isDown || !$challenge) {
+        if (self::$isDown) {
             return $this->downTimeValidate($token);
         } else {
             return $this->normalValidate($challenge, $token, $sceneId);
@@ -208,18 +208,13 @@ class Vaptcha
 
     private function normalValidate($challenge, $token, $sceneId)
     {
-        if (!$token || !$challenge || $token != md5($this->key . 'vaptcha' . $challenge)) {
+        if (!$token)
             return false;
-        }
+        $url = API_URL.VALIDATE_URL;
         $now = $this->getCurrentTime();
-        $query = $this->createSignatureQuery(array(
-            'id' => $this->vid,
-            'scene' => $sceneId,
-            'token' => $token,
-            'time' => $now . '000',
-        ));
-        $response = self::postValidate(API_URL . VALIDATE_URL, $query);
-        return 'success' == $response;
+        $query = "id=$this->vid&scene=$sceneId&secretkey=$this->key&token=$token&ip=$_SERVER[REMOTE_ADDR]";
+        $response = json_decode(self::postValidate($url, $query));
+        return $response->success == 1;
     }
 
     private function downTimeValidate($token)

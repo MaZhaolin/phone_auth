@@ -38,8 +38,8 @@
         {if $login_captcha != '0'}
         <div class="dz-item-group">
             <span class="dz-intro">{lang phone_auth:vaptcha}:</span>
-            <input type="hidden" name="vaptcha_token">
-            <input type="hidden" name="vaptcha_challenge">
+            
+            
             <div class="vaptcha_container">
                 <div class="vaptcha-init-main">
                     <div class="vaptcha-init-loading">
@@ -101,8 +101,8 @@
         </div>
         <div class="dz-item-group">
             <span class="dz-intro">{lang phone_auth:vaptcha}:</span>
-            <input type="hidden" name="vaptcha_token">
-            <input type="hidden" name="vaptcha_challenge">
+            
+            
             <div class="vaptcha_container">
                 <div class="vaptcha-init-main">
                     <div class="vaptcha-init-loading">
@@ -162,8 +162,8 @@
                 <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
             </div>
             <div class="dz-item2-group">
-                <input type="hidden" name="vaptcha_token">
-                <input type="hidden" name="vaptcha_challenge">
+                
+                
                 <div class="vaptcha_container">
                     <div class="vaptcha-init-main">
                         <div class="vaptcha-init-loading">
@@ -191,8 +191,8 @@
                 <input class="form-control dz-input"  placeholder="{lang username}" type="text" name="username" />
             </div>
             <div class="dz-item2-group">
-                <input type="hidden" name="vaptcha_token">
-                <input type="hidden" name="vaptcha_challenge">
+                
+                
                 <div class="vaptcha_container">
                     <div class="vaptcha-init-main">
                         <div class="vaptcha-init-loading">
@@ -266,8 +266,8 @@
             <button class="btn dz-btn dz-btn-code">{lang phone_auth:send_code}</button>
         </div>
         <div class="dz-item2-group">
-            <input type="hidden" name="vaptcha_token">
-            <input type="hidden" name="vaptcha_challenge">
+            
+            
             <div class="vaptcha_container">
                 <div class="vaptcha-init-main">
                     <div class="vaptcha-init-loading">
@@ -296,15 +296,15 @@
     </div>
 </div>
 <script src="{$static_path}/js/v-helper.min.js?v=$params['version']"></script>
-<!-- <script src="{$static_path}/js_dev/v-helper.js?v=$params['version']"></script> -->
 <script>
     (function login_run() {
         if(window.v_helper) {
             new v_helper({
+                'vid': "$params['vid']",
                 'vaptcha_color': '#{$params["style_color"]}',
                 'vaptcha_style': '{$params["btn_style"]}',
                 'site_url': '{$site_url}',
-                lang: {
+                'lang': {
                     send_code: '{lang phone_auth:send_code}'
                 }
             }).login_run({
