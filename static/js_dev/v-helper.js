@@ -341,7 +341,7 @@
       createxmlHttpRequest();
       xmlHttp.open(type, this.options.site_url + url);
       if (typeof FormData == "undefined") {
-        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
       }
       xmlHttp.send(postDataFormat(data));
       xmlHttp.onreadystatechange = function (result) {
@@ -702,19 +702,38 @@
           form.ele('.send-email')[0].addEvent('click', function () {
             var msg = emailValidator.validate()
             if (msg) return self.showMsg(msg)
-            self.ajax({
-              url: '/member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes&inajax=1',
-              type: 'POST',
-              data: self.getFormData(form.ele('.find-password-email')[0]),
-              success: function (data) {
-                emailVaptcha.refresh()
-                self.showMsg(data)
-              },
-              error: function (data) {
-                emailVaptcha.refresh()
-                self.showMsg(data)
+            var iframe = document.createElement('iframe')
+            iframe.id = 'postiframe'
+            iframe.name = 'postiframe'
+            iframe.style.display = 'none'
+            event.target.setAttribute('disabled', 'disabeled')
+            document.body.appendChild(iframe)
+            var f = document.getElementById('lostpwform')
+            iframe.onload = function () {
+              var s = ''
+              try {
+                s = iframe.contentWindow.document.XMLDocument.text;
+              } catch (e) {
+                try {
+                  s = iframe.contentWindow.document.documentElement.firstChild.wholeText;
+                } catch (e) {
+                  try {
+                    s = iframe.contentWindow.document.documentElement.firstChild.nodeValue;
+                  } catch (e) {
+                    s = '内部错误，无法显示此内容';
+                  }
+                }
+                event.target.removeAttribute('disabled')
               }
-            })
+              var arr = s.split("'")
+              arr.forEach(function (v) {
+                /^[\u4e00-\u9fa5]+/g.test(v) && (s = v)
+              })
+              self.showMsg(s)
+              iframe.parentNode.removeChild(iframe)
+            }
+            f.submit();
+            return false;
           })
         }
 

@@ -181,34 +181,19 @@
             </div>
         </div>
         <!--{if $params['register_email'] == '1'}-->
-        <div class="find-panel find-password-email" style="display: none">
+        <form target="postiframe" method="POST" id="lostpwform" class="find-panel find-password-email" style="display: none" action="member.php?mod=lostpasswd&lostpwsubmit=yes&infloat=yes&inajax=1">
             <input type="hidden" name="formhash" value="{FORMHASH}" />
             <input type="hidden" name="handlekey" value="lostpwform" />
             <div class="dz-item2-group">
-                <input class="form-control dz-input"  placeholder="Email" type="text" name="email" />
+                <input class="form-control dz-input" placeholder="Email" type="text" name="email" />
             </div>
             <div class="dz-item2-group">
-                <input class="form-control dz-input"  placeholder="{lang username}" type="text" name="username" />
+                <input class="form-control dz-input" placeholder="{lang username}" type="text" name="username" />
             </div>
             <div class="dz-item2-group">
-                
-                
-                <div class="vaptcha_container">
-                    <div class="vaptcha-init-main">
-                        <div class="vaptcha-init-loading">
-                            <a>
-                                <img src="https://cdn.vaptcha.com/vaptcha-loading.gif" />
-                            </a>
-                            <span class="vaptcha-text">
-                                <a href="https://www.vaptcha.com/" title="{lang phone_auth:captcha}" target="_blank">{lang phone_auth:captcha}</a>{lang phone_auth:captcha_loading}</span>
-                        </div>
-                    </div>
-                </div>
+                <button type="button" class="btn dz-btn send-email">&#21457;&#36865;&#37038;&#20214;</button>
             </div>
-            <div class="dz-item2-group">
-                <button class="btn dz-btn send-email">&#21457;&#36865;&#37038;&#20214;</button>
-            </div>
-        </div>
+        </form>
         <!--{/if}-->
     </div>
     <div class="vaptcha-dz-popup reset-password none">
