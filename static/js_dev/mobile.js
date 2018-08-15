@@ -482,6 +482,9 @@
           type: 'POST',
           data: self.getFormData(form),
           success: function (data) {
+            if (document.referrer.indexOf('logout') > 0) {
+              return (window.location.href = self.options.site_url + '/forum.php?mobile=yes');
+            }
             window.location.href = document.referrer || self.options.site_url + '/forum.php?mobile=yes';
           },
           error: function (data) {
@@ -876,6 +879,9 @@
           type: 'POST',
           success: function (data) {
             if (data.status === 200) {
+              if(document.referrer.indexOf('logout') > 0) {
+                return (window.location.href = self.options.site_url + '/forum.php?mobile=yes');
+              }
               window.location.href = document.referrer || self.options.site_url + '/forum.php?mobile=yes';
             }
           },
