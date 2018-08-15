@@ -35,7 +35,7 @@ $params['site_url'] = characet($params['site_url'], CHARSET, 'utf-8');
 $params['site_name'] = characet($params['site_name'], 'utf-8', CHARSET);
 $params['custom_style_pc'] = get_custom_style('pc');
 $params['custom_style_mobile'] = get_custom_style('mobile');
-$static_path  = rtrim($_G['siteurl'], '/').'/source/plugin/phone_auth/static';
+$static_path  = get_static_path();
 $site_url = get_site_url();
 $plugin = C::t('common_plugin')->fetch_by_identifier('phone_auth');
 include template('phone_auth:v_setting');
