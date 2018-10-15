@@ -10,6 +10,11 @@ if (isset($_REQUEST['site_name'])) {
     $params = array (
         'vid' => get_request('id'),
         'key' => get_request('key'),
+        'accessKeyId' => get_request('accessKeyId'),
+        'accessKeySecret' => get_request('accessKeySecret'),
+        'SignName' => get_request('SignName'),
+        'cnTemplateId' => get_request('cnTemplateId'),
+        'templateId' => get_request('templateId'),
         'site_name' => get_request('site_name', $_G['setting']['bbname']),
         'style_color' => get_request('style_color', '3c8aff'),
         'btn_style' => get_request('btn_style', 'dark'),

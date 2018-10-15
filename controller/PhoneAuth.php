@@ -51,7 +51,7 @@ class PhoneAuth {
      * @param string $type
      * @return Response
      */
-    private function sendCodeMsgs($phone, $token, $countrycode, $type = 'default') {
+    private function sendCodeMsg($phone, $token, $countrycode, $type = 'default') {
         if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error',  'phone');
         }
@@ -101,7 +101,7 @@ class PhoneAuth {
     }
 
     // test method
-    private function sendCodeMsg($phone, $token, $countrycode, $type = 'default') {
+    private function sendCodeMsgs($phone, $token, $countrycode, $type = 'default') {
         if(strlen($phone) < 6){
             return $this->response(401, 'phone_rule_error',  'phone');
         }

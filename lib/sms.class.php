@@ -2,39 +2,52 @@
 if(!defined('IN_DISCUZ')) {
     exit('Access Denied');
 }
-require_once  dirname(__FILE__).'/function.php';
+require_once dirname(__FILE__).'/function.php';
+require_once dirname(__FILE__) . "/SignatureHelper.php";
 
 class sms {
 
     private $config;
     
     public function __construct() {
-        $this->config = array(
-            'vid' => get_params('vid'),
-            'key' => get_params('key'),
-            'label' => get_params('site_name'),
-            'api' => 'http://smsapi.vaptcha.com',
-            'expiretime' => 10
-        );
+        $this->config = get_params();
     }
 
     public function sendCode($data) {
         $config = $this->config;
         $url = $config['api'].'/sms/send';
+        $TemplateCode = $data['countrycode'] == '86' ? $config['cnTemplateId'] : $config['templateId'];
+        $PhoneNumbers = $data['countrycode'] == '86' ? $data['phone'] : ($data['countrycode'] + $data['phone']);
         $data = array(
-            'vid' => $config['vid'],
-            'token' => $data['token'],
-            'label' => $config['label'],
-            'code' => $data['code'],
-            'expiretime' => $config['expiretime'],
-            'countrycode' => $data['countrycode'],
-            'phone' => $data['phone'],
+            'SignName' => $config['SignName'],
+            'TemplateCode' => $TemplateCode,
+            'TemplateParam' => array(
+                'code' => $data['code']
+            ),
+            'PhoneNumbers' => $PhoneNumbers,
         );
-        $query = $this->createQuery($data);
-        $result = $this->post($url, $query);
-        return intval($result);
+        $helper = new SignatureHelper();
+        // 此处可能会抛出异常，注意catch
+        if(is_array($data["TemplateParam"])) {
+            $data["TemplateParam"] = json_encode($data["TemplateParam"], JSON_UNESCAPED_UNICODE);
+        }
+        $content = $helper->request(
+            $config['accessKeyId'],
+            $config['accessKeySecret'],
+            "dysmsapi.aliyuncs.com",
+            array_merge($data, array(
+                "RegionId" => "cn-hangzhou",
+                "Action" => "SendSms",
+                "Version" => "2017-05-25",
+            )),
+            false
+        );
+        if($content->Code == 'OK') {
+            return "2001";
+        }
+        return $content->Code;
     }
-
+    
     public function getSendRecord($page) {
         $data = array(
             'vid' => $this->config['vid'],
